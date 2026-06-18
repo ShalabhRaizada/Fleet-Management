@@ -56,27 +56,21 @@ export function CrudFormPage<T>({ title, basePath, fields, get, create, update, 
     }
   }
 
-  if (loading) return <div className="text-gray-500 text-sm">Loading...</div>;
+  if (loading) return <div className="muted">Loading...</div>;
 
   return (
-    <div className="max-w-3xl">
-      <h1 className="text-lg font-semibold mb-4">{title}</h1>
-      {error && <div className="bg-red-50 text-red-700 text-sm px-3 py-2 rounded mb-4">{error}</div>}
-      <form onSubmit={handleSubmit} className="bg-white border border-gray-200 rounded-lg p-6">
+    <div style={{ maxWidth: 760 }}>
+      <div className="page-header">
+        <h1>{title}</h1>
+      </div>
+      {error && <div className="badge danger" style={{ display: 'block', padding: '8px 12px', marginBottom: 16 }}>{error}</div>}
+      <form onSubmit={handleSubmit} className="card" style={{ padding: 20 }}>
         <FormGrid fields={fields} values={values} onChange={handleChange} />
         <FormActions>
-          <button
-            type="submit"
-            disabled={saving}
-            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-sm px-4 py-2 rounded"
-          >
+          <button type="submit" disabled={saving} className="btn primary">
             {saving ? 'Saving...' : 'Save'}
           </button>
-          <button
-            type="button"
-            onClick={() => navigate(basePath)}
-            className="bg-gray-100 hover:bg-gray-200 text-sm px-4 py-2 rounded border border-gray-300"
-          >
+          <button type="button" onClick={() => navigate(basePath)} className="btn">
             Cancel
           </button>
         </FormActions>

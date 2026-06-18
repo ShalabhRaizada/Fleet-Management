@@ -54,6 +54,71 @@ import ApprovalInbox from './pages/approvals/ApprovalInbox';
 import CostReport from './pages/reports/CostReport';
 import AlertDashboard from './pages/alerts/AlertDashboard';
 
+import InspectionTemplateList from './pages/inspections/InspectionTemplateList';
+import InspectionTemplateForm from './pages/inspections/InspectionTemplateForm';
+import InspectionTemplateDetail from './pages/inspections/InspectionTemplateDetail';
+import InspectionEventList from './pages/inspections/InspectionEventList';
+import InspectionEventForm from './pages/inspections/InspectionEventForm';
+import InspectionEventDetail from './pages/inspections/InspectionEventDetail';
+import InspectionResultLineList from './pages/inspections/InspectionResultLineList';
+import InspectionResultLineForm from './pages/inspections/InspectionResultLineForm';
+import InspectionResultLineDetail from './pages/inspections/InspectionResultLineDetail';
+
+import RouteFuelNormList from './pages/masters/RouteFuelNormList';
+import RouteFuelNormForm from './pages/masters/RouteFuelNormForm';
+import RouteFuelNormDetail from './pages/masters/RouteFuelNormDetail';
+
+import ComplianceAlertList from './pages/compliance/ComplianceAlertList';
+import ComplianceAlertForm from './pages/compliance/ComplianceAlertForm';
+import ComplianceAlertDetail from './pages/compliance/ComplianceAlertDetail';
+
+import TripList from './pages/trips/TripList';
+import TripForm from './pages/trips/TripForm';
+import TripDetail from './pages/trips/TripDetail';
+import TollTransactionList from './pages/trips/TollTransactionList';
+import TollTransactionForm from './pages/trips/TollTransactionForm';
+import TollTransactionDetail from './pages/trips/TollTransactionDetail';
+
+import ApprovalMatrixList from './pages/approvals/ApprovalMatrixList';
+import ApprovalMatrixForm from './pages/approvals/ApprovalMatrixForm';
+import ApprovalMatrixDetail from './pages/approvals/ApprovalMatrixDetail';
+
+import MaintenanceScheduleList from './pages/maintenance/MaintenanceScheduleList';
+import MaintenanceScheduleForm from './pages/maintenance/MaintenanceScheduleForm';
+import MaintenanceScheduleDetail from './pages/maintenance/MaintenanceScheduleDetail';
+import MaintenanceDueList from './pages/maintenance/MaintenanceDueList';
+import MaintenanceDueForm from './pages/maintenance/MaintenanceDueForm';
+import MaintenanceDueDetail from './pages/maintenance/MaintenanceDueDetail';
+
+import BreakdownEventList from './pages/breakdowns/BreakdownEventList';
+import BreakdownEventForm from './pages/breakdowns/BreakdownEventForm';
+import BreakdownEventDetail from './pages/breakdowns/BreakdownEventDetail';
+import AccidentEventList from './pages/breakdowns/AccidentEventList';
+import AccidentEventForm from './pages/breakdowns/AccidentEventForm';
+import AccidentEventDetail from './pages/breakdowns/AccidentEventDetail';
+
+import PayableValidationList from './pages/workshops/PayableValidationList';
+import PayableValidationForm from './pages/workshops/PayableValidationForm';
+import PayableValidationDetail from './pages/workshops/PayableValidationDetail';
+
+import StockLedgerList from './pages/inventory/StockLedgerList';
+import StockLedgerForm from './pages/inventory/StockLedgerForm';
+import StockLedgerDetail from './pages/inventory/StockLedgerDetail';
+
+import IntegrationConfigList from './pages/integrations/IntegrationConfigList';
+import IntegrationConfigForm from './pages/integrations/IntegrationConfigForm';
+import IntegrationConfigDetail from './pages/integrations/IntegrationConfigDetail';
+import UlipApiLogList from './pages/integrations/UlipApiLogList';
+import UlipApiLogDetail from './pages/integrations/UlipApiLogDetail';
+
+import AlertRuleList from './pages/alerts/AlertRuleList';
+import AlertRuleForm from './pages/alerts/AlertRuleForm';
+import AlertRuleDetail from './pages/alerts/AlertRuleDetail';
+
+import DocumentList from './pages/documents/DocumentList';
+import DocumentForm from './pages/documents/DocumentForm';
+import DocumentDetail from './pages/documents/DocumentDetail';
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -125,6 +190,94 @@ export default function App() {
               <Route path="/approvals" element={<ApprovalInbox />} />
               <Route path="/reports/cost" element={<CostReport />} />
               <Route path="/alerts" element={<AlertDashboard />} />
+
+              <Route path="/inspection-templates" element={<InspectionTemplateList />} />
+              <Route path="/inspection-templates/:id" element={<InspectionTemplateDetail />} />
+              <Route path="/inspection-templates/:id/edit" element={<InspectionTemplateForm />} />
+              <Route path="/inspection-templates/new" element={<InspectionTemplateForm />} />
+
+              <Route path="/inspection-events" element={<InspectionEventList />} />
+              <Route path="/inspection-events/:id" element={<InspectionEventDetail />} />
+              <Route path="/inspection-events/:id/edit" element={<InspectionEventForm />} />
+              <Route path="/inspection-events/new" element={<InspectionEventForm />} />
+
+              <Route path="/inspection-result-lines" element={<InspectionResultLineList />} />
+              <Route path="/inspection-result-lines/:id" element={<InspectionResultLineDetail />} />
+              <Route path="/inspection-result-lines/:id/edit" element={<InspectionResultLineForm />} />
+              <Route path="/inspection-result-lines/new" element={<InspectionResultLineForm />} />
+
+              <Route path="/route-fuel-norms" element={<RouteFuelNormList />} />
+              <Route path="/route-fuel-norms/:id" element={<RouteFuelNormDetail />} />
+              <Route path="/route-fuel-norms/:id/edit" element={<RouteFuelNormForm />} />
+              <Route path="/route-fuel-norms/new" element={<RouteFuelNormForm />} />
+
+              <Route path="/compliance-alerts" element={<ComplianceAlertList />} />
+              <Route path="/compliance-alerts/:id" element={<ComplianceAlertDetail />} />
+              <Route path="/compliance-alerts/:id/edit" element={<ComplianceAlertForm />} />
+              <Route path="/compliance-alerts/new" element={<ComplianceAlertForm />} />
+
+              <Route path="/trips" element={<TripList />} />
+              <Route path="/trips/:id" element={<TripDetail />} />
+              <Route path="/trips/:id/edit" element={<TripForm />} />
+              <Route path="/trips/new" element={<TripForm />} />
+
+              <Route path="/toll-transactions" element={<TollTransactionList />} />
+              <Route path="/toll-transactions/:id" element={<TollTransactionDetail />} />
+              <Route path="/toll-transactions/:id/edit" element={<TollTransactionForm />} />
+              <Route path="/toll-transactions/new" element={<TollTransactionForm />} />
+
+              <Route path="/approval-matrix" element={<ApprovalMatrixList />} />
+              <Route path="/approval-matrix/:id" element={<ApprovalMatrixDetail />} />
+              <Route path="/approval-matrix/:id/edit" element={<ApprovalMatrixForm />} />
+              <Route path="/approval-matrix/new" element={<ApprovalMatrixForm />} />
+
+              <Route path="/maintenance-schedules" element={<MaintenanceScheduleList />} />
+              <Route path="/maintenance-schedules/:id" element={<MaintenanceScheduleDetail />} />
+              <Route path="/maintenance-schedules/:id/edit" element={<MaintenanceScheduleForm />} />
+              <Route path="/maintenance-schedules/new" element={<MaintenanceScheduleForm />} />
+
+              <Route path="/maintenance-due" element={<MaintenanceDueList />} />
+              <Route path="/maintenance-due/:id" element={<MaintenanceDueDetail />} />
+              <Route path="/maintenance-due/:id/edit" element={<MaintenanceDueForm />} />
+              <Route path="/maintenance-due/new" element={<MaintenanceDueForm />} />
+
+              <Route path="/breakdown-events" element={<BreakdownEventList />} />
+              <Route path="/breakdown-events/:id" element={<BreakdownEventDetail />} />
+              <Route path="/breakdown-events/:id/edit" element={<BreakdownEventForm />} />
+              <Route path="/breakdown-events/new" element={<BreakdownEventForm />} />
+
+              <Route path="/accident-events" element={<AccidentEventList />} />
+              <Route path="/accident-events/:id" element={<AccidentEventDetail />} />
+              <Route path="/accident-events/:id/edit" element={<AccidentEventForm />} />
+              <Route path="/accident-events/new" element={<AccidentEventForm />} />
+
+              <Route path="/payable-validations" element={<PayableValidationList />} />
+              <Route path="/payable-validations/:id" element={<PayableValidationDetail />} />
+              <Route path="/payable-validations/:id/edit" element={<PayableValidationForm />} />
+              <Route path="/payable-validations/new" element={<PayableValidationForm />} />
+
+              <Route path="/stock-ledger" element={<StockLedgerList />} />
+              <Route path="/stock-ledger/:id" element={<StockLedgerDetail />} />
+              <Route path="/stock-ledger/:id/edit" element={<StockLedgerForm />} />
+              <Route path="/stock-ledger/new" element={<StockLedgerForm />} />
+
+              <Route path="/integration-configs" element={<IntegrationConfigList />} />
+              <Route path="/integration-configs/:id" element={<IntegrationConfigDetail />} />
+              <Route path="/integration-configs/:id/edit" element={<IntegrationConfigForm />} />
+              <Route path="/integration-configs/new" element={<IntegrationConfigForm />} />
+
+              <Route path="/ulip-api-logs" element={<UlipApiLogList />} />
+              <Route path="/ulip-api-logs/:id" element={<UlipApiLogDetail />} />
+
+              <Route path="/alert-rules" element={<AlertRuleList />} />
+              <Route path="/alert-rules/:id" element={<AlertRuleDetail />} />
+              <Route path="/alert-rules/:id/edit" element={<AlertRuleForm />} />
+              <Route path="/alert-rules/new" element={<AlertRuleForm />} />
+
+              <Route path="/documents" element={<DocumentList />} />
+              <Route path="/documents/:id" element={<DocumentDetail />} />
+              <Route path="/documents/:id/edit" element={<DocumentForm />} />
+              <Route path="/documents/new" element={<DocumentForm />} />
             </Route>
           </Route>
 

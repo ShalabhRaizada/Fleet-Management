@@ -6,6 +6,12 @@ import type {
   ApprovalRequest, AlertEvent, VehicleCostLedger, ItemMaster,
 } from '../types/entities';
 import type { FuelVariance } from '../types/entities-extra';
+import type {
+  InspectionTemplate, RouteFuelNorm, ComplianceAlertRecord, TripMaster, TollTransaction,
+  ApprovalMatrix, MaintenanceSchedule, MaintenanceDue, BreakdownEvent, AccidentEvent,
+  PayableValidation, StockLedger, InspectionEvent, InspectionResultLine, IntegrationConfig,
+  UlipApiLog, AlertRule, DocumentStore,
+} from '../types/entities-p2p3';
 
 export const branchApi = createResource<Branch>('/branches');
 export const vendorApi = createResource<Vendor>('/vendors');
@@ -31,3 +37,22 @@ export const alertApi = createResource<AlertEvent>('/alerts');
 export const costLedgerApi = createResource<VehicleCostLedger>('/vehicle-cost-ledger');
 export const itemApi = createResource<ItemMaster>('/items');
 export const fuelVarianceApi = createResource<FuelVariance>('/fuel-variances');
+
+export const inspectionTemplateApi = createResource<InspectionTemplate>('/inspection-templates');
+export const routeFuelNormApi = createResource<RouteFuelNorm>('/route-fuel-norms');
+export const complianceAlertApi = createResource<ComplianceAlertRecord>('/compliance-alerts');
+export const tripApi = createResource<TripMaster>('/trips');
+export const tollTransactionApi = createResource<TollTransaction>('/toll-transactions');
+export const approvalMatrixApi = createResource<ApprovalMatrix>('/approval-matrix');
+export const maintenanceScheduleApi = createResource<MaintenanceSchedule>('/maintenance-schedules');
+export const maintenanceDueApi = createResource<MaintenanceDue>('/maintenance-due');
+export const breakdownEventApi = createResource<BreakdownEvent>('/breakdown-events');
+export const accidentEventApi = createResource<AccidentEvent>('/accident-events');
+export const payableValidationApi = createResource<PayableValidation>('/payable-validations');
+export const stockLedgerApi = createResource<StockLedger>('/stock-ledger');
+export const inspectionEventApi = createResource<InspectionEvent>('/inspection-events');
+export const inspectionResultLineApi = createResource<InspectionResultLine>('/inspection-result-lines');
+export const integrationConfigApi = createResource<IntegrationConfig>('/integration-configs');
+export const ulipApiLogApi = createResource<UlipApiLog>('/ulip-api-logs');
+export const alertRuleApi = createResource<AlertRule>('/alert-rules');
+export const documentApi = createResource<DocumentStore>('/documents');

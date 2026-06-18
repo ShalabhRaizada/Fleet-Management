@@ -372,6 +372,152 @@ async function main() {
       [vehicleByReg['DL01AB1234'], vehicleByReg['MH05IJ7890'], userByLogin['fleetmanager@fleet.test']]
     );
 
+    // ========================================================================
+    // Phase 2 / Phase 3 sample data
+    // ========================================================================
+
+    console.log('Seeding maintenance_schedule...');
+    await client.query(
+      `INSERT INTO maintenance_schedule (schedule_code, vehicle_category, vehicle_type, fuel_type, maintenance_type, trigger_km, trigger_days, is_blocking, status)
+       VALUES
+        ('MS-10K-SERVICE','HCV','Rigid','Diesel','Scheduled',10000,90,false,'Active'),
+        ('MS-PUC-CHECK','LCV','Rigid','Diesel','Scheduled',NULL,180,true,'Active')`
+    );
+
+    console.log('Seeding maintenance_due...');
+    await client.query(
+      `INSERT INTO maintenance_due (vehicle_id, maintenance_schedule_id, due_date, due_odometer_km, current_odometer_km, status)
+       SELECT v.vehicle_id, ms.maintenance_schedule_id, CURRENT_DATE + interval '15 days', 50000, 48500, 'Due'
+       FROM vehicle_master v, maintenance_schedule ms
+       WHERE v.registration_no = 'DL01AB1234' AND ms.schedule_code = 'MS-10K-SERVICE'`
+    );
+
+    console.log('Seeding breakdown_event...');
+    await client.query(
+      `INSERT INTO breakdown_event (vehicle_id, breakdown_datetime, location_text, breakdown_category, severity, downtime_minutes, root_cause, status)
+       SELECT vehicle_id, now() - interval '2 days', 'NH-48, near Gurugram', 'Mechanical', 'Major', 240, 'Clutch plate failure', 'Resolved'
+       FROM vehicle_master WHERE registration_no = 'MH05IJ7890'`
+    );
+
+    console.log('Seeding accident_event...');
+    await client.query(
+      `INSERT INTO accident_event (vehicle_id, driver_id, accident_datetime, location_text, third_party_involved, fir_no, damage_summary, claim_status, status)
+       SELECT v.vehicle_id, d.driver_id, now() - interval '10 days', 'Outer Ring Road, Bengaluru', true, 'FIR-2026-00231', 'Front bumper and headlamp damage', 'Filed', 'UnderReview'
+       FROM vehicle_master v, driver_master d
+       WHERE v.registration_no = 'DL01AB1234' AND d.driver_code = (SELECT driver_code FROM driver_master LIMIT 1)`
+    );
+
+    console.log('Seeding payable_validation...');
+    await client.query(
+      `INSERT INTO payable_validation (invoice_id, validation_type, validation_status, expected_value, actual_value, variance_amount, remarks)
+       SELECT invoice_id, 'RateContractCheck', 'Variance', '5000.00', '5400.00', 400.00, 'Labour rate exceeds contracted rate'
+       FROM vendor_invoice LIMIT 1`
+    );
+
+    console.log('Seeding stock_ledger...');
+    await client.query(
+      `INSERT INTO stock_ledger (txn_datetime, branch_id, item_id, movement_type, quantity, unit_cost, reference_type, status)
+       SELECT now() - interval '3 days', b.branch_id, i.item_id, 'Receipt', 20, 450, 'PurchaseOrder', 'Posted'
+       FROM branch_master b, item_master i WHERE b.branch_code = 'BR-DEL' AND i.item_code = 'ITM-OIL-001'
+       UNION ALL
+       SELECT now() - interval '1 days', b.branch_id, i.item_id, 'Issue', 4, 450, 'JobCard', 'Posted'
+       FROM branch_master b, item_master i WHERE b.branch_code = 'BR-DEL' AND i.item_code = 'ITM-OIL-001'`
+    );
+
+    console.log('Seeding inspection_template...');
+    await client.query(
+      `INSERT INTO inspection_template (template_code, template_name, asset_type, fuel_type, inspection_type, status)
+       VALUES
+        ('INS-PDI-001','Pre-Delivery Inspection - HCV','Vehicle','Diesel','PDI','Active'),
+        ('INS-PRETRIP-001','Pre-Trip Safety Check','Vehicle',NULL,'PreTrip','Active')`
+    );
+
+    console.log('Seeding inspection_event...');
+    await client.query(
+      `INSERT INTO inspection_event (template_id, asset_type, asset_id, vehicle_id, performed_by_user_id, inspection_datetime, outcome, remarks)
+       SELECT t.template_id, 'Vehicle', v.vehicle_id, v.vehicle_id, u.user_id, now() - interval '1 days', 'Pass', 'All checks within tolerance'
+       FROM inspection_template t, vehicle_master v, user_master u
+       WHERE t.template_code = 'INS-PRETRIP-001' AND v.registration_no = 'DL01AB1234' AND u.login_id = 'workshop@fleet.test'`
+    );
+
+    console.log('Seeding inspection_result_line...');
+    await client.query(
+      `INSERT INTO inspection_result_line (inspection_id, check_item_code, check_item_name, result, severity)
+       SELECT inspection_id, 'TYRE-PRESSURE', 'Tyre pressure within range', 'Pass', 'Low' FROM inspection_event LIMIT 1`
+    );
+
+    console.log('Seeding trip_master...');
+    await client.query(
+      `INSERT INTO trip_master (trip_no, vehicle_id, driver_id, origin, destination, route_code, customer_name, cargo_type, planned_start_at, status)
+       SELECT 'TRIP-2026-0001', v.vehicle_id, d.driver_id, 'Delhi', 'Mumbai', 'RT-DEL-MUM', 'Acme Logistics Pvt Ltd', 'General Cargo', now() + interval '1 days', 'Planned'
+       FROM vehicle_master v, driver_master d
+       WHERE v.registration_no = 'DL01AB1234' AND d.driver_code = (SELECT driver_code FROM driver_master LIMIT 1)`
+    );
+
+    console.log('Seeding toll_transaction...');
+    await client.query(
+      `INSERT INTO toll_transaction (vehicle_id, toll_plaza_code, toll_plaza_name, txn_datetime, amount, source, reconciliation_status)
+       SELECT vehicle_id, 'TP-NH48-12', 'Kherki Daula Toll Plaza', now() - interval '6 hours', 285.00, 'FASTag', 'Matched'
+       FROM vehicle_master WHERE registration_no = 'DL01AB1234'`
+    );
+
+    console.log('Seeding route_fuel_norm...');
+    await client.query(
+      `INSERT INTO route_fuel_norm (route_code, origin, destination, vehicle_type, fuel_type, planned_quantity, planned_toll_amount, distance_km, effective_from, status)
+       VALUES ('RT-DEL-MUM','Delhi','Mumbai','Rigid','Diesel',320.5,2450.00,1420.0,CURRENT_DATE,'Active')`
+    );
+
+    console.log('Seeding compliance_alert...');
+    await client.query(
+      `INSERT INTO compliance_alert (asset_compliance_id, alert_date, days_to_expiry, severity, status, assigned_to_user_id)
+       SELECT ac.asset_compliance_id, CURRENT_DATE, 7, 'Warning', 'Open', u.user_id
+       FROM asset_compliance ac, user_master u
+       WHERE u.login_id = 'fleetmanager@fleet.test' LIMIT 1`
+    );
+
+    console.log('Seeding approval_matrix...');
+    await client.query(
+      `INSERT INTO approval_matrix (transaction_type, amount_from, amount_to, approval_level, role_code, is_active)
+       VALUES
+        ('vendor_invoice', 0, 50000, 1, 'FLEET_MANAGER', true),
+        ('vendor_invoice', 50000, 99999999, 2, 'ADMIN', true)`
+    );
+
+    console.log('Seeding integration_config...');
+    await client.query(
+      `INSERT INTO integration_config (integration_name, environment, base_url, auth_type, is_enabled)
+       VALUES
+        ('ULIP','Sandbox','https://mock.ulip.example/api','APIKey',true),
+        ('VAHAN','Sandbox','https://mock.vahan.example/api','APIKey',true),
+        ('SARATHI','Sandbox','https://mock.sarathi.example/api','APIKey',true),
+        ('FASTag','Sandbox','https://mock.fastag.example/api','OAuth2',true)`
+    );
+
+    console.log('Seeding ulip_api_log...');
+    await client.query(
+      `INSERT INTO ulip_api_log (api_name, reference_type, http_status_code, api_status)
+       VALUES
+        ('VAHAN.fetchRcDetails','Vehicle',200,'Success'),
+        ('FASTag.fetchTollHistory','Vehicle',200,'Success')`
+    );
+
+    console.log('Seeding alert_rule...');
+    await client.query(
+      `INSERT INTO alert_rule (alert_type, entity_type, threshold_value, threshold_unit, severity, notify_role_code, is_active)
+       VALUES
+        ('ComplianceExpiry','AssetCompliance',15,'Days','Warning','FLEET_MANAGER',true),
+        ('MaintenanceDue','Vehicle',500,'KM','Warning','WORKSHOP_SUPERVISOR',true),
+        ('FuelVariance','FuelTransaction',10,'Percent','Critical','FLEET_MANAGER',true)`
+    );
+
+    console.log('Seeding document_store...');
+    await client.query(
+      `INSERT INTO document_store (entity_type, entity_id, document_category, file_name, file_url, mime_type, uploaded_by_user_id, uploaded_at)
+       SELECT 'Vehicle', v.vehicle_id, 'RC', 'RC_DL01AB1234.pdf', 'https://mock.docs.example/rc/DL01AB1234.pdf', 'application/pdf', u.user_id, now()
+       FROM vehicle_master v, user_master u
+       WHERE v.registration_no = 'DL01AB1234' AND u.login_id = 'admin@fleet.test'`
+    );
+
     await client.query('COMMIT');
     console.log('Seed completed successfully.');
   } catch (err) {

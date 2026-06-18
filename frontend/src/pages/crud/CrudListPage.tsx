@@ -38,19 +38,16 @@ export function CrudListPage<T>({
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold">{title}</h1>
+    <div className="col gap-16">
+      <div className="page-header">
+        <h1>{title}</h1>
         {canCreate && (
-          <button
-            onClick={() => navigate(`${basePath}/new`)}
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded"
-          >
+          <button onClick={() => navigate(`${basePath}/new`)} className="btn primary">
             + Add New
           </button>
         )}
       </div>
-      {error && <div className="bg-red-50 text-red-700 text-sm px-3 py-2 rounded">{error}</div>}
+      {error && <div className="badge danger" style={{ display: 'block', padding: '8px 12px' }}>{error}</div>}
       <DataTable
         columns={columns}
         rows={items}
@@ -67,17 +64,17 @@ export function CrudListPage<T>({
         loading={loading}
         exportFilename={basePath.replace('/', '')}
         actions={(row) => (
-          <div className="flex gap-2">
-            <button onClick={() => navigate(`${basePath}/${rowKey(row)}`)} className="text-blue-600 hover:underline">
+          <div className="row">
+            <span className="link" onClick={() => navigate(`${basePath}/${rowKey(row)}`)}>
               View
-            </button>
-            <button onClick={() => navigate(`${basePath}/${rowKey(row)}/edit`)} className="text-amber-600 hover:underline">
+            </span>
+            <span className="link" onClick={() => navigate(`${basePath}/${rowKey(row)}/edit`)}>
               Edit
-            </button>
+            </span>
             {remove && (
-              <button onClick={() => handleDelete(row)} className="text-red-600 hover:underline">
+              <span className="link" style={{ color: 'var(--danger)' }} onClick={() => handleDelete(row)}>
                 Delete
-              </button>
+              </span>
             )}
             {extraActions?.(row)}
           </div>

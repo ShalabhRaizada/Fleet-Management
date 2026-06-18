@@ -505,4 +505,253 @@ router.use(
   buildCrudRouter({ table: 'invoice_line', pk: 'invoice_line_id', writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR] })
 );
 
+// ---- Remaining P1 master table ----
+
+router.use(
+  '/inspection-templates',
+  buildCrudRouter({ table: 'inspection_template', pk: 'template_id', writeRoles: [ROLES.ADMIN] })
+);
+
+router.use(
+  '/route-fuel-norms',
+  buildCrudRouter({ table: 'route_fuel_norm', pk: 'route_fuel_norm_id', writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER] })
+);
+
+router.use(
+  '/compliance-alerts',
+  buildCrudRouter({ table: 'compliance_alert', pk: 'compliance_alert_id', writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER] })
+);
+
+router.use(
+  '/trips',
+  buildCrudRouter({ table: 'trip_master', pk: 'trip_id', searchColumns: ['trip_no'], writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.DRIVER] })
+);
+
+router.use(
+  '/toll-transactions',
+  buildCrudRouter({ table: 'toll_transaction', pk: 'toll_txn_id', writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.DRIVER] })
+);
+
+router.use(
+  '/approval-matrix',
+  buildCrudRouter({ table: 'approval_matrix', pk: 'approval_matrix_id', writeRoles: [ROLES.ADMIN] })
+);
+
+// ---- Phase 2: Advanced Maintenance, Inspection, Invoice Validation, Tyre/Stock lifecycle ----
+
+/**
+ * @openapi
+ * /api/maintenance-schedules:
+ *   get:
+ *     summary: List preventive maintenance schedules (P2)
+ *     tags: [Phase 2 - Maintenance]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated maintenance schedule list }
+ */
+router.use(
+  '/maintenance-schedules',
+  buildCrudRouter({
+    table: 'maintenance_schedule',
+    pk: 'maintenance_schedule_id',
+    searchColumns: ['schedule_code'],
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR],
+  })
+);
+
+/**
+ * @openapi
+ * /api/maintenance-due:
+ *   get:
+ *     summary: List maintenance-due records generated from schedules (P2)
+ *     tags: [Phase 2 - Maintenance]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated maintenance-due list }
+ */
+router.use(
+  '/maintenance-due',
+  buildCrudRouter({
+    table: 'maintenance_due',
+    pk: 'maintenance_due_id',
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR],
+  })
+);
+
+/**
+ * @openapi
+ * /api/breakdown-events:
+ *   get:
+ *     summary: List breakdown events (P2)
+ *     tags: [Phase 2 - Maintenance]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated breakdown event list }
+ */
+router.use(
+  '/breakdown-events',
+  buildCrudRouter({
+    table: 'breakdown_event',
+    pk: 'breakdown_id',
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR, ROLES.DRIVER],
+  })
+);
+
+/**
+ * @openapi
+ * /api/accident-events:
+ *   get:
+ *     summary: List accident events (P2)
+ *     tags: [Phase 2 - Maintenance]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated accident event list }
+ */
+router.use(
+  '/accident-events',
+  buildCrudRouter({
+    table: 'accident_event',
+    pk: 'accident_id',
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR, ROLES.DRIVER],
+  })
+);
+
+/**
+ * @openapi
+ * /api/payable-validations:
+ *   get:
+ *     summary: List vendor invoice payable validation results (P2)
+ *     tags: [Phase 2 - Invoice]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated payable validation list }
+ */
+router.use(
+  '/payable-validations',
+  buildCrudRouter({
+    table: 'payable_validation',
+    pk: 'validation_id',
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.APPROVER],
+  })
+);
+
+/**
+ * @openapi
+ * /api/stock-ledger:
+ *   get:
+ *     summary: List spares/consumables stock ledger movements (P2)
+ *     tags: [Phase 2 - Inventory]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated stock ledger list }
+ */
+router.use(
+  '/stock-ledger',
+  buildCrudRouter({
+    table: 'stock_ledger',
+    pk: 'stock_ledger_id',
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR],
+  })
+);
+
+/**
+ * @openapi
+ * /api/inspection-events:
+ *   get:
+ *     summary: List vehicle/trailer inspection events (P2)
+ *     tags: [Phase 2 - Inspection]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated inspection event list }
+ */
+router.use(
+  '/inspection-events',
+  buildCrudRouter({
+    table: 'inspection_event',
+    pk: 'inspection_id',
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR],
+  })
+);
+
+/**
+ * @openapi
+ * /api/inspection-result-lines:
+ *   get:
+ *     summary: List inspection checklist result lines (P2)
+ *     tags: [Phase 2 - Inspection]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated inspection result line list }
+ */
+router.use(
+  '/inspection-result-lines',
+  buildCrudRouter({
+    table: 'inspection_result_line',
+    pk: 'inspection_line_id',
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR],
+  })
+);
+
+// ---- Phase 3: Integrations, AI/Document store, Alert rules ----
+
+/**
+ * @openapi
+ * /api/integration-configs:
+ *   get:
+ *     summary: List external integration configurations (ULIP/VAHAN/SARATHI/FASTag/GPS/OBD/EV/OCR/ERP) (P3)
+ *     tags: [Phase 3 - Integrations]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated integration config list }
+ */
+router.use(
+  '/integration-configs',
+  buildCrudRouter({ table: 'integration_config', pk: 'integration_config_id', writeRoles: [ROLES.ADMIN] })
+);
+
+/**
+ * @openapi
+ * /api/ulip-api-logs:
+ *   get:
+ *     summary: List mock/real external API call logs (ULIP/VAHAN/SARATHI/FASTag etc.) (P3)
+ *     tags: [Phase 3 - Integrations]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated API call log list }
+ */
+router.use(
+  '/ulip-api-logs',
+  buildCrudRouter({ table: 'ulip_api_log', pk: 'api_log_id', writeRoles: [ROLES.ADMIN] })
+);
+
+/**
+ * @openapi
+ * /api/alert-rules:
+ *   get:
+ *     summary: List configurable alert rules driving the alerts engine (P3)
+ *     tags: [Phase 3 - Alerts]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated alert rule list }
+ */
+router.use(
+  '/alert-rules',
+  buildCrudRouter({ table: 'alert_rule', pk: 'alert_rule_id', writeRoles: [ROLES.ADMIN] })
+);
+
+/**
+ * @openapi
+ * /api/documents:
+ *   get:
+ *     summary: List stored document references (OCR/AI document store) (P3)
+ *     tags: [Phase 3 - Documents]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated document list }
+ */
+router.use(
+  '/documents',
+  buildCrudRouter({ table: 'document_store', pk: 'document_id', writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER] })
+);
+
 export default router;

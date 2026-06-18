@@ -26,28 +26,28 @@ export function CrudDetailPage<T>({ title, basePath, get, fieldsToShow, extra }:
       .finally(() => setLoading(false));
   }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (loading) return <div className="text-gray-500 text-sm">Loading...</div>;
-  if (error) return <div className="bg-red-50 text-red-700 text-sm px-3 py-2 rounded">{error}</div>;
+  if (loading) return <div className="muted">Loading...</div>;
+  if (error) return <div className="badge danger" style={{ display: 'block', padding: '8px 12px' }}>{error}</div>;
   if (!row) return null;
 
   return (
-    <div className="max-w-3xl flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold">{title}</h1>
-        <div className="flex gap-2">
-          <button onClick={() => navigate(`${basePath}/${id}/edit`)} className="text-sm px-3 py-1.5 bg-amber-100 hover:bg-amber-200 rounded">
+    <div className="col gap-16" style={{ maxWidth: 760 }}>
+      <div className="page-header">
+        <h1>{title}</h1>
+        <div className="row">
+          <button onClick={() => navigate(`${basePath}/${id}/edit`)} className="btn">
             Edit
           </button>
-          <button onClick={() => navigate(basePath)} className="text-sm px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded border border-gray-300">
+          <button onClick={() => navigate(basePath)} className="btn ghost">
             Back to list
           </button>
         </div>
       </div>
-      <div className="bg-white border border-gray-200 rounded-lg p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="card field-row cols-2" style={{ padding: 20 }}>
         {fieldsToShow.map((f) => (
-          <div key={f.key}>
-            <div className="text-xs uppercase text-gray-400">{f.label}</div>
-            <div className="text-sm text-gray-800 mt-0.5">{String((row as Record<string, unknown>)[f.key] ?? '-')}</div>
+          <div key={f.key} className="field">
+            <label>{f.label}</label>
+            <div style={{ fontSize: 13 }}>{String((row as Record<string, unknown>)[f.key] ?? '-')}</div>
           </div>
         ))}
       </div>

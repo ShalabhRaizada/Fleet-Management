@@ -22,6 +22,25 @@ const MENU: MenuItem[] = [
   { to: '/approvals', label: 'Approval Inbox' },
   { to: '/reports/cost', label: 'Cost Report', roles: ['ADMIN', 'FLEET_MANAGER', 'APPROVER'] },
   { to: '/alerts', label: 'Alerts / Exceptions' },
+
+  { to: '/inspection-templates', label: 'Inspection Templates', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/inspection-events', label: 'Inspection Events', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/inspection-result-lines', label: 'Inspection Result Lines', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/route-fuel-norms', label: 'Route Fuel Norms', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/compliance-alerts', label: 'Compliance Alerts', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/trips', label: 'Trips', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/toll-transactions', label: 'Toll Transactions', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/approval-matrix', label: 'Approval Matrix', roles: ['ADMIN'] },
+  { to: '/maintenance-schedules', label: 'Maintenance Schedules', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/maintenance-due', label: 'Maintenance Due', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/breakdown-events', label: 'Breakdown Events', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/accident-events', label: 'Accident Events', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/payable-validations', label: 'Payable Validations', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/stock-ledger', label: 'Stock Ledger', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/integration-configs', label: 'Integration Configs', roles: ['ADMIN'] },
+  { to: '/ulip-api-logs', label: 'ULIP API Logs', roles: ['ADMIN'] },
+  { to: '/alert-rules', label: 'Alert Rules', roles: ['ADMIN'] },
+  { to: '/documents', label: 'Documents', roles: ['ADMIN', 'FLEET_MANAGER'] },
 ];
 
 function breadcrumbFromPath(pathname: string): string[] {
