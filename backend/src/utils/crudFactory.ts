@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import { ZodSchema } from 'zod';
 import { pool } from '../db/pool';
 import { ok, fail } from './envelope';
 import { tableColumns, schemaSpec } from './schemaSpec';
@@ -11,6 +12,10 @@ export interface CrudOptions {
   writeRoles?: string[];
   /** columns searchable via ?q= */
   searchColumns?: string[];
+  /** zod schema validated against POST body (full create payload) */
+  createSchema?: ZodSchema;
+  /** zod schema validated against PUT body (defaults to createSchema.partial() behavior is NOT automatic - pass explicitly if needed) */
+  updateSchema?: ZodSchema;
   /** hook to validate/transform payload before insert/update; throw Error to reject */
   beforeWrite?: (payload: any, isUpdate: boolean, client: any) => Promise<any>;
   /** hook invoked after successful insert/update inside same transaction */
@@ -106,6 +111,11 @@ export function buildCrudRouter(opts: CrudOptions): Router {
 
   // CREATE
   router.post('/', writeGuard, async (req: Request, res: Response) => {
+    if (opts.createSchema) {
+      const parsed = opts.createSchema.safeParse(req.body);
+      if (!parsed.success) return fail(res, 'Validation failed', 422, parsed.error.issues);
+      req.body = parsed.data;
+    }
     const client = await pool.connect();
     try {
       await client.query('BEGIN');
@@ -140,6 +150,11 @@ export function buildCrudRouter(opts: CrudOptions): Router {
 
   // UPDATE
   router.put('/:id', writeGuard, async (req: Request, res: Response) => {
+    if (opts.updateSchema) {
+      const parsed = opts.updateSchema.safeParse(req.body);
+      if (!parsed.success) return fail(res, 'Validation failed', 422, parsed.error.issues);
+      req.body = parsed.data;
+    }
     const client = await pool.connect();
     try {
       await client.query('BEGIN');
