@@ -41,8 +41,8 @@ export default function Dashboard() {
     load();
   }, []);
 
-  if (error) return <div className="bg-red-50 text-red-700 text-sm px-3 py-2 rounded">{error}</div>;
-  if (!summary) return <div className="text-gray-500 text-sm">Loading dashboard...</div>;
+  if (error) return <div className="badge danger" style={{ display: 'block', padding: '8px 12px' }}>{error}</div>;
+  if (!summary) return <div className="muted">Loading dashboard...</div>;
 
   const cards = [
     { label: 'Total Vehicles', value: summary.totalVehicles },
@@ -54,13 +54,15 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="flex flex-col gap-6">
-      <h1 className="text-lg font-semibold">Fleet Dashboard</h1>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+    <div className="col gap-24">
+      <div className="page-header">
+        <h1>Fleet Dashboard</h1>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
         {cards.map((c) => (
-          <div key={c.label} className="bg-white border border-gray-200 rounded-lg p-5">
-            <div className="text-xs uppercase text-gray-400">{c.label}</div>
-            <div className="text-2xl font-semibold mt-1">{c.value}</div>
+          <div key={c.label} className="kpi">
+            <div className="label">{c.label}</div>
+            <div className="value">{c.value}</div>
           </div>
         ))}
       </div>

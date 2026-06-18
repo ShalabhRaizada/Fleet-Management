@@ -29,39 +29,44 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <form onSubmit={handleSubmit} className="bg-white shadow rounded-lg p-8 w-full max-w-sm border border-gray-200">
-        <h1 className="text-xl font-semibold mb-1">Fleet Management</h1>
-        <p className="text-sm text-gray-500 mb-6">Sign in to continue</p>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg)' }}>
+      <form onSubmit={handleSubmit} className="card" style={{ padding: 32, width: '100%', maxWidth: 380 }}>
+        <div className="row" style={{ marginBottom: 4 }}>
+          <div className="brand-mark" style={{ width: 32, height: 32, borderRadius: 8, background: 'linear-gradient(135deg, #2563eb, #10b981)', display: 'grid', placeItems: 'center', color: 'white', fontWeight: 700, fontSize: 14 }}>
+            GL
+          </div>
+          <h1 style={{ margin: 0, fontSize: 19, fontWeight: 600, letterSpacing: '-0.015em' }}>GreenLine VMS</h1>
+        </div>
+        <p className="muted" style={{ marginTop: 4, marginBottom: 24, fontSize: 13 }}>Sign in to continue</p>
 
-        {error && <div className="bg-red-50 text-red-700 text-sm px-3 py-2 rounded mb-4">{error}</div>}
+        {error && <div className="badge danger" style={{ display: 'block', padding: '8px 12px', marginBottom: 16 }}>{error}</div>}
 
-        <label className="block text-sm font-medium text-gray-700 mb-1">Login ID</label>
-        <input
-          className="w-full border border-gray-300 rounded px-3 py-2 mb-4 text-sm"
-          value={loginId}
-          onChange={(e) => setLoginId(e.target.value)}
-          autoComplete="username"
-        />
+        <div className="field" style={{ marginBottom: 14 }}>
+          <label>Login ID</label>
+          <input
+            className="input"
+            value={loginId}
+            onChange={(e) => setLoginId(e.target.value)}
+            autoComplete="username"
+          />
+        </div>
 
-        <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-        <input
-          type="password"
-          className="w-full border border-gray-300 rounded px-3 py-2 mb-6 text-sm"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          autoComplete="current-password"
-        />
+        <div className="field" style={{ marginBottom: 22 }}>
+          <label>Password</label>
+          <input
+            type="password"
+            className="input"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+          />
+        </div>
 
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white py-2 rounded text-sm font-medium"
-        >
+        <button type="submit" disabled={loading} className="btn primary lg" style={{ width: '100%', justifyContent: 'center' }}>
           {loading ? 'Signing in...' : 'Sign in'}
         </button>
 
-        <p className="text-xs text-gray-400 mt-4">
+        <p className="muted" style={{ fontSize: 11.5, marginTop: 16 }}>
           Seeded users: admin@fleet.test, fleetmanager@fleet.test, workshop@fleet.test, driver1@fleet.test,
           approver@fleet.test — password: Password@123
         </p>

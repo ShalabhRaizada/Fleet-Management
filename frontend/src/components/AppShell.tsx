@@ -37,43 +37,63 @@ export function AppShell() {
   const crumbs = breadcrumbFromPath(location.pathname);
 
   const visibleMenu = MENU.filter((item) => !item.roles || (user && item.roles.includes(user.role_code)));
+  const initials = (user?.display_name || user?.login_id || '?')
+    .split(/\s+/)
+    .map((s) => s[0])
+    .slice(0, 2)
+    .join('')
+    .toUpperCase();
 
   return (
-    <div className="flex h-screen w-screen bg-gray-50 text-gray-900">
-      <aside className="w-60 bg-gray-900 text-gray-100 flex flex-col">
-        <div className="px-4 py-4 text-lg font-semibold border-b border-gray-800">Fleet Management</div>
-        <nav className="flex-1 overflow-y-auto py-2">
+    <div className="app">
+      <aside className="sidebar">
+        <div className="brand">
+          <div className="brand-mark">GL</div>
+          <div className="brand-name">
+            <b>GreenLine VMS</b>
+            <span>Fleet Management</span>
+          </div>
+        </div>
+        <div className="role-pill">
+          <span className="dot" />
+          <span className="role-name">{user?.role_code}</span>
+        </div>
+        <nav className="nav">
           {visibleMenu.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              className={({ isActive }) =>
-                `block px-4 py-2 text-sm hover:bg-gray-800 ${isActive ? 'bg-gray-800 text-white font-medium' : 'text-gray-300'}`
-              }
-            >
+            <NavLink key={item.to} to={item.to} className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}>
               {item.label}
             </NavLink>
           ))}
         </nav>
+        <div className="footer">
+          <div className="avatar">{initials}</div>
+          <div className="user-meta">
+            <b>{user?.display_name || user?.login_id}</b>
+            <span>{user?.login_id}</span>
+          </div>
+          <button onClick={() => logout()} className="icon-btn" title="Logout">
+            ⏻
+          </button>
+        </div>
       </aside>
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="h-14 flex items-center justify-between px-6 border-b border-gray-200 bg-white">
-          <div className="text-sm text-gray-500">
-            {crumbs.length ? crumbs.join(' / ') : 'Home'}
-          </div>
-          <div className="flex items-center gap-3 text-sm">
-            <span className="text-gray-700">
-              {user?.display_name || user?.login_id} <span className="text-gray-400">({user?.role_code})</span>
-            </span>
-            <button onClick={() => logout()} className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded border border-gray-300">
-              Logout
-            </button>
-          </div>
-        </header>
-        <main className="flex-1 overflow-auto p-6">
-          <Outlet />
-        </main>
+      <div className="topbar">
+        <div className="crumb">
+          {crumbs.length ? (
+            crumbs.map((c, i) => (
+              <span key={i}>
+                {i > 0 && <span className="sep">/</span>} <b>{c}</b>
+              </span>
+            ))
+          ) : (
+            <b>Home</b>
+          )}
+        </div>
       </div>
+      <main className="main">
+        <div className="page">
+          <Outlet />
+        </div>
+      </main>
     </div>
   );
 }

@@ -58,43 +58,41 @@ export function DataTable<T>({
   };
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center justify-between gap-2">
+    <div className="card">
+      <div className="toolbar">
         {onSearch && (
           <form
-            className="flex gap-2"
+            className="row grow"
             onSubmit={(e) => {
               e.preventDefault();
               onSearch(localSearch);
             }}
           >
             <input
-              className="border border-gray-300 rounded px-3 py-1.5 text-sm w-64"
+              className="input"
+              style={{ maxWidth: 280 }}
               placeholder="Search..."
               value={localSearch}
               onChange={(e) => setLocalSearch(e.target.value)}
             />
-            <button type="submit" className="bg-gray-100 hover:bg-gray-200 text-sm px-3 py-1.5 rounded border border-gray-300">
+            <button type="submit" className="btn sm">
               Search
             </button>
           </form>
         )}
-        <button
-          onClick={handleExport}
-          className="ml-auto bg-emerald-600 hover:bg-emerald-700 text-white text-sm px-3 py-1.5 rounded"
-        >
+        <button onClick={handleExport} className="btn sm" style={{ marginLeft: 'auto' }}>
           Export CSV
         </button>
       </div>
 
-      <div className="overflow-x-auto border border-gray-200 rounded-lg">
-        <table className="min-w-full text-sm">
-          <thead className="bg-gray-50 text-gray-700">
+      <div style={{ overflowX: 'auto' }}>
+        <table className="tbl">
+          <thead>
             <tr>
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className={`text-left px-3 py-2 font-medium whitespace-nowrap ${col.sortable ? 'cursor-pointer hover:text-blue-600' : ''}`}
+                  style={col.sortable ? { cursor: 'pointer' } : undefined}
                   onClick={() => {
                     if (!col.sortable || !onSort) return;
                     const nextDir = sortBy === col.key && sortDir === 'ASC' ? 'DESC' : 'ASC';
@@ -105,56 +103,48 @@ export function DataTable<T>({
                   {sortBy === col.key ? (sortDir === 'ASC' ? ' ▲' : ' ▼') : ''}
                 </th>
               ))}
-              {actions && <th className="px-3 py-2" />}
+              {actions && <th />}
             </tr>
           </thead>
           <tbody>
             {loading && (
               <tr>
-                <td className="px-3 py-4 text-gray-500" colSpan={columns.length + (actions ? 1 : 0)}>
+                <td className="muted" colSpan={columns.length + (actions ? 1 : 0)}>
                   Loading...
                 </td>
               </tr>
             )}
             {!loading && rows.length === 0 && (
               <tr>
-                <td className="px-3 py-4 text-gray-500" colSpan={columns.length + (actions ? 1 : 0)}>
+                <td className="muted" colSpan={columns.length + (actions ? 1 : 0)}>
                   No records found.
                 </td>
               </tr>
             )}
             {!loading &&
               rows.map((row) => (
-                <tr key={rowKey(row)} className="border-t border-gray-100 hover:bg-gray-50">
+                <tr key={rowKey(row)}>
                   {columns.map((col) => (
-                    <td key={col.key} className="px-3 py-2 whitespace-nowrap">
+                    <td key={col.key}>
                       {col.render ? col.render(row) : String((row as Record<string, unknown>)[col.key] ?? '')}
                     </td>
                   ))}
-                  {actions && <td className="px-3 py-2 whitespace-nowrap">{actions(row)}</td>}
+                  {actions && <td className="actions">{actions(row)}</td>}
                 </tr>
               ))}
           </tbody>
         </table>
       </div>
 
-      <div className="flex items-center justify-between text-sm text-gray-600">
-        <span>
+      <div className="row" style={{ justifyContent: 'space-between', padding: '10px 14px' }}>
+        <span className="muted" style={{ fontSize: 12.5 }}>
           Page {page} of {totalPages} ({total} total)
         </span>
-        <div className="flex gap-2">
-          <button
-            disabled={page <= 1}
-            onClick={() => onPageChange(page - 1)}
-            className="px-2 py-1 border rounded disabled:opacity-40"
-          >
+        <div className="row">
+          <button disabled={page <= 1} onClick={() => onPageChange(page - 1)} className="btn sm">
             Prev
           </button>
-          <button
-            disabled={page >= totalPages}
-            onClick={() => onPageChange(page + 1)}
-            className="px-2 py-1 border rounded disabled:opacity-40"
-          >
+          <button disabled={page >= totalPages} onClick={() => onPageChange(page + 1)} className="btn sm">
             Next
           </button>
         </div>

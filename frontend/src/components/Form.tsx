@@ -18,16 +18,16 @@ interface SimpleFormProps<T> {
 
 export function FormGrid<T>({ fields, values, onChange, errors }: SimpleFormProps<T>) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div className="field-row cols-2">
       {fields.map((f) => (
-        <div key={f.name} className={f.type === 'textarea' ? 'md:col-span-2' : ''}>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+        <div key={f.name} className="field" style={f.type === 'textarea' ? { gridColumn: '1 / -1' } : undefined}>
+          <label>
             {f.label}
-            {f.required && <span className="text-red-500"> *</span>}
+            {f.required && <span className="req">*</span>}
           </label>
           {f.type === 'select' ? (
             <select
-              className="w-full border border-gray-300 rounded px-3 py-1.5 text-sm"
+              className="select"
               value={(values[f.name] as string) ?? ''}
               onChange={(e) => onChange(f.name, e.target.value)}
             >
@@ -39,15 +39,12 @@ export function FormGrid<T>({ fields, values, onChange, errors }: SimpleFormProp
               ))}
             </select>
           ) : f.type === 'checkbox' ? (
-            <input
-              type="checkbox"
-              checked={Boolean(values[f.name])}
-              onChange={(e) => onChange(f.name, e.target.checked)}
-              className="h-4 w-4"
-            />
+            <label className="checkbox">
+              <input type="checkbox" checked={Boolean(values[f.name])} onChange={(e) => onChange(f.name, e.target.checked)} />
+            </label>
           ) : f.type === 'textarea' ? (
             <textarea
-              className="w-full border border-gray-300 rounded px-3 py-1.5 text-sm"
+              className="textarea"
               value={(values[f.name] as string) ?? ''}
               placeholder={f.placeholder}
               onChange={(e) => onChange(f.name, e.target.value)}
@@ -56,7 +53,7 @@ export function FormGrid<T>({ fields, values, onChange, errors }: SimpleFormProp
           ) : (
             <input
               type={f.type || 'text'}
-              className="w-full border border-gray-300 rounded px-3 py-1.5 text-sm"
+              className="input"
               value={(values[f.name] as string | number) ?? ''}
               placeholder={f.placeholder}
               onChange={(e) =>
@@ -64,7 +61,7 @@ export function FormGrid<T>({ fields, values, onChange, errors }: SimpleFormProp
               }
             />
           )}
-          {errors?.[f.name] && <p className="text-xs text-red-500 mt-1">{errors[f.name]}</p>}
+          {errors?.[f.name] && <p style={{ fontSize: 11.5, color: 'var(--danger)', margin: '2px 0 0' }}>{errors[f.name]}</p>}
         </div>
       ))}
     </div>
@@ -72,5 +69,5 @@ export function FormGrid<T>({ fields, values, onChange, errors }: SimpleFormProp
 }
 
 export function FormActions({ children }: { children: ReactNode }) {
-  return <div className="flex gap-3 pt-4 border-t border-gray-100 mt-4">{children}</div>;
+  return <div className="row" style={{ paddingTop: 16, borderTop: '1px solid var(--divider)', marginTop: 16 }}>{children}</div>;
 }
