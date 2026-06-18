@@ -1,0 +1,922 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Fleet Management System API",
+    "version": "1.0.0",
+    "description": "REST API for the Fleet Management System (Phase 1 core entities)."
+  },
+  "servers": [
+    {
+      "url": "/api",
+      "description": "Base API path"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/vehicles": {
+      "get": {
+        "summary": "List vehicles (paginated, filterable, searchable)",
+        "tags": [
+          "Vehicle Master"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated vehicle list"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a vehicle",
+        "tags": [
+          "Vehicle Master"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Vehicle created"
+          }
+        }
+      }
+    },
+    "/api/vehicles/{id}": {
+      "get": {
+        "summary": "Get a vehicle by id",
+        "tags": [
+          "Vehicle Master"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle detail"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update a vehicle",
+        "tags": [
+          "Vehicle Master"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle updated"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Soft-delete a vehicle",
+        "tags": [
+          "Vehicle Master"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vehicle deleted"
+          }
+        }
+      }
+    },
+    "/api/trailers": {
+      "get": {
+        "summary": "List trailers",
+        "tags": [
+          "Trailer"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated trailer list"
+          }
+        }
+      }
+    },
+    "/api/trailers/{id}": {
+      "get": {
+        "summary": "Get a trailer by id",
+        "tags": [
+          "Trailer"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trailer detail"
+          }
+        }
+      }
+    },
+    "/api/couplings": {
+      "get": {
+        "summary": "List vehicle-trailer couplings",
+        "tags": [
+          "Coupling"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated coupling list"
+          }
+        }
+      }
+    },
+    "/api/fuel-transactions": {
+      "get": {
+        "summary": "List fuel transactions",
+        "tags": [
+          "Fuel & Energy"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated fuel transaction list"
+          }
+        }
+      }
+    },
+    "/api/compliance": {
+      "get": {
+        "summary": "List asset compliance records",
+        "tags": [
+          "Compliance"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated compliance list"
+          }
+        }
+      }
+    },
+    "/api/job-cards": {
+      "get": {
+        "summary": "List job cards",
+        "tags": [
+          "Job Card"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated job card list"
+          }
+        }
+      }
+    },
+    "/api/workshops": {
+      "get": {
+        "summary": "List workshops",
+        "tags": [
+          "Workshop"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated workshop list"
+          }
+        }
+      }
+    },
+    "/api/tyres": {
+      "get": {
+        "summary": "List tyres",
+        "tags": [
+          "Tyre"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated tyre list"
+          }
+        }
+      }
+    },
+    "/api/accessories": {
+      "get": {
+        "summary": "List accessories",
+        "tags": [
+          "Accessory"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated accessory list"
+          }
+        }
+      }
+    },
+    "/api/accompaniments": {
+      "get": {
+        "summary": "List accompaniments (tarpaulins, seals, OTP locks, safety kits)",
+        "tags": [
+          "Accompaniment"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated accompaniment list"
+          }
+        }
+      }
+    },
+    "/api/branches": {
+      "get": {
+        "summary": "List branches",
+        "tags": [
+          "Masters"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated branch list"
+          }
+        }
+      }
+    },
+    "/api/vendors": {
+      "get": {
+        "summary": "List vendors",
+        "tags": [
+          "Masters"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated vendor list"
+          }
+        }
+      }
+    },
+    "/api/drivers": {
+      "get": {
+        "summary": "List drivers",
+        "tags": [
+          "Masters"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated driver list"
+          }
+        }
+      }
+    },
+    "/api/vehicle-fuel-profiles": {
+      "get": {
+        "summary": "List vehicle fuel profiles",
+        "tags": [
+          "Vehicle Master"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated fuel profile list"
+          }
+        }
+      }
+    },
+    "/api/fuel-stations": {
+      "get": {
+        "summary": "List fuel vendor stations",
+        "tags": [
+          "Fuel & Energy"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated fuel station list"
+          }
+        }
+      }
+    },
+    "/api/fuel-rates": {
+      "get": {
+        "summary": "List fuel rates",
+        "tags": [
+          "Fuel & Energy"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated fuel rate list"
+          }
+        }
+      }
+    },
+    "/api/compliance-types": {
+      "get": {
+        "summary": "List compliance type masters",
+        "tags": [
+          "Compliance"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated compliance type list"
+          }
+        }
+      }
+    },
+    "/api/job-card-lines": {
+      "get": {
+        "summary": "List job card lines (parts/tyre/accessory/consumable requests within a job card)",
+        "tags": [
+          "Job Card"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated job card line list"
+          }
+        }
+      }
+    },
+    "/api/workshop-rate-contracts": {
+      "get": {
+        "summary": "List workshop rate contracts",
+        "tags": [
+          "Workshop"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated rate contract list"
+          }
+        }
+      }
+    },
+    "/api/items": {
+      "get": {
+        "summary": "List item master (parts/consumables/accompaniment item catalog)",
+        "tags": [
+          "Masters"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated item list"
+          }
+        }
+      }
+    },
+    "/api/roles": {
+      "get": {
+        "summary": "List roles",
+        "tags": [
+          "Masters"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role list"
+          }
+        }
+      }
+    },
+    "/api/vehicle-cost-ledger": {
+      "get": {
+        "summary": "List vehicle cost ledger entries (used for cost reports and dashboard summaries)",
+        "tags": [
+          "Reports"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated cost ledger list"
+          }
+        }
+      }
+    },
+    "/api/tyre-movements": {
+      "get": {
+        "summary": "List tyre movement events (fitment/removal history)",
+        "tags": [
+          "Tyre"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated tyre movement list"
+          }
+        }
+      }
+    },
+    "/api/accessory-events": {
+      "get": {
+        "summary": "List accessory events (install/remove/fault history)",
+        "tags": [
+          "Accessory"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated accessory event list"
+          }
+        }
+      }
+    },
+    "/api/accompaniment-issues": {
+      "get": {
+        "summary": "List accompaniment issue/return records",
+        "tags": [
+          "Accompaniment"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated accompaniment issue list"
+          }
+        }
+      }
+    },
+    "/api/vendor-invoices": {
+      "get": {
+        "summary": "List vendor invoices (workshop/fuel/tyre/accessory/consumable/compliance)",
+        "tags": [
+          "Workshop"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated vendor invoice list"
+          }
+        }
+      }
+    },
+    "/api/fuel-variances": {
+      "get": {
+        "summary": "List fuel variance records (planned vs actual fuel quantity)",
+        "tags": [
+          "Fuel & Energy"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated fuel variance list"
+          }
+        }
+      }
+    },
+    "/api/invoice-lines": {
+      "get": {
+        "summary": "List vendor invoice line items",
+        "tags": [
+          "Workshop"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated invoice line list"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "summary": "Authenticate a user and receive JWT access + refresh tokens",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "login_id": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login success"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/api/auth/refresh": {
+      "post": {
+        "summary": "Exchange a refresh token for a new access token",
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "New access token issued"
+          },
+          "401": {
+            "description": "Invalid refresh token"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "summary": "Invalidate the current refresh token",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Logged out"
+          }
+        }
+      }
+    },
+    "/api/auth/me": {
+      "get": {
+        "summary": "Get the currently authenticated user's profile",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current user profile"
+          }
+        }
+      }
+    },
+    "/api/approvals": {
+      "get": {
+        "summary": "List approval requests (approval inbox)",
+        "tags": [
+          "Approvals"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter by approval_status"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated approval request list"
+          }
+        }
+      },
+      "post": {
+        "summary": "Submit a transaction (job_card or asset_compliance) for approval",
+        "tags": [
+          "Approvals"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Approval request created"
+          }
+        }
+      }
+    },
+    "/api/approvals/{id}/decide": {
+      "post": {
+        "summary": "Approve or reject a pending approval request (Finance/Approver, Fleet Manager, or Admin only)",
+        "tags": [
+          "Approvals"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "decision": {
+                    "type": "string",
+                    "enum": [
+                      "Approved",
+                      "Rejected"
+                    ]
+                  },
+                  "remarks": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Decision recorded"
+          },
+          "403": {
+            "description": "Insufficient role to decide"
+          }
+        }
+      }
+    },
+    "/api/alerts": {
+      "get": {
+        "summary": "List alert events",
+        "tags": [
+          "Alerts"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "severity",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated alert list"
+          }
+        }
+      }
+    },
+    "/api/alerts/evaluate": {
+      "post": {
+        "summary": "Run the alerts engine now (compliance expiry + maintenance due rules)",
+        "tags": [
+          "Alerts"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Evaluation result with counts of newly created alerts"
+          }
+        }
+      }
+    },
+    "/api/alerts/{id}/acknowledge": {
+      "post": {
+        "summary": "Acknowledge/close an alert",
+        "tags": [
+          "Alerts"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alert acknowledged"
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}
