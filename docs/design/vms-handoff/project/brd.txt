@@ -1,0 +1,1753 @@
+
+
+
+
+
+
+BUSINESS REQUIREMENTS DOCUMENT
+
+
+
+
+
+
+VEHICLE MAINTENANCE SYSTEM (VMS)
+
+
+Fleet Management · Maintenance Planning · Compliance Tracking
+
+
+
+
+
+
+
+
+Document Version
+1.0
+Prepared By
+Business Analysis Team
+Date
+May 2026
+Status
+Draft
+Classification
+Confidential
+
+
+
+Table of Contents
+TOC \h \o "1-3"
+
+
+
+
+1. Revision History
+
+Version
+Date
+Description
+Author
+1.0
+May 2026
+Initial Draft – complete BRD
+BA Team
+
+
+
+2. Executive Summary
+
+The Vehicle Maintenance System (VMS) is an integrated fleet management platform designed to manage the complete lifecycle of trucks and trailers from onboarding through daily operations, preventive and corrective maintenance, compliance management, tyre management, and vendor coordination. VMS replaces manual tracking processes with a digitised, role-based, alert-driven system that reduces vehicle downtime, enforces regulatory compliance, and delivers actionable operational intelligence.
+
+
+
+2.1  Business Problem
+
+Fleet operations currently suffer from:
+
+
+Unplanned breakdowns due to missed preventive maintenance schedules.
+
+
+Manual paper-based tracking of tyres, batteries, GPS devices and accessories.
+
+
+No centralised repository of vehicle documents (insurance, fitness, permits, PESO certificates).
+
+
+Absence of expiry alerts for critical compliance documents.
+
+
+Inability to quickly identify and action non-working vehicles.
+
+
+No structured process to manage challans, fines, and PUC certificates.
+
+
+
+2.2  Objectives
+
+
+
+Centralise master data for vendors, vehicles, trailers, and all associated components.
+
+
+Automate preventive maintenance scheduling and vendor assignment.
+
+
+Track document expiry and proactively alert stakeholders.
+
+
+Provide a structured workflow for non-working vehicle repairs.
+
+
+Enable tyre lifecycle management including cost-per-km analytics.
+
+
+Support compliance requirements for LNG/CNG tankers (PESO, Piping Certificates).
+
+
+Deliver standard reports and configurable alerts to management.
+
+
+
+3. Scope of the System
+
+
+
+3.1  In Scope
+
+
+
+User management with role-based access control and login.
+
+
+Vendor Master (spare parts and service vendors).
+
+
+Vehicle Master (Trucks) including all identification details and document uploads.
+
+
+Trailer Master including all identification details and document uploads.
+
+
+Truck–Trailer coupling and decoupling.
+
+
+Maintenance Schedule Workbench – per truck and per trailer.
+
+
+Tyre Maintenance, Tyre Rotation, and Wheel Alignment management.
+
+
+Battery tracking tagged to each truck.
+
+
+Additional fittings management (GPS, cameras, telematics, accessories).
+
+
+Pre-Delivery Inspection (PDI) and Handover document.
+
+
+Ongoing preventive maintenance reminders and vendor assignment.
+
+
+PESO and Piping Certificate tracking with expiry alerts (LNG/CNG tankers).
+
+
+Non-working vehicle workflow – issue capture, remedial actions, vendor assignment.
+
+
+Integration with EPIC 1.0 Vehicle Status Report upload.
+
+
+Challans and fines capture.
+
+
+PUC certificate management.
+
+
+Standard reports and alerts.
+
+
+
+3.2  Out of Scope
+
+
+
+Payroll and driver management.
+
+
+Fuel management (future phase).
+
+
+Real-time GPS tracking (data sourced from external GPS devices).
+
+
+Financial accounting and ERP integration (future phase).
+
+
+
+4. Stakeholders and Roles
+
+Role
+Department
+Responsibilities
+System Administrator
+IT
+User creation, role assignment, system config
+Fleet Manager
+Operations
+Approve maintenance plans, review reports
+Maintenance Manager
+Workshop
+Assign jobs, monitor PM schedules, manage vendors
+Workshop Supervisor
+Workshop
+Execute job cards, update job status
+Accounts Executive
+Finance
+Capture challans, invoice approvals
+Compliance Officer
+Compliance
+Track document expiry, PESO, PUC, permits
+Driver / Operator
+Operations
+Submit pre-trip checks, report defects
+Vendor
+External
+Receive job assignments, submit service reports
+Read-Only Viewer
+Management
+View dashboards and standard reports
+
+
+
+5. User Management & Login
+
+
+
+5.1  Login Screen
+
+The system shall present a login screen with the following mandatory fields and behaviours:
+
+Field / Feature
+Mandatory
+Description
+Username
+Yes
+Unique alphanumeric username assigned by Administrator
+Password
+Yes
+Minimum 8 characters; enforced complexity rules
+Show/Hide Password
+No
+Toggle visibility icon
+Forgot Password
+Yes
+OTP-based reset to registered email / mobile
+Remember Me
+No
+Cookie-based session (configurable expiry)
+CAPTCHA
+Yes
+Enabled after 3 failed attempts
+Account Lockout
+Yes
+Lock after 5 consecutive failed attempts; alert Admin
+Session Timeout
+Yes
+Configurable inactivity timeout (default 30 minutes)
+Audit Log
+Yes
+Log every login attempt with timestamp and IP
+
+
+
+5.2  Role-Based Access Control (RBAC)
+
+Each user is assigned one or more roles. Permissions are defined at module and action level (Create / Read / Update / Delete / Approve / Export).
+
+Role
+Access Level
+Permitted Modules
+System Administrator
+Full
+All modules + user management + system config
+Fleet Manager
+Full
+All modules; approve maintenance plan & PDI
+Maintenance Manager
+Create/Edit/Approve
+Maintenance Workbench, Vendor Assign, Non-Working Veh.
+Workshop Supervisor
+Create/Edit
+Job card execution, Tyre, Battery, Accessories
+Accounts Executive
+Create/Edit
+Challans & Fines, PUC, Invoice upload
+Compliance Officer
+Create/Edit/View
+Document expiry, PESO, Piping certs, Permits
+Driver / Operator
+Create/View
+PDI submission, Defect reporting
+Vendor
+View/Update assigned
+Assigned jobs, status update only
+Read-Only Viewer
+View
+Dashboards, Reports
+
+
+
+5.3  User Master Fields
+
+Field
+Mandatory
+Remarks
+Employee / User ID
+Yes
+Auto-generated
+Full Name
+Yes
+
+Username
+Yes
+Unique; used for login
+Password (hashed)
+Yes
+Bcrypt or equivalent
+Email Address
+Yes
+For OTP / notifications
+Mobile Number
+Yes
+For OTP / SMS alerts
+Department
+Yes
+
+Role(s)
+Yes
+Multi-select from role master
+Active / Inactive Flag
+Yes
+Deactivation retains audit trail
+Created By / On
+Yes
+Auto-stamped
+Last Login
+Auto
+System generated
+
+
+
+6. Vendor Master
+
+The Vendor Master maintains details of all approved suppliers providing spare parts and/or maintenance services for the fleet. Each vendor is classified, rated, and linked to the purchase/work-order workflow.
+
+
+
+6.1  Vendor Master Fields
+
+Field
+Mandatory
+Remarks
+Vendor Code
+Yes
+System-generated unique code
+Vendor Name
+Yes
+Legal / trade name
+Vendor Type
+Yes
+Spare Parts Supplier | Service Provider | Both
+GST Number
+Yes
+15-character GSTIN
+PAN Number
+Yes
+
+Address – Line 1
+Yes
+
+Address – Line 2
+No
+
+City
+Yes
+
+State
+Yes
+
+PIN Code
+Yes
+
+Primary Contact Name
+Yes
+
+Primary Contact Mobile
+Yes
+
+Primary Contact Email
+Yes
+
+Secondary Contact Name
+No
+
+Secondary Contact Mobile
+No
+
+Bank Account Number
+Yes
+For payment processing
+IFSC Code
+Yes
+
+Bank Name
+Yes
+
+Category of Service
+Yes
+Multi-select: Engine, Tyre, Electrical, Body, LNG/CNG, General
+Approved Truck Brands
+No
+Multi-select: Tata, Ashok Leyland, Volvo, etc.
+Rating
+Auto
+Computed from completed jobs (1–5 stars)
+Contract Start Date
+No
+
+Contract End Date
+No
+Alert 30 days before expiry
+Credit Limit (INR)
+No
+
+Payment Terms
+No
+30 / 45 / 60 days
+Active / Blacklisted
+Yes
+Blacklisted vendors cannot receive job assignments
+Documents Uploaded
+No
+Attach: Agreement, MSME cert, GST cert
+Created By / On
+Yes
+Auto-stamped
+Last Modified By / On
+Yes
+Auto-stamped
+
+
+
+6.2  Vendor Search and Filter
+
+
+
+Search by vendor code, name, GST number, city, or service category.
+
+
+Filter by active / inactive / blacklisted status.
+
+
+Export to Excel / PDF.
+
+
+
+7. Vehicle Master – Truck
+
+The Vehicle Master captures all static and regulatory information for each truck from the point of onboarding. Once saved, critical identification fields (VIN, Engine Number, Chassis Number) are locked and can only be modified by the System Administrator with a change-reason log.
+
+
+
+7.1  Basic Identification
+
+Field
+Mandatory
+Remarks
+Vehicle Code
+Yes
+System-generated unique code
+Registration Number
+Yes
+Unique; e.g. MH04 AB 1234
+Vehicle Type
+Yes
+Truck / Tanker / Tipper / Flatbed etc.
+Make / Brand
+Yes
+Tata, Ashok Leyland, Volvo, Eicher, etc.
+Model
+Yes
+
+Year of Manufacture
+Yes
+YYYY
+VIN Number (Vehicle Identification Number)
+Yes
+17-character alphanumeric; unique; locked after save
+Engine Number
+Yes
+Locked after save
+Chassis Number
+Yes
+Locked after save
+Fuel Type
+Yes
+Diesel | CNG | LNG | Electric | Hybrid
+Gross Vehicle Weight (GVW) in kg
+Yes
+
+Payload Capacity (kg)
+Yes
+
+Number of Axles
+Yes
+
+Fleet Number (Internal)
+No
+Company&apos;s internal fleet number
+Date of Purchase
+Yes
+
+Purchase Price (INR)
+Yes
+
+Odometer Reading at Onboarding (km)
+Yes
+
+Current Odometer (km)
+Auto
+Updated via maintenance transactions
+Assigned Depot / Location
+Yes
+Dropdown from depot master
+Ownership Type
+Yes
+Owned | Leased | Hired
+Lessor / Hirer Name
+Conditional
+If Leased / Hired
+Lease / Hire Expiry Date
+Conditional
+Alert 60 days before expiry
+Status
+Yes
+Active | Non-Working | Scrapped | Sold
+Created By / On
+Yes
+Auto-stamped
+Last Modified By / On
+Yes
+Auto-stamped
+
+
+
+7.2  Battery Information
+
+Field
+Mandatory
+Remarks
+Battery Make
+Yes
+
+Battery Model
+Yes
+
+Battery Serial Number
+Yes
+Unique; tagged to this truck
+Battery Capacity (Ah)
+Yes
+
+Date of Installation
+Yes
+
+Warranty Expiry Date
+No
+Alert 30 days before expiry
+Battery Replacement History
+Auto
+System log of past batteries
+
+
+
+7.3  Document Uploads
+
+Document
+Mandatory
+Notes
+CIN Stencil Sketch Image
+Yes
+Upload photo / scanned image (JPG/PNG/PDF)
+Chassis Number Stencil Sketch Image
+Yes
+Upload photo / scanned image (JPG/PNG/PDF)
+Vehicle Purchase Invoice
+Yes
+PDF / Image
+Insurance Policy Copy
+Yes
+PDF; capture Policy No., Insurer, Expiry Date – alert 30 days prior
+Fitness Certificate
+Yes
+PDF; capture Certificate No., Validity – alert 30 days prior
+National Permit / State Permit
+Yes
+PDF; capture Permit No., Type, Validity – alert 30 days prior
+PESO Certificate
+Conditional
+For LNG / CNG tankers; capture Certificate No., Expiry – alert 60 days prior
+Piping Certificate
+Conditional
+For LNG / CNG tankers; capture Certificate No., Expiry – alert 60 days prior
+Road Tax Receipt
+No
+PDF; capture validity
+Other Documents
+No
+Free-label multi-upload
+
+
+
+7.4  Additional Fittings
+
+One or more fittings can be added. Each fitting record contains:
+
+Field
+Mandatory
+Remarks
+Fitting Type
+Yes
+GPS | Video Camera | Telematics | FASTag | Speedometer | Other
+Make / Brand
+Yes
+
+Model / Serial Number
+Yes
+
+Installation Date
+Yes
+
+Vendor Who Installed
+No
+Dropdown from Vendor Master
+Warranty Expiry
+No
+
+AMC / SLA Expiry
+No
+Alert 30 days before expiry
+Status
+Yes
+Working | Faulty | Removed
+Remarks
+No
+Free text
+
+
+
+8. Trailer Master
+
+The Trailer Master mirrors the Vehicle Master structure but is specific to trailers. Trailers do not have an engine; engine-specific fields are replaced with coupling-specific fields.
+
+
+
+8.1  Basic Identification
+
+Field
+Mandatory
+Remarks
+Trailer Code
+Yes
+System-generated unique code
+Registration Number
+Yes
+Unique; plate number
+Trailer Type
+Yes
+Flat-Bed | Box | Tanker | Refrigerated | Low-Bed | Other
+Make / Brand
+Yes
+
+Model
+Yes
+
+Year of Manufacture
+Yes
+YYYY
+VIN Number
+Yes
+17-character; locked after save
+Chassis Number
+Yes
+Locked after save
+Payload Capacity (kg)
+Yes
+
+Number of Axles
+Yes
+
+Number of Tyres
+Yes
+Determines tyre mapping slots
+Date of Purchase
+Yes
+
+Purchase Price (INR)
+Yes
+
+Odometer Reading at Onboarding (km)
+Yes
+
+Assigned Depot / Location
+Yes
+
+Ownership Type
+Yes
+Owned | Leased | Hired
+Status
+Yes
+Active | Non-Working | Scrapped | Sold
+Currently Coupled To (Truck)
+Auto
+Populated by Coupling Module
+Created By / On
+Yes
+Auto-stamped
+
+
+
+8.2  Document Uploads (Trailer)
+
+Document
+Mandatory
+Notes
+Chassis Number Stencil Sketch Image
+Yes
+JPG/PNG/PDF
+Purchase Invoice
+Yes
+PDF
+Insurance Policy Copy
+Yes
+Policy No., Insurer, Expiry – alert 30 days
+Fitness Certificate
+Yes
+Certificate No., Validity – alert 30 days
+National / State Permit
+Yes
+Permit No., Type, Validity – alert 30 days
+PESO Certificate
+Conditional
+LNG / CNG tanker trailers; Expiry – alert 60 days
+Piping Certificate
+Conditional
+LNG / CNG tanker trailers; Expiry – alert 60 days
+Other Documents
+No
+Free-label multi-upload
+
+
+
+8.3  Additional Fittings (Trailer)
+
+Same structure as Vehicle Fittings (Section 7.4). Common trailer fittings include rear cameras, brake monitoring sensors, and refrigeration units.
+
+
+
+9. Truck–Trailer Coupling Module
+
+This module manages the association between trucks and trailers. Only Active trucks and Active trailers that are not already coupled may be linked.
+
+
+
+9.1  Coupling Transaction Fields
+
+Field
+Mandatory
+Remarks
+Coupling Transaction ID
+Yes
+System-generated
+Truck Registration Number
+Yes
+Lookup from Vehicle Master (Active trucks only)
+Truck Code
+Auto
+Populated on truck selection
+Trailer Registration Number
+Yes
+Lookup from Trailer Master (Active, uncoupled trailers)
+Trailer Code
+Auto
+Populated on trailer selection
+Coupling Date & Time
+Yes
+Date-time picker
+Coupled By (User)
+Yes
+Logged-in user
+Purpose / Trip Description
+No
+Free text
+Expected Decoupling Date
+No
+
+Odometer at Coupling (Truck)
+Yes
+
+Status
+Auto
+Coupled | Decoupled
+
+
+
+9.2  Decoupling
+
+
+
+User selects an active Coupling record and triggers Decouple action.
+
+
+System captures: Decoupling Date & Time, Decoupled By, Odometer at Decoupling, Remarks.
+
+
+Both truck and trailer revert to uncoupled status and are available for new couplings.
+
+
+Full coupling history is retained for audit and maintenance reporting.
+
+
+
+9.3  Business Rules
+
+
+
+A truck can be coupled to only one trailer at a time.
+
+
+A trailer can be coupled to only one truck at a time.
+
+
+Coupling is blocked if either vehicle has &apos;Non-Working&apos; or &apos;Scrapped&apos; status.
+
+
+Coupling history is immutable; corrections require a new transaction with remarks.
+
+
+
+10. Maintenance Schedule Workbench
+
+The Maintenance Schedule Workbench is the central planning tool for all preventive and scheduled maintenance activities. A separate workbench record exists for every truck and every trailer.
+
+
+
+10.1  Schedule Master Setup
+
+Administrator / Fleet Manager defines standard PM schedules (templates):
+
+Field
+Mandatory
+Remarks
+Schedule Template Code
+Yes
+Auto-generated
+Schedule Name
+Yes
+e.g. &apos;10,000 km Service&apos;, &apos;6-month Safety Check&apos;
+Applicable Vehicle Type
+Yes
+Truck | Trailer | Both
+Trigger Basis
+Yes
+Mileage (km) | Calendar (days/months) | Both
+Mileage Interval (km)
+Conditional
+If trigger is mileage-based
+Calendar Interval (days)
+Conditional
+If trigger is calendar-based
+Checklist Items
+Yes
+Multi-row: item name, expected action, part required
+Estimated Duration (hours)
+No
+
+Estimated Cost (INR)
+No
+
+Default Assigned Vendor Category
+No
+Pre-suggest vendor category for auto-assign
+
+
+
+10.2  Workbench – Per Vehicle / Trailer
+
+The workbench shows all upcoming, due, and overdue maintenance events for the selected vehicle. Fields per event:
+
+Field
+Mandatory
+Remarks
+Maintenance Job ID
+Yes
+Auto-generated
+Vehicle / Trailer Code & Reg. No.
+Yes
+Pre-filled from vehicle selection
+Schedule Template
+Yes
+Linked from Schedule Master
+Scheduled Due Date
+Yes
+Computed from last service date + interval
+Scheduled Due Odometer
+Yes
+Computed from last service odometer + interval
+Priority
+Yes
+Critical | High | Medium | Low
+Status
+Auto
+Upcoming | Due | Overdue | In Progress | Completed | Cancelled
+Assigned Vendor
+Mandatory on dispatch
+Dropdown from Vendor Master (filtered by service category)
+Assigned Date
+Auto
+Date job assigned to vendor
+Job Start Date (Actual)
+No
+Entered by Workshop Supervisor
+Job End Date (Actual)
+No
+Entered by Workshop Supervisor
+Actual Odometer at Service
+Yes (on completion)
+
+Parts Used
+No
+Multi-row: part name, quantity, unit cost
+Labour Cost (INR)
+No
+
+Total Cost (INR)
+Auto
+Sum of parts + labour
+Invoice Number
+No
+Vendor invoice reference
+Invoice Upload
+No
+PDF attachment
+Checklist Sign-off
+Yes (on completion)
+All checklist items checked before job closure
+Remarks
+No
+
+Next Scheduled Date / Odometer
+Auto
+Computed on job closure
+
+
+
+10.3  Reminder and Assignment Workflow
+
+
+
+System generates a reminder to the Maintenance Manager when a PM event is within the configured alert window (default: 7 days or 500 km before due).
+
+
+Maintenance Manager reviews the reminder notification, opens the Workbench, and assigns the job to a Vendor.
+
+
+Vendor receives a notification (email / SMS / in-app).
+
+
+Workshop Supervisor updates job progress and completion.
+
+
+On completion, next PM event is auto-scheduled.
+
+
+Overdue jobs escalate to Fleet Manager after a configurable grace period (default: 2 days).
+
+
+
+11. Tyre Management
+
+The Tyre Management module tracks every tyre from purchase through fitment, rotation, retreading, and disposal. Each tyre is individually identified by its OEM and serial number, and mapped to a specific axle/wheel position on a truck or trailer.
+
+
+
+11.1  Tyre Master
+
+Field
+Mandatory
+Remarks
+Tyre Code
+Yes
+System-generated unique code
+OEM (Original Equipment Manufacturer)
+Yes
+e.g. MRF, Bridgestone, Apollo, CEAT
+Tyre Brand
+Yes
+
+Tyre Model / Pattern
+Yes
+
+Tyre Size
+Yes
+e.g. 11R22.5
+Serial Number
+Yes
+Unique; embossed on tyre sidewall; locked after save
+Date of Purchase
+Yes
+
+Purchase Price (INR)
+Yes
+Cost basis: Bought Out
+Cost per KM (INR)
+No
+Entered at purchase or computed from disposal data
+Estimated Life (km)
+No
+OEM rated life in km
+Tyre Type
+Yes
+New | Retreaded
+Tread Depth at Purchase (mm)
+Yes
+
+Status
+Auto
+In Stock | Fitted | In Repair | Retreading | Condemned | Disposed
+Current Fitted To
+Auto
+Truck Reg. No. / Trailer Reg. No. – Axle – Position
+Total KM Run (cumulative)
+Auto
+Updated on rotation / removal
+Cost per KM (Actual)
+Auto
+Purchase Price ÷ Total KM Run
+
+
+
+11.2  Tyre-to-Vehicle Mapping
+
+Each tyre is mapped to a specific wheel position. The system maintains position slots based on the number of axles and tyres declared in the Vehicle / Trailer Master.
+
+Field
+Mandatory
+Remarks
+Mapping Transaction ID
+Yes
+Auto-generated
+Tyre Serial Number
+Yes
+Lookup from Tyre Master (In Stock tyres only)
+Fitted To: Type
+Yes
+Truck | Trailer
+Fitted To: Registration Number
+Yes
+Lookup from respective master
+Axle Number
+Yes
+1, 2, 3 … n
+Wheel Position
+Yes
+Left Outer | Left Inner | Right Inner | Right Outer | Spare
+Date of Fitment
+Yes
+
+Odometer at Fitment (km)
+Yes
+
+Tread Depth at Fitment (mm)
+Yes
+
+Fitted By (User)
+Yes
+Logged-in user or selected Workshop Supervisor
+Remarks
+No
+
+
+
+
+11.3  Tyre Rotation
+
+Tyre rotation moves a tyre from one wheel position to another on the same vehicle, or swaps two tyres between positions.
+
+Field
+Mandatory
+Remarks
+Rotation Transaction ID
+Yes
+Auto-generated
+Vehicle / Trailer Reg. No.
+Yes
+
+Rotation Date
+Yes
+
+Current Odometer (km)
+Yes
+
+Rotation Details
+Yes
+Multi-row: Tyre Serial, From Position, To Position
+Reason for Rotation
+Yes
+Scheduled | Uneven Wear | Flat | Other
+Tread Depth After Rotation (mm)
+Yes
+Per tyre
+Performed By (Vendor)
+No
+Dropdown from Vendor Master
+Cost (INR)
+No
+
+Remarks
+No
+
+
+
+
+11.4  Wheel Alignment
+
+Field
+Mandatory
+Remarks
+Alignment Transaction ID
+Yes
+Auto-generated
+Vehicle / Trailer Reg. No.
+Yes
+
+Alignment Date
+Yes
+
+Current Odometer (km)
+Yes
+
+Alignment Type
+Yes
+Front | Rear | Full (Four-Wheel)
+Before Alignment Readings
+No
+Toe-in, Camber, Caster – optional text/upload
+After Alignment Readings
+No
+
+Performed By (Vendor)
+Yes
+Dropdown from Vendor Master
+Cost (INR)
+Yes
+
+Invoice Number
+No
+
+Invoice Upload
+No
+PDF
+Next Alignment Due (km)
+No
+System alert
+Remarks
+No
+
+
+
+
+11.5  Tyre Cost Analytics
+
+
+
+Cost Basis – Bought Out: Purchase Price recorded at time of procurement.
+
+
+Cost per KM: System auto-computes as Purchase Price ÷ Total KM Run when a tyre is condemned/disposed.
+
+
+Entered CPK: Fleet Manager may manually enter OEM-recommended CPK at the time of purchase for projection purposes.
+
+
+Dashboard widget shows actual CPK vs budget CPK per tyre brand and model.
+
+
+
+12. Pre-Delivery Inspection (PDI) & Handover Document
+
+The PDI is a structured checklist completed before a truck or trailer is handed over to operations after purchase or major repair. Completed PDI records are digitally signed and archived.
+
+
+
+12.1  PDI Header
+
+Field
+Mandatory
+Remarks
+PDI Document ID
+Yes
+Auto-generated
+Vehicle / Trailer Type
+Yes
+Truck | Trailer
+Registration Number
+Yes
+
+PDI Date
+Yes
+
+Odometer at PDI (km)
+Yes
+
+PDI Type
+Yes
+New Vehicle | Post-Major Repair | Periodic
+Inspected By
+Yes
+Logged-in user or Workshop Supervisor
+Approved By
+Yes
+Fleet Manager sign-off
+Handover To (Driver / Operator)
+Yes
+Dropdown from user master
+Handover Date & Time
+Yes
+
+Overall PDI Result
+Auto
+Pass | Fail | Conditional Pass
+
+
+
+12.2  PDI Checklist Categories
+
+Each category contains checklist items rated OK / Not OK / N/A with remarks per item:
+
+
+
+Engine & Drivetrain (oil levels, coolant, belts, hoses, exhaust).
+
+
+Brakes (service brake, parking brake, ABS indicator).
+
+
+Tyres & Wheels (tread depth, inflation, wheel nuts torque, spare tyre).
+
+
+Electrical (lights, indicators, horn, wiper, battery, alternator).
+
+
+Body & Chassis (frame integrity, cabin, mirrors, door locks).
+
+
+Safety Equipment (fire extinguisher, first aid kit, reflectors, toolbox).
+
+
+Documents (RC, insurance, fitness cert, permits on board).
+
+
+GPS / Telematics (device functioning, signal active).
+
+
+Fuel / CNG / LNG System (for tankers: valves, seals, PESO cert on board).
+
+
+Overall Cleanliness.
+
+
+
+12.3  Handover Sign-Off
+
+
+
+Digital signature / OTP confirmation by Inspector, Approver, and Handover Recipient.
+
+
+PDF generated and emailed to all signatories.
+
+
+Any &apos;Not OK&apos; item blocks handover unless overridden by Fleet Manager with a recorded reason.
+
+
+
+13. Non-Working Vehicle Workflow & EPIC 1.0 Integration
+
+
+
+13.1  EPIC 1.0 Vehicle Status Report Upload
+
+The system accepts a Vehicle Status Report exported from EPIC 1.0 (Excel / CSV format). On upload:
+
+
+
+System parses the uploaded file and maps records to vehicles by Registration Number.
+
+
+Vehicles flagged as &apos;Non-Working&apos; in the report are highlighted in the Non-Working Vehicle dashboard.
+
+
+A diff report shows newly non-working vehicles vs. previously reported.
+
+
+Upload log captures: filename, upload date/time, uploaded by, record count, match count, mismatch count.
+
+
+
+13.2  Non-Working Vehicle Issue Register
+
+Against each non-working vehicle, an Issue Record is created:
+
+Field
+Mandatory
+Remarks
+Issue ID
+Yes
+Auto-generated
+Vehicle / Trailer Reg. No.
+Yes
+Pre-filled from EPIC upload or manual entry
+Date Vehicle Became Non-Working
+Yes
+
+Reported By
+Yes
+
+Issue Category
+Yes
+Engine | Transmission | Electrical | Tyre | Accident | Regulatory | Other
+Issue Description
+Yes
+Free text – detailed description of the problem
+Severity
+Yes
+Critical (>24hr impact) | Major | Minor
+Suggested Remedial Action
+Yes
+Free text – entered by Maintenance Manager
+Assigned To (Vendor)
+Yes
+Dropdown from Vendor Master (filtered by issue category)
+Assignment Date
+Yes
+
+Expected Resolution Date
+Yes
+
+Actual Resolution Date
+Auto
+Set on closure
+Repair Cost Estimate (INR)
+No
+
+Actual Repair Cost (INR)
+No
+Entered on job closure
+Invoice Upload
+No
+PDF
+Parts Replaced
+No
+Multi-row
+Status
+Auto
+Open | In Progress | Resolved | Escalated
+Closure Remarks
+No
+
+Closed By / On
+Auto
+
+Vehicle Status Updated To
+Auto
+Active on closure (requires Fleet Manager confirmation)
+
+
+
+13.3  Escalation Rules
+
+
+
+Critical severity issues not assigned within 4 hours → escalate to Fleet Manager.
+
+
+Unresolved past Expected Resolution Date → escalate to Fleet Manager + SMS alert.
+
+
+Vehicles non-working > 7 days → weekly summary to C-level stakeholders.
+
+
+
+14. Compliance Management
+
+
+
+14.1  PESO Certificate (LNG / CNG Tankers)
+
+PESO (Petroleum and Explosives Safety Organisation) certificates are mandatory for vehicles carrying LNG or CNG. The system manages these certificates at the Vehicle / Trailer level.
+
+Field
+Mandatory
+Remarks
+PESO Certificate Number
+Yes
+
+Issuing Authority
+Yes
+
+Issue Date
+Yes
+
+Expiry Date
+Yes
+Alert: 60 days, 30 days, 7 days before expiry
+Scope of Certificate
+Yes
+Full vehicle | Specific equipment
+Certificate Document Upload
+Yes
+PDF
+Renewal Status
+Auto
+Valid | Expiring Soon | Expired
+History of Past Certificates
+Auto
+System log
+
+
+
+14.2  Piping Certificate (LNG / CNG Tankers)
+
+Piping certificates attest to the integrity of gas piping systems on tankers. Each piping system on a vehicle may have a separate certificate.
+
+Field
+Mandatory
+Remarks
+Piping Certificate Number
+Yes
+
+Piping System Description
+Yes
+e.g. &apos;Main LNG Transfer Line&apos;
+Issuing Authority / Inspector
+Yes
+
+Issue Date
+Yes
+
+Expiry Date
+Yes
+Alert: 60 days, 30 days, 7 days before expiry
+Test Pressure (bar)
+No
+
+Certificate Document Upload
+Yes
+PDF
+Renewal Status
+Auto
+Valid | Expiring Soon | Expired
+
+
+
+14.3  PUC (Pollution Under Control) Certificate
+
+Field
+Mandatory
+Remarks
+PUC Certificate Number
+Yes
+
+Test Centre Name
+Yes
+
+Test Date
+Yes
+
+Validity Date
+Yes
+Alert: 30 days, 7 days before expiry
+CO Emission Reading (%)
+No
+
+HC Emission Reading (ppm)
+No
+
+Result
+Yes
+Pass | Fail
+Certificate Upload
+Yes
+PDF
+History
+Auto
+All past PUC records retained
+
+
+
+14.4  Challans & Fines
+
+Field
+Mandatory
+Remarks
+Challan / Fine ID
+Yes
+Auto-generated
+Vehicle Reg. No.
+Yes
+Lookup from Vehicle / Trailer Master
+Challan Date
+Yes
+
+Issuing Authority
+Yes
+Traffic Police | RTO | NHAI | Other
+Challan Number (from Authority)
+Yes
+
+Offence Description
+Yes
+
+Fine Amount (INR)
+Yes
+
+Payment Status
+Yes
+Unpaid | Paid | Contested
+Payment Date
+Conditional
+If Paid
+Payment Reference
+Conditional
+If Paid
+Challan Document Upload
+No
+Photo / PDF of challan copy
+Driver at Time of Offence
+No
+Dropdown from Driver Master (if available)
+Remarks
+No
+
+
+
+
+15. Standard Reports & Alerts
+
+
+
+15.1  Standard Reports
+
+Report Name
+Module
+Description
+Fleet Master List
+Vehicle/Trailer Masters
+All trucks and trailers with key specs and status
+Vehicle Document Expiry Report
+Compliance
+All documents with expiry dates; colour-coded: red/amber/green
+Maintenance Schedule Summary
+Workbench
+Upcoming, due, overdue PM jobs across fleet
+Maintenance History by Vehicle
+Workbench
+All past maintenance jobs with cost for a selected vehicle
+Vendor Performance Report
+Vendor Master
+Jobs assigned, completed, avg. TAT, cost per vendor
+Tyre Life & CPK Report
+Tyre Management
+Per-tyre CPK actual vs. budget; life remaining
+Tyre Inventory Report
+Tyre Management
+In-stock, fitted, in-repair, condemned tyres
+Non-Working Vehicle Register
+Non-Working Module
+All non-working vehicles with age, issue, resolution status
+EPIC Upload Reconciliation
+EPIC Integration
+Match / mismatch between EPIC upload and VMS master
+Challan & Fines Summary
+Compliance
+All challans by vehicle, amount paid/pending
+PUC Status Report
+Compliance
+All vehicles with PUC validity and expiry timeline
+PESO/Piping Certificate Report
+Compliance
+Certificate status for all LNG/CNG tankers
+Coupling History Report
+Coupling Module
+All coupling and decoupling transactions
+PDI Summary Report
+PDI Module
+All PDI records with pass/fail and handover details
+User Activity Audit Log
+User Mgmt
+Login/logout, record create/edit/delete with user and timestamp
+Cost Summary by Vehicle
+All Modules
+Total maintenance, tyre, and fine costs per vehicle (period)
+
+
+
+15.2  Configurable Alerts
+
+Alert
+Trigger
+Channel
+PM Due Reminder
+7 days / 500 km before due
+In-app + Email + SMS to Maintenance Manager
+PM Overdue Escalation
+2 days past due date
+In-app + Email to Fleet Manager
+Insurance Expiry
+30 days and 7 days before
+In-app + Email to Compliance Officer
+Fitness Certificate Expiry
+30 days and 7 days before
+In-app + Email to Compliance Officer
+Permit Expiry
+30 days and 7 days before
+In-app + Email to Compliance Officer
+PESO Certificate Expiry
+60, 30, 7 days before
+In-app + Email + SMS to Compliance Officer
+Piping Certificate Expiry
+60, 30, 7 days before
+In-app + Email + SMS to Compliance Officer
+PUC Certificate Expiry
+30 days and 7 days before
+In-app + Email to Compliance Officer
+Non-Working Vehicle Escalation
+Critical > 4 hrs unassigned
+In-app + SMS to Fleet Manager
+Non-Working past ETA
+Resolution past expected date
+In-app + Email to Fleet Manager
+Account Lockout
+5 failed login attempts
+In-app alert to System Administrator
+Vendor Contract Expiry
+30 days before
+In-app + Email to Fleet Manager
+Tyre CPK Threshold Breach
+Actual CPK > budget CPK by 20%
+In-app to Fleet Manager
+Battery Warranty Expiry
+30 days before
+In-app + Email to Maintenance Manager
+Challan Unpaid
+30 days past challan date
+In-app + Email to Accounts Executive
+
+
+
+16. Non-Functional Requirements
+
+Category
+Requirement
+Detail
+Performance
+Page Load Time
+< 3 seconds for all standard pages
+Performance
+Report Generation
+< 10 seconds for reports up to 10,000 records
+Availability
+System Uptime
+99.5% excluding planned maintenance windows
+Security
+Data Encryption
+TLS 1.2+ in transit; AES-256 at rest
+Security
+Password Policy
+Min 8 chars, mixed case, number, special char; 90-day expiry
+Security
+Audit Trail
+Immutable log of all create/update/delete actions
+Scalability
+Fleet Size
+Support up to 5,000 vehicles without performance degradation
+Usability
+Browser Support
+Chrome, Firefox, Edge (latest 2 versions); responsive on tablet
+File Uploads
+Supported Formats
+PDF, JPG, PNG, XLSX, CSV; max 10 MB per file
+Data Retention
+Transaction Records
+7-year retention; archived after 2 years
+Backup
+Frequency
+Daily automated backups; 30-day retention
+Integration
+EPIC 1.0
+File-based CSV/Excel import; manual upload trigger
+Notifications
+Email / SMS
+SMTP gateway for email; SMS via approved gateway
+
+
+
+17. Glossary
+
+Term
+Definition
+VMS
+Vehicle Maintenance System – the application described in this BRD
+VIN
+Vehicle Identification Number – 17-character unique alphanumeric code assigned by the manufacturer
+PM
+Preventive Maintenance – scheduled maintenance at defined mileage or calendar intervals
+PDI
+Pre-Delivery Inspection – structured checklist before a vehicle enters operations
+PESO
+Petroleum and Explosives Safety Organisation – Indian regulatory body; issues certificates for LNG/CNG vehicles
+LNG
+Liquefied Natural Gas
+CNG
+Compressed Natural Gas
+CPK
+Cost per Kilometre – tyre cost metric
+PUC
+Pollution Under Control – mandatory emission test certificate
+EPIC 1.0
+External fleet management / ERP system used for vehicle status reporting
+OEM
+Original Equipment Manufacturer
+RBAC
+Role-Based Access Control
+GVW
+Gross Vehicle Weight
+RTO
+Regional Transport Office
+AMC
+Annual Maintenance Contract
+SLA
+Service Level Agreement
+TAT
+Turnaround Time
+GSTIN
+Goods and Services Tax Identification Number
+IFSC
+Indian Financial System Code (bank branch identifier)
+
+
