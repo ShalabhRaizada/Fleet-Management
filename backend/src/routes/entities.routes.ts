@@ -477,6 +477,21 @@ router.use(
 
 /**
  * @openapi
+ * /api/fuel-variances:
+ *   get:
+ *     summary: List fuel variance records (planned vs actual fuel quantity)
+ *     tags: [Fuel & Energy]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated fuel variance list }
+ */
+router.use(
+  '/fuel-variances',
+  buildCrudRouter({ table: 'fuel_variance', pk: 'fuel_variance_id', writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.APPROVER] })
+);
+
+/**
+ * @openapi
  * /api/invoice-lines:
  *   get:
  *     summary: List vendor invoice line items
