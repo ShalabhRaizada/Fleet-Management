@@ -398,4 +398,96 @@ router.use('/items', buildCrudRouter({ table: 'item_master', pk: 'item_id', sear
  */
 router.use('/roles', buildCrudRouter({ table: 'role_master', pk: 'role_code', writeRoles: [ROLES.ADMIN] }));
 
+// ---- Additional P1 tables required by frontend screens (generic CRUD, no custom validation) ----
+
+/**
+ * @openapi
+ * /api/vehicle-cost-ledger:
+ *   get:
+ *     summary: List vehicle cost ledger entries (used for cost reports and dashboard summaries)
+ *     tags: [Reports]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated cost ledger list }
+ */
+router.use(
+  '/vehicle-cost-ledger',
+  buildCrudRouter({ table: 'vehicle_cost_ledger', pk: 'cost_ledger_id', writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER] })
+);
+
+/**
+ * @openapi
+ * /api/tyre-movements:
+ *   get:
+ *     summary: List tyre movement events (fitment/removal history)
+ *     tags: [Tyre]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated tyre movement list }
+ */
+router.use(
+  '/tyre-movements',
+  buildCrudRouter({ table: 'tyre_movement', pk: 'tyre_movement_id', writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR] })
+);
+
+/**
+ * @openapi
+ * /api/accessory-events:
+ *   get:
+ *     summary: List accessory events (install/remove/fault history)
+ *     tags: [Accessory]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated accessory event list }
+ */
+router.use(
+  '/accessory-events',
+  buildCrudRouter({ table: 'accessory_event', pk: 'accessory_event_id', writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR] })
+);
+
+/**
+ * @openapi
+ * /api/accompaniment-issues:
+ *   get:
+ *     summary: List accompaniment issue/return records
+ *     tags: [Accompaniment]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated accompaniment issue list }
+ */
+router.use(
+  '/accompaniment-issues',
+  buildCrudRouter({ table: 'accompaniment_issue', pk: 'accompaniment_issue_id', writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR] })
+);
+
+/**
+ * @openapi
+ * /api/vendor-invoices:
+ *   get:
+ *     summary: List vendor invoices (workshop/fuel/tyre/accessory/consumable/compliance)
+ *     tags: [Workshop]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated vendor invoice list }
+ */
+router.use(
+  '/vendor-invoices',
+  buildCrudRouter({ table: 'vendor_invoice', pk: 'invoice_id', searchColumns: ['invoice_no'], writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR] })
+);
+
+/**
+ * @openapi
+ * /api/invoice-lines:
+ *   get:
+ *     summary: List vendor invoice line items
+ *     tags: [Workshop]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated invoice line list }
+ */
+router.use(
+  '/invoice-lines',
+  buildCrudRouter({ table: 'invoice_line', pk: 'invoice_line_id', writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR] })
+);
+
 export default router;
