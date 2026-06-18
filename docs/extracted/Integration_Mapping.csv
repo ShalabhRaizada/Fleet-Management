@@ -1,0 +1,13 @@
+Integration,Relevant Table(s),Screen(s),Key Fields,Purpose,Phase
+ULIP / VAHAN,"vehicle_master, asset_compliance, ulip_api_log","UL-002, SC-001, VM-004","registration_no, chassis_no, engine_no, compliance_type_code",Vehicle verification and compliance enrichment,P3
+ULIP / SARATHI,"driver_master, ulip_api_log",UL-003,"licence_no, driver_id",Driver licence verification,P3
+ULIP / FASTag,"toll_transaction, trip_master, vehicle_cost_ledger, ulip_api_log","UL-004, FE/RP reports","registration_no, toll_txn_id, amount",Toll transaction import and reconciliation,P3
+ULIP / Toll Plaza Tariff,"route_fuel_norm, toll_transaction, ulip_api_log","UL-005, FE-010","route_code, toll_plaza_code",Planned toll cost estimation,P3
+ULIP / E-Challan,"asset_compliance, alert_event, ulip_api_log","UL-006, SC-001","registration_no, challan_no",Pending challan exception/compliance hold,P3
+GPS / Telematics,"vehicle_master, inspection_event, alert_event","AC-012, RP reports","vehicle_id, current_odometer_km, location","Odometer, location, availability, health",P3
+OBD / CAN,"vehicle_fuel_profile, alert_event, job_card","AC-013, FM-009","vehicle_id, DTC codes, battery health",Diagnostics and predictive maintenance,P3
+EV Charging Platform,"fuel_transaction, vehicle_fuel_profile, vendor_invoice","FE-005, VEV-002","charging session id, kWh, SoC",EV charging cost and battery data,P3
+Fuel Vendor API,"fuel_transaction, vendor_invoice",FE-002 to FE-013,"receipt_no, station_id, quantity, rate",Fuel transaction reconciliation,P3
+OCR / AI Service,"vendor_invoice, document_store, payable_validation","WI-003, PA-004","document_url, ocr_json, invoice_no",Invoice extraction and validation,P3
+Accounts / ERP,"vendor_invoice, payable_validation, vehicle_cost_ledger","PA-010, WI-013","invoice_id, payable_status, amount",AP posting and cost ledger,P2
+Inventory,"stock_ledger, item_master, job_card_line","JC-008, CO-004, TY screens","item_id, job_card_id, quantity","Parts, tyres, consumables, accessories issue/return",P2

@@ -1,0 +1,60 @@
+Table Name,Constraint Type,Columns,Description
+branch_master,Primary Key,branch_id,Primary identifier for branch_master
+user_master,Primary Key,user_id,Primary identifier for user_master
+role_master,Primary Key,role_code,Primary identifier for role_master
+vendor_master,Primary Key,vendor_id,Primary identifier for vendor_master
+driver_master,Primary Key,driver_id,Primary identifier for driver_master
+vehicle_master,Primary Key,vehicle_id,Primary identifier for vehicle_master
+vehicle_fuel_profile,Primary Key,fuel_profile_id,Primary identifier for vehicle_fuel_profile
+trailer_master,Primary Key,trailer_id,Primary identifier for trailer_master
+vehicle_trailer_coupling,Primary Key,coupling_id,Primary identifier for vehicle_trailer_coupling
+fuel_vendor_station,Primary Key,station_id,Primary identifier for fuel_vendor_station
+fuel_rate_master,Primary Key,fuel_rate_id,Primary identifier for fuel_rate_master
+route_fuel_norm,Primary Key,route_fuel_norm_id,Primary identifier for route_fuel_norm
+fuel_transaction,Primary Key,fuel_txn_id,Primary identifier for fuel_transaction
+fuel_variance,Primary Key,fuel_variance_id,Primary identifier for fuel_variance
+compliance_type_master,Primary Key,compliance_type_code,Primary identifier for compliance_type_master
+asset_compliance,Primary Key,asset_compliance_id,Primary identifier for asset_compliance
+compliance_alert,Primary Key,compliance_alert_id,Primary identifier for compliance_alert
+maintenance_schedule,Primary Key,maintenance_schedule_id,Primary identifier for maintenance_schedule
+maintenance_due,Primary Key,maintenance_due_id,Primary identifier for maintenance_due
+job_card,Primary Key,job_card_id,Primary identifier for job_card
+job_card_line,Primary Key,job_card_line_id,Primary identifier for job_card_line
+breakdown_event,Primary Key,breakdown_id,Primary identifier for breakdown_event
+accident_event,Primary Key,accident_id,Primary identifier for accident_event
+workshop_master,Primary Key,workshop_id,Primary identifier for workshop_master
+workshop_rate_contract,Primary Key,rate_contract_id,Primary identifier for workshop_rate_contract
+vendor_invoice,Primary Key,invoice_id,Primary identifier for vendor_invoice
+invoice_line,Primary Key,invoice_line_id,Primary identifier for invoice_line
+payable_validation,Primary Key,validation_id,Primary identifier for payable_validation
+item_master,Primary Key,item_id,Primary identifier for item_master
+stock_ledger,Primary Key,stock_ledger_id,Primary identifier for stock_ledger
+tyre_master,Primary Key,tyre_id,Primary identifier for tyre_master
+tyre_movement,Primary Key,tyre_movement_id,Primary identifier for tyre_movement
+accessory_master,Primary Key,accessory_id,Primary identifier for accessory_master
+accessory_event,Primary Key,accessory_event_id,Primary identifier for accessory_event
+accompaniment_master,Primary Key,accompaniment_id,Primary identifier for accompaniment_master
+accompaniment_issue,Primary Key,accompaniment_issue_id,Primary identifier for accompaniment_issue
+inspection_template,Primary Key,template_id,Primary identifier for inspection_template
+inspection_event,Primary Key,inspection_id,Primary identifier for inspection_event
+inspection_result_line,Primary Key,inspection_line_id,Primary identifier for inspection_result_line
+approval_request,Primary Key,approval_id,Primary identifier for approval_request
+alert_event,Primary Key,alert_id,Primary identifier for alert_event
+ulip_api_log,Primary Key,api_log_id,Primary identifier for ulip_api_log
+trip_master,Primary Key,trip_id,Primary identifier for trip_master
+toll_transaction,Primary Key,toll_txn_id,Primary identifier for toll_transaction
+document_store,Primary Key,document_id,Primary identifier for document_store
+vehicle_cost_ledger,Primary Key,cost_ledger_id,Primary identifier for vehicle_cost_ledger
+approval_matrix,Primary Key,approval_matrix_id,Primary identifier for approval_matrix
+alert_rule,Primary Key,alert_rule_id,Primary identifier for alert_rule
+integration_config,Primary Key,integration_config_id,Primary identifier for integration_config
+vehicle_master,Unique,registration_no,Vehicle registration number must be unique for active vehicles
+trailer_master,Unique,trailer_no,Trailer number must be unique
+tyre_master,Unique,tyre_serial_no,Tyre serial number must be unique
+vendor_invoice,Unique,vendor_id + invoice_no + invoice_date,Duplicate vendor invoices blocked
+workshop_master,Unique,workshop_code,Workshop code unique
+item_master,Unique,item_code,Item code unique
+accessory_master,Unique,accessory_code / serial_no,Serialized accessory unique
+accompaniment_master,Unique,accompaniment_code,Reusable accompaniment unique
+fuel_transaction,Business Duplicate Check,vehicle_id + txn_datetime + quantity + station_id,Detect duplicate fuel entry
+vehicle_trailer_coupling,Business Constraint,vehicle_id + trailer_id + active status,A trailer cannot be actively coupled to multiple vehicles

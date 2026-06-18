@@ -1,0 +1,377 @@
+Screen ID,Screen Name,Module,Phase,Primary Template,Primary Table/View,Notes
+FM-001,Fleet Command Dashboard,Dashboard,P1,Dashboard,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+FM-002,Vehicle Availability Dashboard,Dashboard,P1,Dashboard,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+FM-003,Fleet Cost Dashboard,Dashboard,P1,Dashboard,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+FM-004,Compliance Dashboard,Dashboard,P1,Dashboard,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+FM-005,Maintenance Dashboard,Dashboard,P1,Dashboard,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+FM-006,Tyre Dashboard,Dashboard,P1,Dashboard,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+FM-007,Fuel & Energy Dashboard,Dashboard,P1,Dashboard,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+FM-008,Workshop Dashboard,Dashboard,P1,Dashboard,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+FM-009,Exception Dashboard,Dashboard,P1,Dashboard,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+VM-001,Vehicle List,Vehicle Master,P1,List/Grid,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-002,Add Vehicle,Vehicle Master,P1,Transaction/Form,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-003,Edit Vehicle,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-004,Vehicle Detail View,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-005,Vehicle Technical Details,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-006,Vehicle Fuel Configuration,Vehicle Master,P1,Master/Form,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-007,Vehicle Capacity Configuration,Vehicle Master,P1,Master/Form,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-008,Vehicle Ownership Details,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-009,Vehicle Branch Mapping,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-010,Vehicle Driver Mapping,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-011,Vehicle Status Update,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-012,Vehicle Document Repository,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-013,Vehicle Timeline,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-014,Vehicle Cost Ledger,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-015,Vehicle Profitability View,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-016,Vehicle Import,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VM-017,Vehicle Export,Vehicle Master,P1,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VD-001,Diesel Vehicle Configuration,Diesel Vehicle,P3,Master/Form,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VD-002,Diesel Mileage History,Diesel Vehicle,P3,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VD-003,Diesel Variance View,Diesel Vehicle,P3,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VCNG-001,CNG Vehicle Configuration,CNG Vehicle,P3,Master/Form,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VCNG-002,CNG Cylinder Certificate,CNG Vehicle,P3,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VCNG-003,CNG Safety Checklist,CNG Vehicle,P3,List/Grid,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VCNG-004,CNG Range View,CNG Vehicle,P3,Report/View,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VLNG-001,LNG Vehicle Configuration,LNG Vehicle,P3,Master/Form,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VLNG-002,LNG Tank Certificate,LNG Vehicle,P3,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VLNG-003,LNG Safety Checklist,LNG Vehicle,P3,List/Grid,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VLNG-004,LNG Range View,LNG Vehicle,P3,Report/View,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VLNG-005,LNG Station Compatibility,LNG Vehicle,P3,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VEV-001,EV Vehicle Configuration,EV Vehicle,P3,Master/Form,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VEV-002,Battery Health View,EV Vehicle,P3,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VEV-003,Charging Compatibility,EV Vehicle,P3,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VEV-004,EV Range View,EV Vehicle,P3,Report/View,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+VEV-005,EV Warranty Documents,EV Vehicle,P3,Detail/Workbench,"vehicle_master, vehicle_fuel_profile",Generated from BRD screen inventory
+TR-001,Trailer List,Trailer,P1,List/Grid,trailer_master,Generated from BRD screen inventory
+TR-002,Add Trailer,Trailer,P1,Transaction/Form,trailer_master,Generated from BRD screen inventory
+TR-003,Edit Trailer,Trailer,P1,Detail/Workbench,trailer_master,Generated from BRD screen inventory
+TR-004,Trailer Detail View,Trailer,P1,Detail/Workbench,trailer_master,Generated from BRD screen inventory
+TR-005,Trailer Capacity Details,Trailer,P1,Detail/Workbench,trailer_master,Generated from BRD screen inventory
+TR-006,Trailer Type Configuration,Trailer,P1,Master/Form,trailer_master,Generated from BRD screen inventory
+TR-007,Trailer Compliance Documents,Trailer,P1,Detail/Workbench,trailer_master,Generated from BRD screen inventory
+TR-008,Trailer Inspection Checklist,Trailer,P1,List/Grid,trailer_master,Generated from BRD screen inventory
+TR-009,Trailer Maintenance History,Trailer,P1,Detail/Workbench,trailer_master,Generated from BRD screen inventory
+TR-010,Trailer Tyre Mapping,Trailer,P1,Detail/Workbench,trailer_master,Generated from BRD screen inventory
+TR-011,Trailer Availability View,Trailer,P1,Detail/Workbench,trailer_master,Generated from BRD screen inventory
+TR-012,Trailer Import,Trailer,P1,Detail/Workbench,trailer_master,Generated from BRD screen inventory
+TR-013,Trailer Export,Trailer,P1,Detail/Workbench,trailer_master,Generated from BRD screen inventory
+CT-001,Current Vehicle-Trailer Mapping,Coupling,P1,Detail/Workbench,"vehicle_trailer_coupling, vehicle_master, trailer_master",Generated from BRD screen inventory
+CT-002,Couple Vehicle and Trailer,Coupling,P1,Detail/Workbench,"vehicle_trailer_coupling, vehicle_master, trailer_master",Generated from BRD screen inventory
+CT-003,Decouple Vehicle and Trailer,Coupling,P1,Detail/Workbench,"vehicle_trailer_coupling, vehicle_master, trailer_master",Generated from BRD screen inventory
+CT-004,Coupling History,Coupling,P1,Detail/Workbench,"vehicle_trailer_coupling, vehicle_master, trailer_master",Generated from BRD screen inventory
+CT-005,Coupling Inspection,Coupling,P1,Detail/Workbench,"vehicle_trailer_coupling, vehicle_master, trailer_master",Generated from BRD screen inventory
+CT-006,Decoupling Inspection,Coupling,P1,Detail/Workbench,"vehicle_trailer_coupling, vehicle_master, trailer_master",Generated from BRD screen inventory
+CT-007,Trailer Suitability Check,Coupling,P1,Detail/Workbench,"vehicle_trailer_coupling, vehicle_master, trailer_master",Generated from BRD screen inventory
+CT-008,Coupling Exception View,Coupling,P1,Detail/Workbench,"vehicle_trailer_coupling, vehicle_master, trailer_master",Generated from BRD screen inventory
+FE-001,Fuel Transaction List,Fuel & Energy,P1,List/Grid,"fuel_transaction, vehicle_master",Generated from BRD screen inventory
+FE-002,Add Diesel Entry,Fuel & Energy,P1,Transaction/Form,"fuel_transaction, vehicle_master",Generated from BRD screen inventory
+FE-003,Add CNG Entry,Fuel & Energy,P1,Transaction/Form,"fuel_transaction, vehicle_master",Generated from BRD screen inventory
+FE-004,Add LNG Entry,Fuel & Energy,P1,Transaction/Form,"fuel_transaction, vehicle_master",Generated from BRD screen inventory
+FE-005,Add EV Charging Entry,Fuel & Energy,P1,Transaction/Form,"fuel_transaction, vehicle_master",Generated from BRD screen inventory
+FE-006,Fuel Vendor Master,Fuel & Energy,P1,Master/Form,"fuel_vendor_station, vendor_master",Generated from BRD screen inventory
+FE-007,Fuel Rate Master,Fuel & Energy,P1,Master/Form,fuel_rate_master,Generated from BRD screen inventory
+FE-008,Fuel Card Management,Fuel & Energy,P1,Detail/Workbench,"fuel_transaction, vehicle_master",Generated from BRD screen inventory
+FE-009,Planned Fuel Setup,Fuel & Energy,P1,Master/Form,route_fuel_norm,Generated from BRD screen inventory
+FE-010,Planned vs Actual Fuel,Fuel & Energy,P1,Detail/Workbench,route_fuel_norm,Generated from BRD screen inventory
+FE-011,Fuel Variance Approval,Fuel & Energy,P1,Approval,"fuel_variance, fuel_transaction",Generated from BRD screen inventory
+FE-012,Fuel Bill Upload,Fuel & Energy,P1,Transaction/Form,"vendor_invoice, fuel_transaction, payable_validation",Generated from BRD screen inventory
+FE-013,Fuel Bill Validation,Fuel & Energy,P1,Detail/Workbench,"vendor_invoice, fuel_transaction, payable_validation",Generated from BRD screen inventory
+FE-014,Fuel Cost Report,Fuel & Energy,P1,Report/View,"fuel_transaction, vehicle_master",Generated from BRD screen inventory
+FE-015,Fuel Exception Report,Fuel & Energy,P1,Report/View,"fuel_transaction, vehicle_master",Generated from BRD screen inventory
+FE-016,Bulk Fuel Purchase,Fuel & Energy,P1,Detail/Workbench,"fuel_transaction, vehicle_master",Generated from BRD screen inventory
+FE-017,Fuel Division,Fuel & Energy,P1,Detail/Workbench,"fuel_transaction, vehicle_master",Generated from BRD screen inventory
+FE-018,Fuel Division Post,Fuel & Energy,P1,Detail/Workbench,"fuel_transaction, vehicle_master",Generated from BRD screen inventory
+SM-001,Maintenance Schedule List,Scheduled Maintenance,P2,List/Grid,"maintenance_schedule, maintenance_due, job_card",Generated from BRD screen inventory
+SM-002,Create Maintenance Schedule,Scheduled Maintenance,P2,Transaction/Form,"maintenance_schedule, maintenance_due, job_card",Generated from BRD screen inventory
+SM-003,Edit Maintenance Schedule,Scheduled Maintenance,P2,Detail/Workbench,"maintenance_schedule, maintenance_due, job_card",Generated from BRD screen inventory
+SM-004,Vehicle Maintenance Calendar,Scheduled Maintenance,P2,Detail/Workbench,"maintenance_schedule, maintenance_due, job_card",Generated from BRD screen inventory
+SM-005,PM Due List,Scheduled Maintenance,P2,List/Grid,"maintenance_schedule, maintenance_due, job_card",Generated from BRD screen inventory
+SM-006,PM Overdue List,Scheduled Maintenance,P2,List/Grid,"maintenance_schedule, maintenance_due, job_card",Generated from BRD screen inventory
+SM-007,Create PM Job Card,Scheduled Maintenance,P2,Transaction/Form,"maintenance_schedule, maintenance_due, job_card",Generated from BRD screen inventory
+SM-008,PM Checklist,Scheduled Maintenance,P2,List/Grid,"maintenance_schedule, maintenance_due, job_card",Generated from BRD screen inventory
+SM-009,PM Completion,Scheduled Maintenance,P2,Detail/Workbench,"maintenance_schedule, maintenance_due, job_card",Generated from BRD screen inventory
+SM-010,PM Deferral Approval,Scheduled Maintenance,P2,Approval,"maintenance_schedule, maintenance_due, job_card",Generated from BRD screen inventory
+SM-011,PM Compliance Report,Scheduled Maintenance,P2,Report/View,"maintenance_schedule, maintenance_due, job_card",Generated from BRD screen inventory
+UM-001,Breakdown List,Unscheduled Maintenance,P2,List/Grid,"breakdown_event, job_card",Generated from BRD screen inventory
+UM-002,Report Breakdown,Unscheduled Maintenance,P2,Report/View,"breakdown_event, job_card",Generated from BRD screen inventory
+UM-003,Breakdown Detail,Unscheduled Maintenance,P2,Detail/Workbench,"breakdown_event, job_card",Generated from BRD screen inventory
+UM-004,Breakdown Assignment,Unscheduled Maintenance,P2,Detail/Workbench,"breakdown_event, job_card",Generated from BRD screen inventory
+UM-005,Roadside Repair Entry,Unscheduled Maintenance,P2,Transaction/Form,"breakdown_event, job_card",Generated from BRD screen inventory
+UM-006,Breakdown Cost Entry,Unscheduled Maintenance,P2,Transaction/Form,"breakdown_event, job_card",Generated from BRD screen inventory
+UM-007,Breakdown Closure,Unscheduled Maintenance,P2,Detail/Workbench,"breakdown_event, job_card",Generated from BRD screen inventory
+UM-008,Accident List,Unscheduled Maintenance,P2,List/Grid,"accident_event, job_card",Generated from BRD screen inventory
+UM-009,Report Accident,Unscheduled Maintenance,P2,Report/View,"accident_event, job_card",Generated from BRD screen inventory
+UM-010,Accident Detail,Unscheduled Maintenance,P2,Detail/Workbench,"accident_event, job_card",Generated from BRD screen inventory
+UM-011,Accident Repair Job Card,Unscheduled Maintenance,P2,Detail/Workbench,"accident_event, job_card",Generated from BRD screen inventory
+UM-012,Insurance Claim Tracker,Unscheduled Maintenance,P2,Detail/Workbench,"accident_event, job_card",Generated from BRD screen inventory
+UM-013,Vehicle Defect Report,Unscheduled Maintenance,P2,Report/View,"breakdown_event, job_card",Generated from BRD screen inventory
+UM-014,Defect Approval,Unscheduled Maintenance,P2,Approval,"breakdown_event, job_card",Generated from BRD screen inventory
+UM-015,Repeat Breakdown Report,Unscheduled Maintenance,P2,Report/View,"breakdown_event, job_card",Generated from BRD screen inventory
+WS-001,Workshop List,Workshop,P1,List/Grid,"workshop_master, workshop_rate_contract",Generated from BRD screen inventory
+WS-002,Add Workshop,Workshop,P1,Transaction/Form,"workshop_master, workshop_rate_contract",Generated from BRD screen inventory
+WS-003,Edit Workshop,Workshop,P1,Detail/Workbench,"workshop_master, workshop_rate_contract",Generated from BRD screen inventory
+WS-004,Workshop Detail View,Workshop,P1,Detail/Workbench,"workshop_master, workshop_rate_contract",Generated from BRD screen inventory
+WS-005,Workshop Service Category,Workshop,P1,Detail/Workbench,"workshop_master, workshop_rate_contract",Generated from BRD screen inventory
+WS-006,Workshop Rate Contract,Workshop,P1,Detail/Workbench,"workshop_master, workshop_rate_contract",Generated from BRD screen inventory
+WS-007,Workshop Approval Status,Workshop,P1,Approval,"workshop_master, workshop_rate_contract",Generated from BRD screen inventory
+WS-008,Workshop Performance View,Workshop,P1,Detail/Workbench,"workshop_master, workshop_rate_contract",Generated from BRD screen inventory
+WS-009,Workshop Document Upload,Workshop,P1,Transaction/Form,"workshop_master, workshop_rate_contract",Generated from BRD screen inventory
+WS-010,Workshop Vendor Ledger,Workshop,P1,Detail/Workbench,"workshop_master, workshop_rate_contract",Generated from BRD screen inventory
+JC-001,Job Card List,Job Card,P1,List/Grid,"job_card, job_card_line",Generated from BRD screen inventory
+JC-002,Create Job Card,Job Card,P1,Transaction/Form,"job_card, job_card_line",Generated from BRD screen inventory
+JC-003,Job Card Detail,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-004,Job Card Diagnosis,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-005,Job Card Estimate,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-006,Job Card Approval,Job Card,P1,Approval,"job_card, job_card_line",Generated from BRD screen inventory
+JC-007,Assign Mechanic / Workshop,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-008,Parts Request,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-009,Consumables Request,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-010,Tyre Request,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-011,Accessory Request,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-012,Work Progress Update,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-013,Before / After Photos,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-014,Quality Check,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-015,Vehicle Release,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-016,Job Card Closure,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-017,Reopen Job Card,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+JC-018,Job Card Print / PDF,Job Card,P1,Detail/Workbench,"job_card, job_card_line",Generated from BRD screen inventory
+WI-001,Workshop Invoice List,Workshop Invoice,P2,List/Grid,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-002,Add Workshop Invoice,Workshop Invoice,P2,Transaction/Form,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-003,Invoice Upload with OCR,Workshop Invoice,P2,Transaction/Form,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-004,Invoice Detail View,Workshop Invoice,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-005,Job Card vs Invoice Match,Workshop Invoice,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-006,Estimate vs Invoice Match,Workshop Invoice,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-007,Rate Contract Validation,Workshop Invoice,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-008,Duplicate Invoice Check,Workshop Invoice,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-009,GST / Tax Validation,Workshop Invoice,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-010,Payable Exception View,Workshop Invoice,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-011,Invoice Approval,Workshop Invoice,P2,Approval,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-012,Invoice Hold / Dispute,Workshop Invoice,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-013,Invoice Posting to Accounts,Workshop Invoice,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-014,Workshop Payment Status,Workshop Invoice,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+WI-015,Invoice Audit Trail,Workshop Invoice,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+TY-001,Tyre Dashboard,Tyre,P1,Dashboard,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-002,Tyre List,Tyre,P1,List/Grid,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-003,Add Tyre,Tyre,P1,Transaction/Form,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-004,Tyre Detail View,Tyre,P1,Detail/Workbench,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-005,Tyre Purchase Entry,Tyre,P1,Transaction/Form,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-006,Tyre GRN,Tyre,P1,Detail/Workbench,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-007,Tyre Invoice Validation,Tyre,P1,Detail/Workbench,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-008,Tyre Fitment,Tyre,P1,Detail/Workbench,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-009,Tyre Removal,Tyre,P1,Detail/Workbench,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-010,Tyre Rotation Plan,Tyre,P1,Detail/Workbench,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-011,Tyre Rotation Execution,Tyre,P1,Detail/Workbench,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-012,Tyre Position View,Tyre,P1,Detail/Workbench,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-013,Tyre Inspection,Tyre,P1,Detail/Workbench,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-014,Tyre Repair Entry,Tyre,P1,Transaction/Form,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-015,Tyre Retreading Entry,Tyre,P1,Transaction/Form,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-016,Tyre Repair / Retread Return,Tyre,P1,Detail/Workbench,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-017,Dead Tyre Entry,Tyre,P1,Transaction/Form,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-018,Tyre Scrap Approval,Tyre,P1,Approval,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-019,Tyre Disposal Entry,Tyre,P1,Transaction/Form,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-020,Tyre Transfer,Tyre,P1,Detail/Workbench,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-021,Tyre Warranty Claim,Tyre,P1,Detail/Workbench,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-022,Tyre Cost per KM Report,Tyre,P1,Report/View,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-023,Premature Tyre Failure Report,Tyre,P1,Report/View,"tyre_master, tyre_movement",Generated from BRD screen inventory
+TY-024,Tyre Lifecycle Report,Tyre,P1,Report/View,"tyre_master, tyre_movement",Generated from BRD screen inventory
+CO-001,Consumable Item List,Consumables,P2,List/Grid,"item_master, stock_ledger",Generated from BRD screen inventory
+CO-002,Add Consumable Item,Consumables,P2,Transaction/Form,"item_master, stock_ledger",Generated from BRD screen inventory
+CO-003,Consumable Stock View,Consumables,P2,Detail/Workbench,"item_master, stock_ledger",Generated from BRD screen inventory
+CO-004,Consumable Issue,Consumables,P2,Detail/Workbench,"item_master, stock_ledger",Generated from BRD screen inventory
+CO-005,Consumable Return,Consumables,P2,Detail/Workbench,"item_master, stock_ledger",Generated from BRD screen inventory
+CO-006,Consumable Consumption Norm,Consumables,P2,Detail/Workbench,"item_master, stock_ledger",Generated from BRD screen inventory
+CO-007,Abnormal Consumption Report,Consumables,P2,Report/View,"item_master, stock_ledger",Generated from BRD screen inventory
+CO-008,Consumable Invoice Validation,Consumables,P2,Detail/Workbench,"item_master, stock_ledger",Generated from BRD screen inventory
+CO-009,Consumable Cost Report,Consumables,P2,Report/View,"item_master, stock_ledger",Generated from BRD screen inventory
+AC-001,Accessory Dashboard,Accessories,P1,Dashboard,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-002,Accessory List,Accessories,P1,List/Grid,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-003,Add Accessory,Accessories,P1,Transaction/Form,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-004,Accessory Detail View,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-005,Accessory Category Master,Accessories,P1,Master/Form,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-006,Accessory Installation,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-007,Accessory Removal,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-008,Accessory Transfer,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-009,Accessory Health View,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-010,Camera Health Screen,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-011,ADAS Health Screen,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-012,GPS / AIS-140 Device Health,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-013,OBD / CAN Device Health,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-014,Accessory Repair Job Card,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-015,Accessory Warranty Claim,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-016,Accessory Invoice Validation,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-017,Accessory Offline Exception,Accessories,P1,Detail/Workbench,"accessory_master, accessory_event",Generated from BRD screen inventory
+AC-018,Accessory Lifecycle Report,Accessories,P1,Report/View,"accessory_master, accessory_event",Generated from BRD screen inventory
+MA-001,Accompaniment Dashboard,Mandatory Accompaniments,P1,Dashboard,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-002,Accompaniment Master,Mandatory Accompaniments,P1,Master/Form,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-003,Tarpaulin Master,Mandatory Accompaniments,P1,Master/Form,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-004,Seal Master,Mandatory Accompaniments,P1,Master/Form,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-005,OTP Lock Master,Mandatory Accompaniments,P1,Master/Form,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-006,Safety Kit Master,Mandatory Accompaniments,P1,Master/Form,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-007,Issue Accompaniment,Mandatory Accompaniments,P1,Detail/Workbench,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-008,Return Accompaniment,Mandatory Accompaniments,P1,Detail/Workbench,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-009,Seal Capture at Loading,Mandatory Accompaniments,P1,Transaction/Form,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-010,Seal Capture at Unloading,Mandatory Accompaniments,P1,Transaction/Form,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-011,OTP Lock Assignment,Mandatory Accompaniments,P1,Detail/Workbench,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-012,OTP Unlock Confirmation,Mandatory Accompaniments,P1,Transaction/Form,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-013,Tarpaulin Condition Check,Mandatory Accompaniments,P1,Detail/Workbench,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-014,Missing Accompaniment Exception,Mandatory Accompaniments,P1,Detail/Workbench,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-015,Accompaniment Damage / Loss,Mandatory Accompaniments,P1,Detail/Workbench,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-016,Accompaniment Recovery Report,Mandatory Accompaniments,P1,Report/View,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+MA-017,Accompaniment Cost Report,Mandatory Accompaniments,P1,Report/View,"accompaniment_master, accompaniment_issue",Generated from BRD screen inventory
+SC-001,Compliance Register,Compliance,P1,List/Grid,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-002,Add Compliance Document,Compliance,P1,Transaction/Form,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-003,Edit Compliance Document,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-004,Compliance Detail View,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-005,Insurance Management,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-006,Fitness Certificate Management,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-007,Permit Management,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-008,Road Tax Management,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-009,PUC Management,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-010,RC / Registration View,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-011,Speed Governor Compliance,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-012,AIS-140 / VLTD Compliance,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-013,CNG Cylinder Certificate,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-014,LNG Tank Certificate,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-015,EV Battery Safety / Warranty,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-016,Trailer Compliance,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-017,Compliance Expiry Calendar,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-018,Compliance Alert List,Compliance,P1,List/Grid,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-019,Compliance Hold Approval,Compliance,P1,Approval,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-020,Compliance Renewal Workflow,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-021,Compliance Document Repository,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+SC-022,Compliance Audit Trail,Compliance,P1,Detail/Workbench,"asset_compliance, compliance_type_master, compliance_alert",Generated from BRD screen inventory
+UL-001,ULIP Integration Dashboard,ULIP,P3,Dashboard,"ulip_api_log, integration_config",Generated from BRD screen inventory
+UL-002,VAHAN Vehicle Verification,ULIP,P3,Detail/Workbench,"ulip_api_log, integration_config",Generated from BRD screen inventory
+UL-003,SARATHI Driver Licence Verification,ULIP,P3,Detail/Workbench,"ulip_api_log, integration_config",Generated from BRD screen inventory
+UL-004,FASTag Transaction Import,ULIP,P3,Detail/Workbench,"ulip_api_log, integration_config",Generated from BRD screen inventory
+UL-005,Toll Plaza Tariff Lookup,ULIP,P3,Detail/Workbench,"ulip_api_log, integration_config",Generated from BRD screen inventory
+UL-006,E-Challan Lookup,ULIP,P3,Detail/Workbench,"ulip_api_log, integration_config",Generated from BRD screen inventory
+UL-007,E-Way Bill Verification,ULIP,P3,Detail/Workbench,"ulip_api_log, integration_config",Generated from BRD screen inventory
+UL-008,ULIP API Log,ULIP,P3,Detail/Workbench,"ulip_api_log, integration_config",Generated from BRD screen inventory
+UL-009,ULIP Error Queue,ULIP,P3,List/Grid,"ulip_api_log, integration_config",Generated from BRD screen inventory
+UL-010,ULIP Manual Override,ULIP,P3,Detail/Workbench,"ulip_api_log, integration_config",Generated from BRD screen inventory
+UL-011,ULIP Data Mismatch Report,ULIP,P3,Report/View,"ulip_api_log, integration_config",Generated from BRD screen inventory
+UL-012,ULIP Credential Configuration,ULIP,P3,Master/Form,"ulip_api_log, integration_config",Generated from BRD screen inventory
+IN-001,Inspection Dashboard,Inspection,P2,Dashboard,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-002,Pre-Trip Inspection,Inspection,P2,Detail/Workbench,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-003,Post-Trip Inspection,Inspection,P2,Detail/Workbench,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-004,Periodic Vehicle Inspection,Inspection,P2,Detail/Workbench,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-005,Trailer Inspection,Inspection,P2,Detail/Workbench,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-006,Tyre Inspection,Inspection,P2,Detail/Workbench,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-007,LNG Safety Inspection,Inspection,P2,Detail/Workbench,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-008,CNG Safety Inspection,Inspection,P2,Detail/Workbench,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-009,EV Safety Inspection,Inspection,P2,Detail/Workbench,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-010,Accessory Inspection,Inspection,P2,Detail/Workbench,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-011,Inspection Checklist Builder,Inspection,P2,List/Grid,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-012,Inspection Failure Review,Inspection,P2,Detail/Workbench,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-013,Create Job Card from Inspection,Inspection,P2,Transaction/Form,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-014,Inspection Photo Upload,Inspection,P2,Transaction/Form,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+IN-015,Inspection History,Inspection,P2,Detail/Workbench,"inspection_event, inspection_result_line, inspection_template",Generated from BRD screen inventory
+AL-001,Alert Inbox,Alerts,P3,List/Grid,"alert_event, alert_rule",Generated from BRD screen inventory
+AL-002,Maintenance Due Alerts,Alerts,P3,Detail/Workbench,"alert_event, alert_rule",Generated from BRD screen inventory
+AL-003,Compliance Expiry Alerts,Alerts,P3,Detail/Workbench,"alert_event, alert_rule",Generated from BRD screen inventory
+AL-004,Fuel Variance Alerts,Alerts,P3,Detail/Workbench,"alert_event, alert_rule",Generated from BRD screen inventory
+AL-005,Workshop Invoice Alerts,Alerts,P3,Detail/Workbench,"alert_event, alert_rule",Generated from BRD screen inventory
+AL-006,Tyre Rotation Alerts,Alerts,P3,Detail/Workbench,"alert_event, alert_rule",Generated from BRD screen inventory
+AL-007,Accessory Offline Alerts,Alerts,P3,Detail/Workbench,"alert_event, alert_rule",Generated from BRD screen inventory
+AL-008,Accompaniment Return Alerts,Alerts,P3,Detail/Workbench,"alert_event, alert_rule",Generated from BRD screen inventory
+AL-009,Breakdown Escalation Alerts,Alerts,P3,Detail/Workbench,"alert_event, alert_rule",Generated from BRD screen inventory
+AL-010,Alert Configuration,Alerts,P3,Master/Form,"alert_event, alert_rule",Generated from BRD screen inventory
+AL-011,Notification Template Setup,Alerts,P3,Master/Form,"alert_event, alert_rule",Generated from BRD screen inventory
+AL-012,Escalation Matrix Setup,Alerts,P3,Master/Form,"alert_event, alert_rule",Generated from BRD screen inventory
+AP-001,Approval Inbox,Approvals,P1,List/Grid,"approval_request, approval_matrix",Generated from BRD screen inventory
+AP-002,Fuel Variance Approval,Approvals,P1,Approval,"approval_request, approval_matrix",Generated from BRD screen inventory
+AP-003,Maintenance Estimate Approval,Approvals,P1,Approval,"approval_request, approval_matrix",Generated from BRD screen inventory
+AP-004,Workshop Invoice Approval,Approvals,P1,Approval,"approval_request, approval_matrix",Generated from BRD screen inventory
+AP-005,Tyre Scrap Approval,Approvals,P1,Approval,"approval_request, approval_matrix",Generated from BRD screen inventory
+AP-006,Accessory Replacement Approval,Approvals,P1,Approval,"approval_request, approval_matrix",Generated from BRD screen inventory
+AP-007,Compliance Override Approval,Approvals,P1,Approval,"approval_request, approval_matrix",Generated from BRD screen inventory
+AP-008,PM Deferral Approval,Approvals,P1,Approval,"approval_request, approval_matrix",Generated from BRD screen inventory
+AP-009,Manual Toll Approval,Approvals,P1,Approval,"approval_request, approval_matrix",Generated from BRD screen inventory
+AP-010,Accompaniment Loss Approval,Approvals,P1,Approval,"approval_request, approval_matrix",Generated from BRD screen inventory
+AP-011,Approval History,Approvals,P1,Approval,"approval_request, approval_matrix",Generated from BRD screen inventory
+PA-001,Fleet Payables Dashboard,Payables,P2,Dashboard,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+PA-002,Vendor Invoice List,Payables,P2,List/Grid,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+PA-003,Add Vendor Invoice,Payables,P2,Transaction/Form,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+PA-004,Invoice OCR Upload,Payables,P2,Transaction/Form,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+PA-005,Three-Way Match,Payables,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+PA-006,Payable Validation Result,Payables,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+PA-007,Debit Note / Credit Note,Payables,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+PA-008,Payment Approval,Payables,P2,Approval,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+PA-009,Payment Status,Payables,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+PA-010,ERP Posting Queue,Payables,P2,List/Grid,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+PA-011,ERP Posting Error Queue,Payables,P2,List/Grid,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+PA-012,Vehicle Cost Allocation,Payables,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+PA-013,Vendor Ledger,Payables,P2,Detail/Workbench,"vendor_invoice, invoice_line, payable_validation",Generated from BRD screen inventory
+RP-001,Vehicle Profitability Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-002,Vehicle Cost Ledger Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-003,Fuel Cost Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-004,Fuel Variance Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-005,Maintenance Cost Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-006,Workshop Performance Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-007,Tyre Lifecycle Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-008,Tyre Cost per KM Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-009,Compliance Expiry Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-010,Breakdown Frequency Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-011,Downtime Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-012,Accident Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-013,Accessory Health Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-014,Accompaniment Usage Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-015,Trailer Utilisation Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-016,Consumable Consumption Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-017,Pending Approval Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-018,Exception Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-019,Branch Fleet Report,Reports,P1,Report/View,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+RP-020,Export Centre,Reports,P1,Detail/Workbench,"vehicle_cost_ledger, vehicle_master, trailer_master",Generated from BRD screen inventory
+CF-001,Fleet Configuration Home,Configuration,P1,Master/Form,"item_master, role_master, branch_master",Generated from BRD screen inventory
+CF-002,Vehicle Type Master,Configuration,P1,Master/Form,"item_master, role_master, branch_master",Generated from BRD screen inventory
+CF-003,Fuel Type Master,Configuration,P1,Master/Form,"route_fuel_norm, fuel_rate_master",Generated from BRD screen inventory
+CF-004,Capacity Master,Configuration,P1,Master/Form,"item_master, role_master, branch_master",Generated from BRD screen inventory
+CF-005,Trailer Type Master,Configuration,P1,Master/Form,"item_master, role_master, branch_master",Generated from BRD screen inventory
+CF-006,Maintenance Type Master,Configuration,P1,Master/Form,maintenance_schedule,Generated from BRD screen inventory
+CF-007,Job Card Category Master,Configuration,P1,Master/Form,"item_master, role_master, branch_master",Generated from BRD screen inventory
+CF-008,Workshop Category Master,Configuration,P1,Master/Form,"item_master, role_master, branch_master",Generated from BRD screen inventory
+CF-009,Tyre Size Master,Configuration,P1,Master/Form,"item_master, tyre_master",Generated from BRD screen inventory
+CF-010,Tyre Position Master,Configuration,P1,Master/Form,"item_master, tyre_master",Generated from BRD screen inventory
+CF-011,Consumable Master,Configuration,P1,Master/Form,"item_master, role_master, branch_master",Generated from BRD screen inventory
+CF-012,Accessory Type Master,Configuration,P1,Master/Form,"item_master, accessory_master",Generated from BRD screen inventory
+CF-013,Compliance Type Master,Configuration,P1,Master/Form,compliance_type_master,Generated from BRD screen inventory
+CF-014,Alert Threshold Setup,Configuration,P1,Master/Form,alert_rule,Generated from BRD screen inventory
+CF-015,Approval Matrix Setup,Configuration,P1,Approval,approval_matrix,Generated from BRD screen inventory
+CF-016,Rate Contract Setup,Configuration,P1,Master/Form,"item_master, role_master, branch_master",Generated from BRD screen inventory
+CF-017,Fuel Norm Setup,Configuration,P1,Master/Form,"route_fuel_norm, fuel_rate_master",Generated from BRD screen inventory
+CF-018,Maintenance Norm Setup,Configuration,P1,Master/Form,maintenance_schedule,Generated from BRD screen inventory
+CF-019,Tyre Life Norm Setup,Configuration,P1,Master/Form,"item_master, tyre_master",Generated from BRD screen inventory
+CF-020,Accompaniment Checklist Setup,Configuration,P1,List/Grid,"item_master, role_master, branch_master",Generated from BRD screen inventory
+CF-021,Number Series Setup,Configuration,P1,Master/Form,"item_master, role_master, branch_master",Generated from BRD screen inventory
+CF-022,Role Permission Setup,Configuration,P1,Master/Form,"item_master, role_master, branch_master",Generated from BRD screen inventory
+MD-001,Driver Fleet Home,Driver Mobile,P3,Mobile Form/List,"vehicle_master, alert_event",Generated from BRD screen inventory
+MD-002,Pre-Trip Checklist,Driver Mobile,P3,List/Grid,"inspection_event, inspection_result_line",Generated from BRD screen inventory
+MD-003,Odometer Photo Capture,Driver Mobile,P3,Transaction/Form,"vehicle_master, alert_event",Generated from BRD screen inventory
+MD-004,Report Breakdown,Driver Mobile,P3,Report/View,breakdown_event,Generated from BRD screen inventory
+MD-005,Report Accident,Driver Mobile,P3,Report/View,accident_event,Generated from BRD screen inventory
+MD-006,Upload Defect Photo,Driver Mobile,P3,Transaction/Form,"vehicle_master, alert_event",Generated from BRD screen inventory
+MD-007,Fuel Fill Confirmation,Driver Mobile,P3,Transaction/Form,fuel_transaction,Generated from BRD screen inventory
+MD-008,Fuel Bill Photo Upload,Driver Mobile,P3,Transaction/Form,fuel_transaction,Generated from BRD screen inventory
+MD-009,EV Charging Confirmation,Driver Mobile,P3,Transaction/Form,fuel_transaction,Generated from BRD screen inventory
+MD-010,Seal Number Capture,Driver Mobile,P3,Transaction/Form,accompaniment_issue,Generated from BRD screen inventory
+MD-011,OTP Lock Capture,Driver Mobile,P3,Transaction/Form,accompaniment_issue,Generated from BRD screen inventory
+MD-012,Tarpaulin Confirmation,Driver Mobile,P3,Transaction/Form,accompaniment_issue,Generated from BRD screen inventory
+MD-013,Post-Trip Checklist,Driver Mobile,P3,List/Grid,"inspection_event, inspection_result_line",Generated from BRD screen inventory
+MD-014,Accessory Fault Report,Driver Mobile,P3,Report/View,"vehicle_master, alert_event",Generated from BRD screen inventory
+MD-015,Document View,Driver Mobile,P3,Mobile Form/List,"document_store, asset_compliance",Generated from BRD screen inventory
+MD-016,Alert View,Driver Mobile,P3,Mobile Form/List,"vehicle_master, alert_event",Generated from BRD screen inventory
+MM-001,Mechanic Home,Mechanic Mobile,P3,Mobile Form/List,"job_card, job_card_line",Generated from BRD screen inventory
+MM-002,Job Card List,Mechanic Mobile,P3,List/Grid,"job_card, job_card_line",Generated from BRD screen inventory
+MM-003,Job Card Detail,Mechanic Mobile,P3,Mobile Form/List,"job_card, job_card_line",Generated from BRD screen inventory
+MM-004,Diagnosis Entry,Mechanic Mobile,P3,Transaction/Form,"job_card, job_card_line",Generated from BRD screen inventory
+MM-005,Parts Request,Mechanic Mobile,P3,Mobile Form/List,"stock_ledger, job_card",Generated from BRD screen inventory
+MM-006,Consumables Request,Mechanic Mobile,P3,Mobile Form/List,"stock_ledger, job_card",Generated from BRD screen inventory
+MM-007,Tyre Condition Entry,Mechanic Mobile,P3,Transaction/Form,"tyre_movement, tyre_master",Generated from BRD screen inventory
+MM-008,Repair Progress Update,Mechanic Mobile,P3,Mobile Form/List,"job_card, job_card_line",Generated from BRD screen inventory
+MM-009,Before Photo Capture,Mechanic Mobile,P3,Transaction/Form,"document_store, job_card",Generated from BRD screen inventory
+MM-010,After Photo Capture,Mechanic Mobile,P3,Transaction/Form,"document_store, job_card",Generated from BRD screen inventory
+MM-011,Quality Checklist,Mechanic Mobile,P3,List/Grid,"job_card, job_card_line",Generated from BRD screen inventory
+MM-012,Vehicle Release Confirmation,Mechanic Mobile,P3,Transaction/Form,"job_card, job_card_line",Generated from BRD screen inventory
+MM-013,Material Return,Mechanic Mobile,P3,Mobile Form/List,"stock_ledger, job_card",Generated from BRD screen inventory
+MM-014,Repairable Part Return,Mechanic Mobile,P3,Mobile Form/List,"job_card, job_card_line",Generated from BRD screen inventory

@@ -1,0 +1,7 @@
+Fleet Management Module Data Model Workbook,
+Created On,2026-06-18 11:29
+Purpose,Associated data model for the Fleet Management Module BRD and wireframes.
+Includes,"Table names, columns, data types, primary keys, foreign keys, associations, screen-to-field mapping, enumerations, integration mapping and ERD text."
+Build Approach,One Build & Release with internal Phase 1 / Phase 2 / Phase 3 tagging.
+How to Use,"Start with Table Catalog, review Data Dictionary, then use Screen Field Map to map UI fields to database columns. Use Table Associations for ERD/API design."
+Important Note,"This is a logical data model. Physical SQL DDL should be generated after database naming, schema, indexing and partitioning standards are finalised."

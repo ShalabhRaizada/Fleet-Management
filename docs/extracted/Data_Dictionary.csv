@@ -1,0 +1,537 @@
+Table Name,Column Name,Data Type,Primary Key,Foreign Key / Reference,Nullable,Screen Field Label,Business Description
+branch_master,branch_id,uniqueidentifier,YES,,NO,Branch,Primary key for branch
+branch_master,branch_code,varchar(20),,,NO,Branch Code,Short branch code
+branch_master,branch_name,varchar(100),,,NO,Branch Name,Branch name
+branch_master,region,varchar(50),,,YES,Region,Region/zone
+branch_master,state_code,varchar(10),,,YES,State Code,Indian state code
+branch_master,city,varchar(80),,,YES,City,City
+branch_master,address,varchar(300),,,YES,Address,Branch address
+branch_master,is_workshop,bit,,,NO,Is Workshop,Whether branch has internal workshop
+branch_master,is_store,bit,,,NO,Is Store,Whether branch has inventory store
+branch_master,status,varchar(20),,,NO,Status,Active/Inactive
+branch_master,created_at,datetime2,,,NO,Created At,Record created timestamp
+user_master,user_id,uniqueidentifier,YES,,NO,User,Primary key
+user_master,login_id,varchar(80),,,NO,Login,Login/email/mobile
+user_master,display_name,varchar(120),,,NO,Display Name,User name
+user_master,mobile_no,varchar(15),,,YES,Mobile No,Mobile number
+user_master,email,varchar(120),,,YES,Email,Email
+user_master,role_code,varchar(50),,YES: role_master.role_code,NO,Role Code,Primary role
+user_master,branch_id,uniqueidentifier,,YES: branch_master.branch_id,YES,Branch,Default branch
+user_master,status,varchar(20),,,NO,Status,Active/Inactive
+user_master,created_at,datetime2,,,NO,Created At,Created timestamp
+role_master,role_code,varchar(50),YES,,NO,Role Code,Role code
+role_master,role_name,varchar(100),,,NO,Role Name,Role name
+role_master,description,varchar(300),,,YES,Description,Role description
+role_master,is_active,bit,,,NO,Is Active,Active flag
+vendor_master,vendor_id,uniqueidentifier,YES,,NO,Vendor,Primary key
+vendor_master,vendor_code,varchar(30),,,NO,Vendor Code,Vendor code
+vendor_master,vendor_name,varchar(150),,,NO,Vendor Name,Vendor name
+vendor_master,vendor_type,varchar(50),,,NO,Vendor Type,Fuel/Workshop/Tyre/Accessory/Consumable/Insurance/RTO
+vendor_master,gstin,varchar(15),,,YES,Gstin,GSTIN
+vendor_master,pan_no,varchar(10),,,YES,Pan No,PAN
+vendor_master,contact_person,varchar(100),,,YES,Contact Person,Contact
+vendor_master,mobile_no,varchar(15),,,YES,Mobile No,Mobile
+vendor_master,email,varchar(120),,,YES,Email,Email
+vendor_master,address,varchar(300),,,YES,Address,Address
+vendor_master,payment_terms_days,int,,,YES,Payment Terms Days,Payment terms
+vendor_master,status,varchar(20),,,NO,Status,Active/Blocked/Inactive
+driver_master,driver_id,uniqueidentifier,YES,,NO,Driver,Primary key
+driver_master,driver_code,varchar(30),,,NO,Driver Code,Driver code
+driver_master,driver_name,varchar(120),,,NO,Driver Name,Driver full name
+driver_master,mobile_no,varchar(15),,,YES,Mobile No,Mobile
+driver_master,licence_no,varchar(30),,,YES,Licence No,Driving licence number
+driver_master,licence_valid_upto,date,,,YES,Licence Valid Upto,DL expiry
+driver_master,hazmat_certified,bit,,,NO,Hazmat Certified,Hazardous cargo certification
+driver_master,vendor_id,uniqueidentifier,,YES: vendor_master.vendor_id,YES,Vendor,Vendor if attached driver
+driver_master,home_branch_id,uniqueidentifier,,YES: branch_master.branch_id,YES,Home Branch,Home branch
+driver_master,status,varchar(20),,,NO,Status,Active/Inactive/Blacklisted
+vehicle_master,vehicle_id,uniqueidentifier,YES,,NO,Vehicle,Primary key
+vehicle_master,registration_no,varchar(20),,,NO,Registration No,Vehicle registration number
+vehicle_master,vehicle_code,varchar(30),,,YES,Vehicle Code,Internal code
+vehicle_master,ownership_type,varchar(30),,,NO,Ownership Type,Owned/Leased/Attached/Market
+vehicle_master,vehicle_category,varchar(50),,,NO,Vehicle Category,Tractor/Rigid/Tanker/Reefer/Special
+vehicle_master,vehicle_type,varchar(50),,,NO,Vehicle Type,4x2/6x2/6x4/14ft/32ft/etc.
+vehicle_master,fuel_type,varchar(20),,,NO,Fuel Type,Diesel/CNG/LNG/EV/Hybrid
+vehicle_master,make,varchar(80),,,YES,Make,OEM make
+vehicle_master,model,varchar(80),,,YES,Model,Model
+vehicle_master,manufacture_year,smallint,,,YES,Manufacture Year,Year
+vehicle_master,vin_no,varchar(50),,,YES,Vin No,VIN
+vehicle_master,chassis_no,varchar(50),,,YES,Chassis No,Chassis number
+vehicle_master,engine_no,varchar(50),,,YES,Engine No,Engine number; null for pure EV if not applicable
+vehicle_master,gvw_kg,"decimal(12,2)",,,YES,Gvw Kg,Gross vehicle weight
+vehicle_master,payload_capacity_kg,"decimal(12,2)",,,YES,Payload Capacity Kg,Payload
+vehicle_master,volume_cbm,"decimal(12,2)",,,YES,Volume Cbm,Volume capacity
+vehicle_master,axle_configuration,varchar(30),,,YES,Axle Configuration,Axle configuration
+vehicle_master,body_type,varchar(50),,,YES,Body Type,Body type
+vehicle_master,branch_id,uniqueidentifier,,YES: branch_master.branch_id,YES,Branch,Operating branch
+vehicle_master,current_driver_id,uniqueidentifier,,YES: driver_master.driver_id,YES,Current Driver,Assigned driver
+vehicle_master,status,varchar(30),,,NO,Status,Available/InTrip/Maintenance/Breakdown/ComplianceHold/Inactive
+vehicle_master,odo_source,varchar(20),,,YES,Odo Source,Manual/GPS/OBD
+vehicle_master,current_odometer_km,"decimal(12,1)",,,YES,Current Odometer Km,Latest odometer
+vehicle_master,created_at,datetime2,,,NO,Created At,Created timestamp
+vehicle_fuel_profile,fuel_profile_id,uniqueidentifier,YES,,NO,Fuel Profile,Primary key
+vehicle_fuel_profile,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,NO,Vehicle,Vehicle FK
+vehicle_fuel_profile,fuel_type,varchar(20),,,NO,Fuel Type,Diesel/CNG/LNG/EV
+vehicle_fuel_profile,diesel_tank_capacity_ltr,"decimal(10,2)",,,YES,Diesel Tank Capacity Ltr,Diesel tank capacity
+vehicle_fuel_profile,cng_cylinder_capacity_kg,"decimal(10,2)",,,YES,Cng Cylinder Capacity Kg,CNG cylinder capacity
+vehicle_fuel_profile,cng_hydrotest_valid_upto,date,,,YES,Cng Hydrotest Valid Upto,CNG cylinder validity
+vehicle_fuel_profile,lng_tank_capacity_kg,"decimal(10,2)",,,YES,Lng Tank Capacity Kg,LNG tank capacity
+vehicle_fuel_profile,lng_tank_inspection_valid_upto,date,,,YES,Lng Tank Inspection Valid Upto,Cryogenic tank certificate validity
+vehicle_fuel_profile,battery_capacity_kwh,"decimal(10,2)",,,YES,Battery Capacity Kwh,EV battery capacity
+vehicle_fuel_profile,charger_connector_type,varchar(40),,,YES,Charger Connector Type,CCS2/Other
+vehicle_fuel_profile,battery_warranty_upto,date,,,YES,Battery Warranty Upto,Battery warranty expiry
+vehicle_fuel_profile,expected_mileage,"decimal(10,3)",,,YES,Expected Mileage,"Km/litre, km/kg or km/kWh norm"
+vehicle_fuel_profile,range_km,"decimal(10,2)",,,YES,Range Km,Expected full range
+trailer_master,trailer_id,uniqueidentifier,YES,,NO,Trailer,Primary key
+trailer_master,trailer_no,varchar(20),,,NO,Trailer No,Trailer registration/asset number
+trailer_master,trailer_type,varchar(50),,,NO,Trailer Type,Flatbed/Skeletal/Bulker/Tanker/Sidewall/Reefer
+trailer_master,body_type,varchar(50),,,YES,Body Type,Body construction
+trailer_master,chassis_no,varchar(50),,,YES,Chassis No,Chassis
+trailer_master,payload_capacity_kg,"decimal(12,2)",,,YES,Payload Capacity Kg,Payload
+trailer_master,volume_cbm,"decimal(12,2)",,,YES,Volume Cbm,Volume capacity
+trailer_master,length_ft,"decimal(8,2)",,,YES,Length Ft,Length
+trailer_master,axle_count,int,,,YES,Axle Count,Axle count
+trailer_master,branch_id,uniqueidentifier,,YES: branch_master.branch_id,YES,Branch,Branch
+trailer_master,status,varchar(30),,,NO,Status,Available/Attached/Maintenance/ComplianceHold/Inactive
+trailer_master,created_at,datetime2,,,NO,Created At,Created timestamp
+vehicle_trailer_coupling,coupling_id,uniqueidentifier,YES,,NO,Coupling,Primary key
+vehicle_trailer_coupling,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,NO,Vehicle,Vehicle
+vehicle_trailer_coupling,trailer_id,uniqueidentifier,,YES: trailer_master.trailer_id,NO,Trailer,Trailer
+vehicle_trailer_coupling,coupled_at,datetime2,,,NO,Coupled At,Coupling timestamp
+vehicle_trailer_coupling,decoupled_at,datetime2,,,YES,Decoupled At,Decoupling timestamp
+vehicle_trailer_coupling,coupling_location,varchar(150),,,YES,Coupling Location,Location
+vehicle_trailer_coupling,odometer_km,"decimal(12,1)",,,YES,Odometer Km,Odometer
+vehicle_trailer_coupling,coupled_by_user_id,uniqueidentifier,,YES: user_master.user_id,YES,Coupled By User,User
+vehicle_trailer_coupling,status,varchar(20),,,NO,Status,Active/Closed/Cancelled
+fuel_vendor_station,station_id,uniqueidentifier,YES,,NO,Station,Primary key
+fuel_vendor_station,vendor_id,uniqueidentifier,,YES: vendor_master.vendor_id,NO,Vendor,Vendor
+fuel_vendor_station,station_name,varchar(150),,,NO,Station Name,Station name
+fuel_vendor_station,fuel_types_supported,varchar(100),,,NO,Fuel Types Supported,Diesel/CNG/LNG/EV
+fuel_vendor_station,address,varchar(300),,,YES,Address,Address
+fuel_vendor_station,latitude,"decimal(10,7)",,,YES,Latitude,Latitude
+fuel_vendor_station,longitude,"decimal(10,7)",,,YES,Longitude,Longitude
+fuel_vendor_station,is_approved,bit,,,NO,Is Approved,Approved station
+fuel_vendor_station,status,varchar(20),,,NO,Status,Active/Inactive
+fuel_rate_master,fuel_rate_id,uniqueidentifier,YES,,NO,Fuel Rate,Primary key
+fuel_rate_master,station_id,uniqueidentifier,,YES: fuel_vendor_station.station_id,NO,Station,Station
+fuel_rate_master,fuel_type,varchar(20),,,NO,Fuel Type,Diesel/CNG/LNG/EV
+fuel_rate_master,unit_of_measure,varchar(10),,,NO,Unit Of Measure,Litre/Kg/kWh
+fuel_rate_master,rate_per_unit,"decimal(12,4)",,,NO,Rate Per Unit,Approved rate
+fuel_rate_master,effective_from,date,,,NO,Effective From,Start date
+fuel_rate_master,effective_to,date,,,YES,Effective To,End date
+fuel_rate_master,status,varchar(20),,,NO,Status,Active/Inactive
+route_fuel_norm,route_fuel_norm_id,uniqueidentifier,YES,,NO,Route Fuel Norm,Primary key
+route_fuel_norm,route_code,varchar(50),,,NO,Route Code,Route/lane code
+route_fuel_norm,origin,varchar(120),,,NO,Origin,Origin
+route_fuel_norm,destination,varchar(120),,,NO,Destination,Destination
+route_fuel_norm,vehicle_type,varchar(50),,,NO,Vehicle Type,Vehicle type
+route_fuel_norm,fuel_type,varchar(20),,,NO,Fuel Type,Fuel type
+route_fuel_norm,planned_quantity,"decimal(12,3)",,,NO,Planned Quantity,Planned litres/kg/kWh
+route_fuel_norm,planned_toll_amount,"decimal(14,2)",,,YES,Planned Toll Amount,Planned toll
+route_fuel_norm,distance_km,"decimal(12,2)",,,YES,Distance Km,Distance
+route_fuel_norm,effective_from,date,,,NO,Effective From,Effective start
+route_fuel_norm,status,varchar(20),,,NO,Status,Active/Inactive
+fuel_transaction,fuel_txn_id,uniqueidentifier,YES,,NO,Fuel Txn,Primary key
+fuel_transaction,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,NO,Vehicle,Vehicle
+fuel_transaction,trip_id,uniqueidentifier,,YES: trip_master.trip_id,YES,Trip,Trip/LR reference
+fuel_transaction,driver_id,uniqueidentifier,,YES: driver_master.driver_id,YES,Driver,Driver
+fuel_transaction,station_id,uniqueidentifier,,YES: fuel_vendor_station.station_id,YES,Station,Fuel/charging station
+fuel_transaction,fuel_type,varchar(20),,,NO,Fuel Type,Diesel/CNG/LNG/EV
+fuel_transaction,txn_datetime,datetime2,,,NO,Txn Datetime,Transaction date/time
+fuel_transaction,quantity,"decimal(12,3)",,,NO,Quantity,Litres/kg/kWh
+fuel_transaction,unit_of_measure,varchar(10),,,NO,Unit Of Measure,Litre/Kg/kWh
+fuel_transaction,rate_per_unit,"decimal(12,4)",,,NO,Rate Per Unit,Rate
+fuel_transaction,amount,"decimal(14,2)",,,NO,Amount,Amount
+fuel_transaction,odometer_km,"decimal(12,1)",,,YES,Odometer Km,Odometer
+fuel_transaction,start_soc_pct,"decimal(5,2)",,,YES,Start Soc Pct,EV start SoC
+fuel_transaction,end_soc_pct,"decimal(5,2)",,,YES,End Soc Pct,EV end SoC
+fuel_transaction,fill_pressure,"decimal(10,2)",,,YES,Fill Pressure,CNG/LNG pressure
+fuel_transaction,fuel_temperature,"decimal(8,2)",,,YES,Fuel Temperature,LNG temperature if captured
+fuel_transaction,receipt_no,varchar(50),,,YES,Receipt No,Receipt number
+fuel_transaction,invoice_id,uniqueidentifier,,YES: vendor_invoice.invoice_id,YES,Invoice,Vendor bill
+fuel_transaction,status,varchar(30),,,NO,Status,Draft/Submitted/Approved/Posted/Rejected
+fuel_variance,fuel_variance_id,uniqueidentifier,YES,,NO,Fuel Variance,Primary key
+fuel_variance,fuel_txn_id,uniqueidentifier,,YES: fuel_transaction.fuel_txn_id,NO,Fuel Txn,Fuel transaction
+fuel_variance,route_fuel_norm_id,uniqueidentifier,,YES: route_fuel_norm.route_fuel_norm_id,YES,Route Fuel Norm,Norm
+fuel_variance,planned_quantity,"decimal(12,3)",,,NO,Planned Quantity,Planned
+fuel_variance,actual_quantity,"decimal(12,3)",,,NO,Actual Quantity,Actual
+fuel_variance,variance_quantity,"decimal(12,3)",,,NO,Variance Quantity,Variance
+fuel_variance,variance_pct,"decimal(8,3)",,,YES,Variance Pct,Variance percentage
+fuel_variance,exception_reason,varchar(300),,,YES,Exception Reason,Reason
+fuel_variance,approval_status,varchar(30),,,NO,Approval Status,Pending/Approved/Rejected
+fuel_variance,approved_by_user_id,uniqueidentifier,,YES: user_master.user_id,YES,Approved By User,Approver
+compliance_type_master,compliance_type_code,varchar(50),YES,,NO,Compliance Type Code,Type code
+compliance_type_master,compliance_name,varchar(120),,,NO,Compliance Name,Name
+compliance_type_master,asset_type,varchar(20),,,NO,Asset Type,Vehicle/Trailer/Driver/Accessory
+compliance_type_master,is_critical,bit,,,NO,Is Critical,Critical block flag
+compliance_type_master,default_alert_days,varchar(50),,,YES,Default Alert Days,Comma-separated alert days
+compliance_type_master,status,varchar(20),,,NO,Status,Active/Inactive
+asset_compliance,asset_compliance_id,uniqueidentifier,YES,,NO,Asset Compliance,Primary key
+asset_compliance,asset_type,varchar(20),,,NO,Asset Type,Vehicle/Trailer/Accessory/Driver
+asset_compliance,asset_id,uniqueidentifier,,,NO,Asset,Polymorphic asset id
+asset_compliance,compliance_type_code,varchar(50),,YES: compliance_type_master.compliance_type_code,NO,Compliance Type Code,Compliance type
+asset_compliance,document_no,varchar(80),,,YES,Document No,Certificate/policy/permit number
+asset_compliance,issued_by,varchar(120),,,YES,Issued By,Issuer
+asset_compliance,valid_from,date,,,YES,Valid From,Valid from
+asset_compliance,valid_upto,date,,,NO,Valid Upto,Valid until
+asset_compliance,amount,"decimal(14,2)",,,YES,Amount,Premium/tax/fee
+asset_compliance,document_url,varchar(500),,,YES,Document Url,DMS link
+asset_compliance,status,varchar(30),,,NO,Status,Valid/Expiring/Expired/UnderRenewal/Exempted
+asset_compliance,last_verified_source,varchar(50),,,YES,Last Verified Source,Manual/ULIP/VAHAN/etc.
+asset_compliance,verified_at,datetime2,,,YES,Verified At,Verification timestamp
+compliance_alert,compliance_alert_id,uniqueidentifier,YES,,NO,Compliance Alert,Primary key
+compliance_alert,asset_compliance_id,uniqueidentifier,,YES: asset_compliance.asset_compliance_id,NO,Asset Compliance,Compliance record
+compliance_alert,alert_date,date,,,NO,Alert Date,Alert date
+compliance_alert,days_to_expiry,int,,,NO,Days To Expiry,Days to expiry
+compliance_alert,severity,varchar(20),,,NO,Severity,Info/Warning/Critical
+compliance_alert,status,varchar(20),,,NO,Status,Open/Closed/Snoozed
+compliance_alert,assigned_to_user_id,uniqueidentifier,,YES: user_master.user_id,YES,Assigned To User,Assigned user
+maintenance_schedule,maintenance_schedule_id,uniqueidentifier,YES,,NO,Maintenance Schedule,Primary key
+maintenance_schedule,schedule_code,varchar(50),,,NO,Schedule Code,Schedule code
+maintenance_schedule,vehicle_category,varchar(50),,,YES,Vehicle Category,Vehicle category
+maintenance_schedule,vehicle_type,varchar(50),,,YES,Vehicle Type,Vehicle type
+maintenance_schedule,fuel_type,varchar(20),,,YES,Fuel Type,Fuel type
+maintenance_schedule,maintenance_type,varchar(50),,,NO,Maintenance Type,A/B/C Service/Annual/etc.
+maintenance_schedule,trigger_km,"decimal(12,1)",,,YES,Trigger Km,KM interval
+maintenance_schedule,trigger_days,int,,,YES,Trigger Days,Day interval
+maintenance_schedule,trigger_engine_hours,"decimal(12,1)",,,YES,Trigger Engine Hours,Engine/hour interval
+maintenance_schedule,checklist_template_id,uniqueidentifier,,YES: inspection_template.template_id,YES,Checklist Template,Checklist
+maintenance_schedule,is_blocking,bit,,,NO,Is Blocking,Blocks trip if overdue
+maintenance_schedule,status,varchar(20),,,NO,Status,Active/Inactive
+maintenance_due,maintenance_due_id,uniqueidentifier,YES,,NO,Maintenance Due,Primary key
+maintenance_due,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,NO,Vehicle,Vehicle
+maintenance_due,maintenance_schedule_id,uniqueidentifier,,YES: maintenance_schedule.maintenance_schedule_id,NO,Maintenance Schedule,Schedule
+maintenance_due,due_date,date,,,YES,Due Date,Due date
+maintenance_due,due_odometer_km,"decimal(12,1)",,,YES,Due Odometer Km,Due odometer
+maintenance_due,current_odometer_km,"decimal(12,1)",,,YES,Current Odometer Km,Current odo
+maintenance_due,status,varchar(30),,,NO,Status,Upcoming/Due/Overdue/Completed/Deferred
+maintenance_due,job_card_id,uniqueidentifier,,YES: job_card.job_card_id,YES,Job Card,Created job card
+job_card,job_card_id,uniqueidentifier,YES,,NO,Job Card,Primary key
+job_card,job_card_no,varchar(50),,,NO,Job Card No,System job card number
+job_card,job_card_type,varchar(50),,,NO,Job Card Type,Scheduled/Breakdown/Accident/Inspection/Tyre/Accessory
+job_card,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,YES,Vehicle,Vehicle
+job_card,trailer_id,uniqueidentifier,,YES: trailer_master.trailer_id,YES,Trailer,Trailer
+job_card,branch_id,uniqueidentifier,,YES: branch_master.branch_id,YES,Branch,Branch
+job_card,workshop_id,uniqueidentifier,,YES: workshop_master.workshop_id,YES,Workshop,Workshop
+job_card,reported_by_user_id,uniqueidentifier,,YES: user_master.user_id,YES,Reported By User,Reported by
+job_card,reported_datetime,datetime2,,,NO,Reported Datetime,Reported datetime
+job_card,odometer_km,"decimal(12,1)",,,YES,Odometer Km,Odometer
+job_card,defect_summary,varchar(500),,,NO,Defect Summary,Issue/defect
+job_card,priority,varchar(20),,,NO,Priority,Low/Medium/High/Critical
+job_card,estimated_amount,"decimal(14,2)",,,YES,Estimated Amount,Estimated amount
+job_card,approved_amount,"decimal(14,2)",,,YES,Approved Amount,Approved amount
+job_card,actual_amount,"decimal(14,2)",,,YES,Actual Amount,Actual amount
+job_card,status,varchar(30),,,NO,Status,Open/Diagnosis/AwaitingParts/UnderRepair/QC/Closed/Reopened
+job_card,opened_at,datetime2,,,NO,Opened At,Opened timestamp
+job_card,closed_at,datetime2,,,YES,Closed At,Closed timestamp
+job_card_line,job_card_line_id,uniqueidentifier,YES,,NO,Job Card Line,Primary key
+job_card_line,job_card_id,uniqueidentifier,,YES: job_card.job_card_id,NO,Job Card,Job card
+job_card_line,line_type,varchar(30),,,NO,Line Type,Labour/Part/Tyre/Consumable/Accessory/Other
+job_card_line,item_id,uniqueidentifier,,YES: item_master.item_id,YES,Item,Inventory item
+job_card_line,tyre_id,uniqueidentifier,,YES: tyre_master.tyre_id,YES,Tyre,Tyre
+job_card_line,accessory_id,uniqueidentifier,,YES: accessory_master.accessory_id,YES,Accessory,Accessory
+job_card_line,description,varchar(300),,,NO,Description,Line description
+job_card_line,quantity,"decimal(12,3)",,,NO,Quantity,Quantity
+job_card_line,unit_rate,"decimal(12,4)",,,YES,Unit Rate,Rate
+job_card_line,amount,"decimal(14,2)",,,YES,Amount,Amount
+job_card_line,approval_status,varchar(30),,,NO,Approval Status,Pending/Approved/Rejected
+breakdown_event,breakdown_id,uniqueidentifier,YES,,NO,Breakdown,Primary key
+breakdown_event,job_card_id,uniqueidentifier,,YES: job_card.job_card_id,YES,Job Card,Job card
+breakdown_event,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,NO,Vehicle,Vehicle
+breakdown_event,trip_id,uniqueidentifier,,YES: trip_master.trip_id,YES,Trip,Trip
+breakdown_event,breakdown_datetime,datetime2,,,NO,Breakdown Datetime,Breakdown time
+breakdown_event,location_text,varchar(200),,,YES,Location Text,Location
+breakdown_event,latitude,"decimal(10,7)",,,YES,Latitude,Latitude
+breakdown_event,longitude,"decimal(10,7)",,,YES,Longitude,Longitude
+breakdown_event,breakdown_category,varchar(50),,,NO,Breakdown Category,Mechanical/Electrical/Tyre/Fuel/Battery/LNG/CNG/EV/Trailer
+breakdown_event,severity,varchar(20),,,NO,Severity,Low/Medium/High/Critical
+breakdown_event,downtime_minutes,int,,,YES,Downtime Minutes,Downtime
+breakdown_event,root_cause,varchar(500),,,YES,Root Cause,Root cause
+breakdown_event,status,varchar(30),,,NO,Status,Open/Assigned/UnderRepair/Closed
+accident_event,accident_id,uniqueidentifier,YES,,NO,Accident,Primary key
+accident_event,job_card_id,uniqueidentifier,,YES: job_card.job_card_id,YES,Job Card,Accident job card
+accident_event,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,NO,Vehicle,Vehicle
+accident_event,trailer_id,uniqueidentifier,,YES: trailer_master.trailer_id,YES,Trailer,Trailer
+accident_event,driver_id,uniqueidentifier,,YES: driver_master.driver_id,YES,Driver,Driver
+accident_event,accident_datetime,datetime2,,,NO,Accident Datetime,Accident datetime
+accident_event,location_text,varchar(200),,,YES,Location Text,Location
+accident_event,third_party_involved,bit,,,NO,Third Party Involved,Third party involved
+accident_event,fir_no,varchar(80),,,YES,Fir No,FIR/police report number
+accident_event,damage_summary,varchar(600),,,YES,Damage Summary,Damage
+accident_event,insurance_claim_no,varchar(80),,,YES,Insurance Claim No,Claim number
+accident_event,estimated_loss_amount,"decimal(14,2)",,,YES,Estimated Loss Amount,Estimated loss
+accident_event,claim_status,varchar(30),,,YES,Claim Status,Pending/Submitted/Approved/Rejected/Settled
+accident_event,status,varchar(30),,,NO,Status,Open/UnderRepair/Claim/Closed
+workshop_master,workshop_id,uniqueidentifier,YES,,NO,Workshop,Primary key
+workshop_master,workshop_code,varchar(30),,,NO,Workshop Code,Workshop code
+workshop_master,workshop_name,varchar(150),,,NO,Workshop Name,Workshop name
+workshop_master,workshop_type,varchar(50),,,NO,Workshop Type,Internal/OEM/ThirdParty/Roadside/Tyre/Accessory
+workshop_master,vendor_id,uniqueidentifier,,YES: vendor_master.vendor_id,YES,Vendor,Vendor if external
+workshop_master,branch_id,uniqueidentifier,,YES: branch_master.branch_id,YES,Branch,Internal branch
+workshop_master,gstin,varchar(15),,,YES,Gstin,GSTIN
+workshop_master,service_categories,varchar(300),,,YES,Service Categories,Supported services
+workshop_master,payment_terms_days,int,,,YES,Payment Terms Days,Payment terms
+workshop_master,status,varchar(20),,,NO,Status,Active/Blocked/Inactive
+workshop_rate_contract,rate_contract_id,uniqueidentifier,YES,,NO,Rate Contract,Primary key
+workshop_rate_contract,workshop_id,uniqueidentifier,,YES: workshop_master.workshop_id,NO,Workshop,Workshop
+workshop_rate_contract,service_code,varchar(50),,,NO,Service Code,Service/labour code
+workshop_rate_contract,service_description,varchar(200),,,NO,Service Description,Description
+workshop_rate_contract,vehicle_type,varchar(50),,,YES,Vehicle Type,Vehicle type
+workshop_rate_contract,rate,"decimal(14,2)",,,NO,Rate,Contract rate
+workshop_rate_contract,effective_from,date,,,NO,Effective From,Effective start
+workshop_rate_contract,effective_to,date,,,YES,Effective To,Effective end
+workshop_rate_contract,status,varchar(20),,,NO,Status,Active/Inactive
+vendor_invoice,invoice_id,uniqueidentifier,YES,,NO,Invoice,Primary key
+vendor_invoice,invoice_type,varchar(40),,,NO,Invoice Type,Workshop/Fuel/Tyre/Accessory/Consumable/Compliance
+vendor_invoice,vendor_id,uniqueidentifier,,YES: vendor_master.vendor_id,NO,Vendor,Vendor
+vendor_invoice,workshop_id,uniqueidentifier,,YES: workshop_master.workshop_id,YES,Workshop,Workshop
+vendor_invoice,invoice_no,varchar(80),,,NO,Invoice No,Vendor invoice number
+vendor_invoice,invoice_date,date,,,NO,Invoice Date,Invoice date
+vendor_invoice,gstin,varchar(15),,,YES,Gstin,GSTIN
+vendor_invoice,taxable_amount,"decimal(14,2)",,,NO,Taxable Amount,Taxable value
+vendor_invoice,cgst_amount,"decimal(14,2)",,,YES,Cgst Amount,CGST
+vendor_invoice,sgst_amount,"decimal(14,2)",,,YES,Sgst Amount,SGST
+vendor_invoice,igst_amount,"decimal(14,2)",,,YES,Igst Amount,IGST
+vendor_invoice,total_amount,"decimal(14,2)",,,NO,Total Amount,Invoice total
+vendor_invoice,ocr_status,varchar(30),,,YES,Ocr Status,NotRun/Extracted/Corrected/Failed
+vendor_invoice,document_url,varchar(500),,,YES,Document Url,Invoice file URL
+vendor_invoice,payable_status,varchar(30),,,NO,Payable Status,Draft/Matched/Exception/Approved/Posted/Paid/Rejected
+invoice_line,invoice_line_id,uniqueidentifier,YES,,NO,Invoice Line,Primary key
+invoice_line,invoice_id,uniqueidentifier,,YES: vendor_invoice.invoice_id,NO,Invoice,Invoice
+invoice_line,job_card_id,uniqueidentifier,,YES: job_card.job_card_id,YES,Job Card,Job card
+invoice_line,item_id,uniqueidentifier,,YES: item_master.item_id,YES,Item,Item
+invoice_line,description,varchar(300),,,NO,Description,Description
+invoice_line,hsn_sac,varchar(20),,,YES,Hsn Sac,HSN/SAC
+invoice_line,quantity,"decimal(12,3)",,,NO,Quantity,Quantity
+invoice_line,unit_rate,"decimal(12,4)",,,NO,Unit Rate,Unit rate
+invoice_line,tax_rate_pct,"decimal(6,2)",,,YES,Tax Rate Pct,GST rate
+invoice_line,line_amount,"decimal(14,2)",,,NO,Line Amount,Line amount
+payable_validation,validation_id,uniqueidentifier,YES,,NO,Validation,Primary key
+payable_validation,invoice_id,uniqueidentifier,,YES: vendor_invoice.invoice_id,NO,Invoice,Invoice
+payable_validation,job_card_id,uniqueidentifier,,YES: job_card.job_card_id,YES,Job Card,Job card
+payable_validation,validation_type,varchar(50),,,NO,Validation Type,JobCardMatch/EstimateMatch/RateContract/Duplicate/GST/GRN
+payable_validation,validation_status,varchar(30),,,NO,Validation Status,Passed/Failed/Warning/Overridden
+payable_validation,expected_value,varchar(200),,,YES,Expected Value,Expected
+payable_validation,actual_value,varchar(200),,,YES,Actual Value,Actual
+payable_validation,variance_amount,"decimal(14,2)",,,YES,Variance Amount,Amount variance
+payable_validation,remarks,varchar(500),,,YES,Remarks,Remarks
+payable_validation,approved_by_user_id,uniqueidentifier,,YES: user_master.user_id,YES,Approved By User,Approver
+item_master,item_id,uniqueidentifier,YES,,NO,Item,Primary key
+item_master,item_code,varchar(50),,,NO,Item Code,Item code
+item_master,item_name,varchar(150),,,NO,Item Name,Item name
+item_master,item_category,varchar(50),,,NO,Item Category,Spares/Consumable/Tyre/Accessory/Accompaniment/HR
+item_master,uom,varchar(20),,,NO,Uom,Unit of measure
+item_master,is_serialized,bit,,,NO,Is Serialized,Serial-level tracking
+item_master,is_reusable,bit,,,NO,Is Reusable,Reusable item flag
+item_master,standard_cost,"decimal(14,2)",,,YES,Standard Cost,Standard cost
+item_master,status,varchar(20),,,NO,Status,Active/Inactive
+stock_ledger,stock_ledger_id,uniqueidentifier,YES,,NO,Stock Ledger,Primary key
+stock_ledger,txn_datetime,datetime2,,,NO,Txn Datetime,Transaction time
+stock_ledger,branch_id,uniqueidentifier,,YES: branch_master.branch_id,NO,Branch,Branch
+stock_ledger,item_id,uniqueidentifier,,YES: item_master.item_id,NO,Item,Item
+stock_ledger,movement_type,varchar(40),,,NO,Movement Type,GRN/Issue/Return/TransferOut/TransferIn/Scrap/Adjustment
+stock_ledger,quantity,"decimal(12,3)",,,NO,Quantity,Quantity
+stock_ledger,unit_cost,"decimal(14,2)",,,YES,Unit Cost,Unit cost
+stock_ledger,reference_type,varchar(40),,,YES,Reference Type,JobCard/Vehicle/Invoice/Tyre/Accessory/Trip
+stock_ledger,reference_id,uniqueidentifier,,,YES,Reference,Reference id
+stock_ledger,issued_to_type,varchar(30),,,YES,Issued To Type,Vehicle/Mechanic/Driver/Branch/Workshop
+stock_ledger,issued_to_id,uniqueidentifier,,,YES,Issued To,Issue target
+stock_ledger,status,varchar(30),,,NO,Status,Draft/Posted/Cancelled
+tyre_master,tyre_id,uniqueidentifier,YES,,NO,Tyre,Primary key
+tyre_master,tyre_serial_no,varchar(80),,,NO,Tyre Serial No,Unique tyre serial
+tyre_master,brand,varchar(80),,,YES,Brand,Brand
+tyre_master,model,varchar(80),,,YES,Model,Model
+tyre_master,size,varchar(40),,,NO,Size,Tyre size
+tyre_master,ply_rating,varchar(20),,,YES,Ply Rating,Ply rating
+tyre_master,purchase_date,date,,,YES,Purchase Date,Purchase date
+tyre_master,vendor_id,uniqueidentifier,,YES: vendor_master.vendor_id,YES,Vendor,Vendor
+tyre_master,purchase_cost,"decimal(14,2)",,,YES,Purchase Cost,Cost
+tyre_master,warranty_upto,date,,,YES,Warranty Upto,Warranty date
+tyre_master,current_branch_id,uniqueidentifier,,YES: branch_master.branch_id,YES,Current Branch,Branch
+tyre_master,current_vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,YES,Current Vehicle,Vehicle
+tyre_master,current_trailer_id,uniqueidentifier,,YES: trailer_master.trailer_id,YES,Current Trailer,Trailer
+tyre_master,current_position,varchar(30),,,YES,Current Position,Axle/wheel position
+tyre_master,status,varchar(30),,,NO,Status,New/InStock/Fitted/Running/Repairable/Retread/Scrap/Disposed
+tyre_master,total_run_km,"decimal(12,1)",,,YES,Total Run Km,Total run km
+tyre_movement,tyre_movement_id,uniqueidentifier,YES,,NO,Tyre Movement,Primary key
+tyre_movement,tyre_id,uniqueidentifier,,YES: tyre_master.tyre_id,NO,Tyre,Tyre
+tyre_movement,movement_type,varchar(40),,,NO,Movement Type,Fitment/Removal/Rotation/RepairOut/RepairIn/Retread/Scrap/Transfer
+tyre_movement,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,YES,Vehicle,Vehicle
+tyre_movement,trailer_id,uniqueidentifier,,YES: trailer_master.trailer_id,YES,Trailer,Trailer
+tyre_movement,from_position,varchar(30),,,YES,From Position,From position
+tyre_movement,to_position,varchar(30),,,YES,To Position,To position
+tyre_movement,odometer_km,"decimal(12,1)",,,YES,Odometer Km,Odometer
+tyre_movement,tread_depth_mm,"decimal(6,2)",,,YES,Tread Depth Mm,Tread depth
+tyre_movement,condition_notes,varchar(500),,,YES,Condition Notes,Condition
+tyre_movement,movement_datetime,datetime2,,,NO,Movement Datetime,Movement date/time
+tyre_movement,job_card_id,uniqueidentifier,,YES: job_card.job_card_id,YES,Job Card,Job card
+tyre_movement,status,varchar(30),,,NO,Status,Completed/PendingApproval/Cancelled
+accessory_master,accessory_id,uniqueidentifier,YES,,NO,Accessory,Primary key
+accessory_master,accessory_code,varchar(50),,,NO,Accessory Code,Accessory code
+accessory_master,accessory_type,varchar(50),,,NO,Accessory Type,Camera/ADAS/GPS/OBD/Lock/Sensor/MDVR
+accessory_master,serial_no,varchar(80),,,YES,Serial No,Serial number
+accessory_master,vendor_id,uniqueidentifier,,YES: vendor_master.vendor_id,YES,Vendor,Vendor
+accessory_master,purchase_date,date,,,YES,Purchase Date,Purchase date
+accessory_master,warranty_upto,date,,,YES,Warranty Upto,Warranty
+accessory_master,sim_no,varchar(30),,,YES,Sim No,SIM/mobile device number
+accessory_master,imei_no,varchar(30),,,YES,Imei No,IMEI where relevant
+accessory_master,current_vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,YES,Current Vehicle,Installed vehicle
+accessory_master,current_trailer_id,uniqueidentifier,,YES: trailer_master.trailer_id,YES,Current Trailer,Installed trailer
+accessory_master,health_status,varchar(30),,,YES,Health Status,Online/Offline/Faulty/Unknown
+accessory_master,status,varchar(30),,,NO,Status,InStock/Installed/Active/Faulty/Repair/Scrap
+accessory_event,accessory_event_id,uniqueidentifier,YES,,NO,Accessory Event,Primary key
+accessory_event,accessory_id,uniqueidentifier,,YES: accessory_master.accessory_id,NO,Accessory,Accessory
+accessory_event,event_type,varchar(40),,,NO,Event Type,Install/Remove/Transfer/HealthAlert/Repair/Replace/Scrap
+accessory_event,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,YES,Vehicle,Vehicle
+accessory_event,trailer_id,uniqueidentifier,,YES: trailer_master.trailer_id,YES,Trailer,Trailer
+accessory_event,event_datetime,datetime2,,,NO,Event Datetime,Event date/time
+accessory_event,job_card_id,uniqueidentifier,,YES: job_card.job_card_id,YES,Job Card,Job card
+accessory_event,remarks,varchar(500),,,YES,Remarks,Remarks
+accessory_event,status,varchar(30),,,NO,Status,Open/Closed/Cancelled
+accompaniment_master,accompaniment_id,uniqueidentifier,YES,,NO,Accompaniment,Primary key
+accompaniment_master,accompaniment_code,varchar(50),,,NO,Accompaniment Code,Code/serial
+accompaniment_master,accompaniment_type,varchar(50),,,NO,Accompaniment Type,Tarpaulin/Seal/OTPLock/ELock/SafetyKit/Rope/Chain
+accompaniment_master,item_id,uniqueidentifier,,YES: item_master.item_id,YES,Item,Item master
+accompaniment_master,size_or_spec,varchar(100),,,YES,Size Or Spec,Size/spec
+accompaniment_master,is_reusable,bit,,,NO,Is Reusable,Reusable flag
+accompaniment_master,current_branch_id,uniqueidentifier,,YES: branch_master.branch_id,YES,Current Branch,Branch
+accompaniment_master,current_status,varchar(30),,,NO,Current Status,InStock/Issued/InTrip/Returned/Damaged/Lost/Scrap
+accompaniment_master,vendor_id,uniqueidentifier,,YES: vendor_master.vendor_id,YES,Vendor,Vendor
+accompaniment_issue,accompaniment_issue_id,uniqueidentifier,YES,,NO,Accompaniment Issue,Primary key
+accompaniment_issue,accompaniment_id,uniqueidentifier,,YES: accompaniment_master.accompaniment_id,NO,Accompaniment,Accompaniment
+accompaniment_issue,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,YES,Vehicle,Vehicle
+accompaniment_issue,trailer_id,uniqueidentifier,,YES: trailer_master.trailer_id,YES,Trailer,Trailer
+accompaniment_issue,trip_id,uniqueidentifier,,YES: trip_master.trip_id,YES,Trip,Trip
+accompaniment_issue,driver_id,uniqueidentifier,,YES: driver_master.driver_id,YES,Driver,Driver
+accompaniment_issue,issue_datetime,datetime2,,,NO,Issue Datetime,Issue time
+accompaniment_issue,return_datetime,datetime2,,,YES,Return Datetime,Return time
+accompaniment_issue,seal_no,varchar(80),,,YES,Seal No,Seal number
+accompaniment_issue,otp_lock_event_id,varchar(100),,,YES,Otp Lock Event,OTP lock event/ref
+accompaniment_issue,loading_photo_url,varchar(500),,,YES,Loading Photo Url,Loading photo
+accompaniment_issue,unloading_photo_url,varchar(500),,,YES,Unloading Photo Url,Unloading photo
+accompaniment_issue,condition_on_return,varchar(200),,,YES,Condition On Return,Condition
+accompaniment_issue,status,varchar(30),,,NO,Status,Issued/Returned/Damaged/Lost/Closed
+inspection_template,template_id,uniqueidentifier,YES,,NO,Template,Primary key
+inspection_template,template_code,varchar(50),,,NO,Template Code,Template code
+inspection_template,template_name,varchar(120),,,NO,Template Name,Template name
+inspection_template,asset_type,varchar(20),,,NO,Asset Type,Vehicle/Trailer/Tyre/Accessory
+inspection_template,fuel_type,varchar(20),,,YES,Fuel Type,Fuel type where applicable
+inspection_template,inspection_type,varchar(50),,,NO,Inspection Type,PreTrip/PostTrip/Periodic/LNGSafety/CNGSafety/EVSafety
+inspection_template,status,varchar(20),,,NO,Status,Active/Inactive
+inspection_event,inspection_id,uniqueidentifier,YES,,NO,Inspection,Primary key
+inspection_event,template_id,uniqueidentifier,,YES: inspection_template.template_id,NO,Template,Template
+inspection_event,asset_type,varchar(20),,,NO,Asset Type,Vehicle/Trailer/Tyre/Accessory
+inspection_event,asset_id,uniqueidentifier,,,NO,Asset,Inspected asset
+inspection_event,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,YES,Vehicle,Vehicle
+inspection_event,trailer_id,uniqueidentifier,,YES: trailer_master.trailer_id,YES,Trailer,Trailer
+inspection_event,performed_by_user_id,uniqueidentifier,,YES: user_master.user_id,YES,Performed By User,User
+inspection_event,inspection_datetime,datetime2,,,NO,Inspection Datetime,Inspection time
+inspection_event,outcome,varchar(30),,,NO,Outcome,Approved/Conditional/Rejected
+inspection_event,remarks,varchar(500),,,YES,Remarks,Remarks
+inspection_event,job_card_id,uniqueidentifier,,YES: job_card.job_card_id,YES,Job Card,Generated job card
+inspection_result_line,inspection_line_id,uniqueidentifier,YES,,NO,Inspection Line,Primary key
+inspection_result_line,inspection_id,uniqueidentifier,,YES: inspection_event.inspection_id,NO,Inspection,Inspection
+inspection_result_line,check_item_code,varchar(50),,,NO,Check Item Code,Checklist item code
+inspection_result_line,check_item_name,varchar(150),,,NO,Check Item Name,Checklist item
+inspection_result_line,result,varchar(30),,,NO,Result,Pass/Fail/NA/Observation
+inspection_result_line,severity,varchar(20),,,YES,Severity,Low/Medium/High/Critical
+inspection_result_line,photo_url,varchar(500),,,YES,Photo Url,Evidence photo
+inspection_result_line,remarks,varchar(500),,,YES,Remarks,Remarks
+approval_request,approval_id,uniqueidentifier,YES,,NO,Approval,Primary key
+approval_request,transaction_type,varchar(50),,,NO,Transaction Type,FuelVariance/JobCard/Invoice/TyreScrap/ComplianceOverride/etc.
+approval_request,transaction_id,uniqueidentifier,,,NO,Transaction,Transaction id
+approval_request,requested_by_user_id,uniqueidentifier,,YES: user_master.user_id,NO,Requested By User,Requester
+approval_request,requested_at,datetime2,,,NO,Requested At,Request time
+approval_request,approval_level,int,,,NO,Approval Level,L1/L2/etc.
+approval_request,approver_user_id,uniqueidentifier,,YES: user_master.user_id,YES,Approver User,Approver
+approval_request,approval_status,varchar(30),,,NO,Approval Status,Pending/Approved/Rejected/Returned
+approval_request,decision_at,datetime2,,,YES,Decision At,Decision time
+approval_request,remarks,varchar(500),,,YES,Remarks,Remarks
+alert_event,alert_id,uniqueidentifier,YES,,NO,Alert,Primary key
+alert_event,alert_type,varchar(50),,,NO,Alert Type,MaintenanceDue/FuelVariance/ComplianceExpiry/AccessoryOffline/etc.
+alert_event,severity,varchar(20),,,NO,Severity,Info/Warning/Critical
+alert_event,entity_type,varchar(50),,,NO,Entity Type,Vehicle/Trailer/Invoice/Tyre/Accessory/Compliance
+alert_event,entity_id,uniqueidentifier,,,NO,Entity,Entity id
+alert_event,alert_title,varchar(150),,,NO,Alert Title,Title
+alert_event,alert_message,varchar(1000),,,YES,Alert Message,Message
+alert_event,assigned_to_user_id,uniqueidentifier,,YES: user_master.user_id,YES,Assigned To User,Owner
+alert_event,created_at,datetime2,,,NO,Created At,Created time
+alert_event,status,varchar(30),,,NO,Status,Open/Acknowledged/Closed/Snoozed
+ulip_api_log,api_log_id,uniqueidentifier,YES,,NO,Api Log,Primary key
+ulip_api_log,api_name,varchar(80),,,NO,Api Name,API name
+ulip_api_log,reference_type,varchar(50),,,YES,Reference Type,Vehicle/Driver/Trip/Toll/Challan
+ulip_api_log,reference_id,uniqueidentifier,,,YES,Reference,Reference entity
+ulip_api_log,request_payload,nvarchar(max),,,YES,Request Payload,Request JSON
+ulip_api_log,response_payload,nvarchar(max),,,YES,Response Payload,Response JSON
+ulip_api_log,http_status_code,int,,,YES,Http Status Code,HTTP status
+ulip_api_log,api_status,varchar(30),,,NO,Api Status,Success/Failed/Retry
+ulip_api_log,error_message,varchar(1000),,,YES,Error Message,Error
+ulip_api_log,created_at,datetime2,,,NO,Created At,Timestamp
+trip_master,trip_id,uniqueidentifier,YES,,NO,Trip,Primary key
+trip_master,trip_no,varchar(50),,,NO,Trip No,Trip/LR number
+trip_master,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,NO,Vehicle,Vehicle
+trip_master,trailer_id,uniqueidentifier,,YES: trailer_master.trailer_id,YES,Trailer,Trailer
+trip_master,driver_id,uniqueidentifier,,YES: driver_master.driver_id,YES,Driver,Driver
+trip_master,origin,varchar(120),,,NO,Origin,Origin
+trip_master,destination,varchar(120),,,NO,Destination,Destination
+trip_master,route_code,varchar(50),,,YES,Route Code,Route
+trip_master,customer_name,varchar(150),,,YES,Customer Name,Customer
+trip_master,cargo_type,varchar(80),,,YES,Cargo Type,Cargo
+trip_master,planned_start_at,datetime2,,,YES,Planned Start At,Planned start
+trip_master,actual_start_at,datetime2,,,YES,Actual Start At,Actual start
+trip_master,status,varchar(30),,,NO,Status,Planned/InTransit/Completed/Cancelled
+toll_transaction,toll_txn_id,uniqueidentifier,YES,,NO,Toll Txn,Primary key
+toll_transaction,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,NO,Vehicle,Vehicle
+toll_transaction,trip_id,uniqueidentifier,,YES: trip_master.trip_id,YES,Trip,Trip
+toll_transaction,toll_plaza_code,varchar(50),,,YES,Toll Plaza Code,Plaza code
+toll_transaction,toll_plaza_name,varchar(150),,,YES,Toll Plaza Name,Plaza name
+toll_transaction,txn_datetime,datetime2,,,NO,Txn Datetime,Transaction time
+toll_transaction,amount,"decimal(14,2)",,,NO,Amount,Amount
+toll_transaction,source,varchar(20),,,NO,Source,FASTag/Manual/ULIP
+toll_transaction,reference_no,varchar(80),,,YES,Reference No,FASTag/reference number
+toll_transaction,reconciliation_status,varchar(30),,,NO,Reconciliation Status,Matched/Unmatched/Exception
+document_store,document_id,uniqueidentifier,YES,,NO,Document,Primary key
+document_store,entity_type,varchar(50),,,NO,Entity Type,Linked entity type
+document_store,entity_id,uniqueidentifier,,,NO,Entity,Linked entity id
+document_store,document_category,varchar(50),,,NO,Document Category,Invoice/Compliance/Photo/Certificate/Other
+document_store,file_name,varchar(255),,,NO,File Name,Stored file name
+document_store,file_url,varchar(500),,,NO,File Url,Storage URL
+document_store,mime_type,varchar(100),,,YES,Mime Type,File type
+document_store,uploaded_by_user_id,uniqueidentifier,,YES: user_master.user_id,YES,Uploaded By User,Uploader
+document_store,uploaded_at,datetime2,,,NO,Uploaded At,Uploaded timestamp
+document_store,ocr_json,nvarchar(max),,,YES,Ocr Json,Extracted OCR metadata
+vehicle_cost_ledger,cost_ledger_id,uniqueidentifier,YES,,NO,Cost Ledger,Primary key
+vehicle_cost_ledger,vehicle_id,uniqueidentifier,,YES: vehicle_master.vehicle_id,YES,Vehicle,Vehicle
+vehicle_cost_ledger,trailer_id,uniqueidentifier,,YES: trailer_master.trailer_id,YES,Trailer,Trailer
+vehicle_cost_ledger,trip_id,uniqueidentifier,,YES: trip_master.trip_id,YES,Trip,Trip
+vehicle_cost_ledger,cost_datetime,datetime2,,,NO,Cost Datetime,Cost timestamp
+vehicle_cost_ledger,cost_category,varchar(50),,,NO,Cost Category,Fuel/Toll/Maintenance/Tyre/Accessory/Consumable/Compliance/Salary/Other
+vehicle_cost_ledger,source_transaction_type,varchar(50),,,YES,Source Transaction Type,Fuel/Invoice/JobCard/Toll/etc.
+vehicle_cost_ledger,source_transaction_id,uniqueidentifier,,,YES,Source Transaction,Source id
+vehicle_cost_ledger,amount,"decimal(14,2)",,,NO,Amount,Amount
+vehicle_cost_ledger,branch_id,uniqueidentifier,,YES: branch_master.branch_id,YES,Branch,Branch
+vehicle_cost_ledger,posted_to_accounts,bit,,,NO,Posted To Accounts,Accounting posted flag
+approval_matrix,approval_matrix_id,uniqueidentifier,YES,,NO,Approval Matrix,Primary key
+approval_matrix,transaction_type,varchar(50),,,NO,Transaction Type,Transaction type
+approval_matrix,branch_id,uniqueidentifier,,YES: branch_master.branch_id,YES,Branch,Branch
+approval_matrix,amount_from,"decimal(14,2)",,,YES,Amount From,Lower threshold
+approval_matrix,amount_to,"decimal(14,2)",,,YES,Amount To,Upper threshold
+approval_matrix,approval_level,int,,,NO,Approval Level,Approval level
+approval_matrix,role_code,varchar(50),,YES: role_master.role_code,NO,Role Code,Approver role
+approval_matrix,is_active,bit,,,NO,Is Active,Active
+alert_rule,alert_rule_id,uniqueidentifier,YES,,NO,Alert Rule,Primary key
+alert_rule,alert_type,varchar(50),,,NO,Alert Type,Alert type
+alert_rule,entity_type,varchar(50),,,NO,Entity Type,Entity type
+alert_rule,threshold_value,"decimal(14,3)",,,YES,Threshold Value,Threshold
+alert_rule,threshold_unit,varchar(20),,,YES,Threshold Unit,Days/KM/Hours/Percent/Amount
+alert_rule,severity,varchar(20),,,NO,Severity,Severity
+alert_rule,notify_role_code,varchar(50),,YES: role_master.role_code,YES,Notify Role Code,Notify role
+alert_rule,is_active,bit,,,NO,Is Active,Active
+integration_config,integration_config_id,uniqueidentifier,YES,,NO,Integration Config,Primary key
+integration_config,integration_name,varchar(80),,,NO,Integration Name,ULIP/FASTag/GPS/OBD/EVCharging/FuelVendor/OCR
+integration_config,environment,varchar(20),,,NO,Environment,Dev/UAT/Prod
+integration_config,base_url,varchar(300),,,YES,Base Url,API base URL
+integration_config,auth_type,varchar(30),,,YES,Auth Type,OAuth/APIKey/mTLS/Basic
+integration_config,credential_ref,varchar(200),,,YES,Credential Ref,Secret reference
+integration_config,is_enabled,bit,,,NO,Is Enabled,Enabled flag
+integration_config,last_success_at,datetime2,,,YES,Last Success At,Last success

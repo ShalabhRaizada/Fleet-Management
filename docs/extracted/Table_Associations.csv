@@ -1,0 +1,103 @@
+Child Table,Child Column,Parent Table,Parent Column,Relationship,Constraint Type,Business Meaning
+user_master,role_code,role_master,role_code,Many-to-One,FK,Primary role
+user_master,branch_id,branch_master,branch_id,Many-to-One,FK,Default branch
+driver_master,vendor_id,vendor_master,vendor_id,Many-to-One,FK,Vendor if attached driver
+driver_master,home_branch_id,branch_master,branch_id,Many-to-One,FK,Home branch
+vehicle_master,branch_id,branch_master,branch_id,Many-to-One,FK,Operating branch
+vehicle_master,current_driver_id,driver_master,driver_id,Many-to-One,FK,Assigned driver
+vehicle_fuel_profile,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle FK
+trailer_master,branch_id,branch_master,branch_id,Many-to-One,FK,Branch
+vehicle_trailer_coupling,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+vehicle_trailer_coupling,trailer_id,trailer_master,trailer_id,Many-to-One,FK,Trailer
+vehicle_trailer_coupling,coupled_by_user_id,user_master,user_id,Many-to-One,FK,User
+fuel_vendor_station,vendor_id,vendor_master,vendor_id,Many-to-One,FK,Vendor
+fuel_rate_master,station_id,fuel_vendor_station,station_id,Many-to-One,FK,Station
+fuel_transaction,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+fuel_transaction,trip_id,trip_master,trip_id,Many-to-One,FK,Trip/LR reference
+fuel_transaction,driver_id,driver_master,driver_id,Many-to-One,FK,Driver
+fuel_transaction,station_id,fuel_vendor_station,station_id,Many-to-One,FK,Fuel/charging station
+fuel_transaction,invoice_id,vendor_invoice,invoice_id,Many-to-One,FK,Vendor bill
+fuel_variance,fuel_txn_id,fuel_transaction,fuel_txn_id,Many-to-One,FK,Fuel transaction
+fuel_variance,route_fuel_norm_id,route_fuel_norm,route_fuel_norm_id,Many-to-One,FK,Norm
+fuel_variance,approved_by_user_id,user_master,user_id,Many-to-One,FK,Approver
+asset_compliance,compliance_type_code,compliance_type_master,compliance_type_code,Many-to-One,FK,Compliance type
+compliance_alert,asset_compliance_id,asset_compliance,asset_compliance_id,Many-to-One,FK,Compliance record
+compliance_alert,assigned_to_user_id,user_master,user_id,Many-to-One,FK,Assigned user
+maintenance_schedule,checklist_template_id,inspection_template,template_id,Many-to-One,FK,Checklist
+maintenance_due,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+maintenance_due,maintenance_schedule_id,maintenance_schedule,maintenance_schedule_id,Many-to-One,FK,Schedule
+maintenance_due,job_card_id,job_card,job_card_id,Many-to-One,FK,Created job card
+job_card,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+job_card,trailer_id,trailer_master,trailer_id,Many-to-One,FK,Trailer
+job_card,branch_id,branch_master,branch_id,Many-to-One,FK,Branch
+job_card,workshop_id,workshop_master,workshop_id,Many-to-One,FK,Workshop
+job_card,reported_by_user_id,user_master,user_id,Many-to-One,FK,Reported by
+job_card_line,job_card_id,job_card,job_card_id,Many-to-One,FK,Job card
+job_card_line,item_id,item_master,item_id,Many-to-One,FK,Inventory item
+job_card_line,tyre_id,tyre_master,tyre_id,Many-to-One,FK,Tyre
+job_card_line,accessory_id,accessory_master,accessory_id,Many-to-One,FK,Accessory
+breakdown_event,job_card_id,job_card,job_card_id,Many-to-One,FK,Job card
+breakdown_event,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+breakdown_event,trip_id,trip_master,trip_id,Many-to-One,FK,Trip
+accident_event,job_card_id,job_card,job_card_id,Many-to-One,FK,Accident job card
+accident_event,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+accident_event,trailer_id,trailer_master,trailer_id,Many-to-One,FK,Trailer
+accident_event,driver_id,driver_master,driver_id,Many-to-One,FK,Driver
+workshop_master,vendor_id,vendor_master,vendor_id,Many-to-One,FK,Vendor if external
+workshop_master,branch_id,branch_master,branch_id,Many-to-One,FK,Internal branch
+workshop_rate_contract,workshop_id,workshop_master,workshop_id,Many-to-One,FK,Workshop
+vendor_invoice,vendor_id,vendor_master,vendor_id,Many-to-One,FK,Vendor
+vendor_invoice,workshop_id,workshop_master,workshop_id,Many-to-One,FK,Workshop
+invoice_line,invoice_id,vendor_invoice,invoice_id,Many-to-One,FK,Invoice
+invoice_line,job_card_id,job_card,job_card_id,Many-to-One,FK,Job card
+invoice_line,item_id,item_master,item_id,Many-to-One,FK,Item
+payable_validation,invoice_id,vendor_invoice,invoice_id,Many-to-One,FK,Invoice
+payable_validation,job_card_id,job_card,job_card_id,Many-to-One,FK,Job card
+payable_validation,approved_by_user_id,user_master,user_id,Many-to-One,FK,Approver
+stock_ledger,branch_id,branch_master,branch_id,Many-to-One,FK,Branch
+stock_ledger,item_id,item_master,item_id,Many-to-One,FK,Item
+tyre_master,vendor_id,vendor_master,vendor_id,Many-to-One,FK,Vendor
+tyre_master,current_branch_id,branch_master,branch_id,Many-to-One,FK,Branch
+tyre_master,current_vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+tyre_master,current_trailer_id,trailer_master,trailer_id,Many-to-One,FK,Trailer
+tyre_movement,tyre_id,tyre_master,tyre_id,Many-to-One,FK,Tyre
+tyre_movement,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+tyre_movement,trailer_id,trailer_master,trailer_id,Many-to-One,FK,Trailer
+tyre_movement,job_card_id,job_card,job_card_id,Many-to-One,FK,Job card
+accessory_master,vendor_id,vendor_master,vendor_id,Many-to-One,FK,Vendor
+accessory_master,current_vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Installed vehicle
+accessory_master,current_trailer_id,trailer_master,trailer_id,Many-to-One,FK,Installed trailer
+accessory_event,accessory_id,accessory_master,accessory_id,Many-to-One,FK,Accessory
+accessory_event,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+accessory_event,trailer_id,trailer_master,trailer_id,Many-to-One,FK,Trailer
+accessory_event,job_card_id,job_card,job_card_id,Many-to-One,FK,Job card
+accompaniment_master,item_id,item_master,item_id,Many-to-One,FK,Item master
+accompaniment_master,current_branch_id,branch_master,branch_id,Many-to-One,FK,Branch
+accompaniment_master,vendor_id,vendor_master,vendor_id,Many-to-One,FK,Vendor
+accompaniment_issue,accompaniment_id,accompaniment_master,accompaniment_id,Many-to-One,FK,Accompaniment
+accompaniment_issue,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+accompaniment_issue,trailer_id,trailer_master,trailer_id,Many-to-One,FK,Trailer
+accompaniment_issue,trip_id,trip_master,trip_id,Many-to-One,FK,Trip
+accompaniment_issue,driver_id,driver_master,driver_id,Many-to-One,FK,Driver
+inspection_event,template_id,inspection_template,template_id,Many-to-One,FK,Template
+inspection_event,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+inspection_event,trailer_id,trailer_master,trailer_id,Many-to-One,FK,Trailer
+inspection_event,performed_by_user_id,user_master,user_id,Many-to-One,FK,User
+inspection_event,job_card_id,job_card,job_card_id,Many-to-One,FK,Generated job card
+inspection_result_line,inspection_id,inspection_event,inspection_id,Many-to-One,FK,Inspection
+approval_request,requested_by_user_id,user_master,user_id,Many-to-One,FK,Requester
+approval_request,approver_user_id,user_master,user_id,Many-to-One,FK,Approver
+alert_event,assigned_to_user_id,user_master,user_id,Many-to-One,FK,Owner
+trip_master,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+trip_master,trailer_id,trailer_master,trailer_id,Many-to-One,FK,Trailer
+trip_master,driver_id,driver_master,driver_id,Many-to-One,FK,Driver
+toll_transaction,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+toll_transaction,trip_id,trip_master,trip_id,Many-to-One,FK,Trip
+document_store,uploaded_by_user_id,user_master,user_id,Many-to-One,FK,Uploader
+vehicle_cost_ledger,vehicle_id,vehicle_master,vehicle_id,Many-to-One,FK,Vehicle
+vehicle_cost_ledger,trailer_id,trailer_master,trailer_id,Many-to-One,FK,Trailer
+vehicle_cost_ledger,trip_id,trip_master,trip_id,Many-to-One,FK,Trip
+vehicle_cost_ledger,branch_id,branch_master,branch_id,Many-to-One,FK,Branch
+approval_matrix,branch_id,branch_master,branch_id,Many-to-One,FK,Branch
+approval_matrix,role_code,role_master,role_code,Many-to-One,FK,Approver role
+alert_rule,notify_role_code,role_master,role_code,Many-to-One,FK,Notify role

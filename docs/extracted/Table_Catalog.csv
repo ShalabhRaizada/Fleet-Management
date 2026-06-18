@@ -1,0 +1,50 @@
+Table Name,Business Description,Primary Key,Column Count,Phase,Primary Module
+branch_master,Operating branch / workshop / store location master,branch_id,11,P1,Masters/Config
+user_master,Application user and role owner,user_id,9,P1,Masters/Config
+role_master,Application role master,role_code,4,P1,Masters/Config
+vendor_master,"Supplier/vendor master for fuel, workshop, tyres, accessories and consumables",vendor_id,12,P1,Masters/Config
+driver_master,Driver master used for vehicle assignment and licence validation,driver_id,10,P1,Masters/Config
+vehicle_master,Truck/tractor/rigid vehicle master including Diesel/CNG/LNG/EV attributes,vehicle_id,24,P1,Core Fleet
+vehicle_fuel_profile,Fuel/energy specific profile for Diesel/CNG/LNG/EV vehicles,fuel_profile_id,13,P1,Masters/Config
+trailer_master,"Trailer master including capacity, body type and statutory details",trailer_id,12,P1,Core Fleet
+vehicle_trailer_coupling,Current and historic coupling/decoupling between tractor and trailer,coupling_id,9,P1,Core Fleet
+fuel_vendor_station,Fuel or charging station master,station_id,9,P1,Masters/Config
+fuel_rate_master,Approved fuel/energy rates by vendor/location/fuel type,fuel_rate_id,8,P1,Masters/Config
+route_fuel_norm,Planned fuel/energy and toll norms by route/vehicle type,route_fuel_norm_id,11,P1,Masters/Config
+fuel_transaction,Diesel/CNG/LNG/EV charging transactions,fuel_txn_id,19,P1,Core Fleet
+fuel_variance,Planned vs actual fuel/energy variance,fuel_variance_id,10,P1,Masters/Config
+compliance_type_master,Compliance document types,compliance_type_code,6,P1,Masters/Config
+asset_compliance,"Compliance records for vehicles, trailers and accessories",asset_compliance_id,13,P1,Core Fleet
+compliance_alert,Alerts generated for expiring/expired compliance,compliance_alert_id,7,P1,Masters/Config
+maintenance_schedule,Preventive maintenance schedule/rule,maintenance_schedule_id,12,P2,Advanced Ops
+maintenance_due,Vehicle maintenance due queue,maintenance_due_id,8,P2,Advanced Ops
+job_card,Central maintenance job card for scheduled/unscheduled repairs,job_card_id,18,P1,Core Fleet
+job_card_line,Detailed labour/parts/tyre/consumable/accessory lines in a job card,job_card_line_id,11,P1,Masters/Config
+breakdown_event,Breakdown case details,breakdown_id,13,P2,Advanced Ops
+accident_event,Vehicle accident and insurance claim tracking,accident_id,14,P2,Advanced Ops
+workshop_master,Internal/external workshop master,workshop_id,10,P1,Core Fleet
+workshop_rate_contract,Rate contract for workshop labour/service rates,rate_contract_id,9,P2,Advanced Ops
+vendor_invoice,Common vendor invoice for workshop/fuel/tyre/accessory/consumable bills,invoice_id,15,P1,Masters/Config
+invoice_line,Invoice item/service lines,invoice_line_id,10,P2,Advanced Ops
+payable_validation,Invoice validation result against job card/PO/rate contract/GRN,validation_id,10,P2,Advanced Ops
+item_master,"Inventory item master for spares, consumables, accessories and accompaniments",item_id,9,P1,Masters/Config
+stock_ledger,"Stock movement ledger for tyres, spares, consumables, accompaniments and accessories",stock_ledger_id,12,P2,Advanced Ops
+tyre_master,Serial-level tyre master and lifecycle,tyre_id,16,P1,Core Fleet
+tyre_movement,Tyre fitment/removal/rotation/repair/retread/scrap events,tyre_movement_id,13,P2,Advanced Ops
+accessory_master,"Cameras, ADAS, GPS/AIS-140, OBD/CAN, sensors and locks",accessory_id,13,P1,Core Fleet
+accessory_event,Accessory install/remove/repair/health events,accessory_event_id,9,P1,Masters/Config
+accompaniment_master,"Tarpaulins, seals, OTP locks, lashing belts, safety kits",accompaniment_id,9,P1,Core Fleet
+accompaniment_issue,Issue/return and trip event capture for mandatory accompaniments,accompaniment_issue_id,14,P1,Masters/Config
+inspection_template,Configurable inspection/checklist template,template_id,7,P1,Masters/Config
+inspection_event,Inspection execution record,inspection_id,11,P2,Advanced Ops
+inspection_result_line,Checklist question results,inspection_line_id,8,P2,Advanced Ops
+approval_request,Generic approval workflow for fleet transactions,approval_id,10,P1,Core Fleet
+alert_event,Operational and compliance alerts,alert_id,10,P3,Integrations/Alerts
+ulip_api_log,ULIP/VAHAN/SARATHI/FASTag/E-Challan API logs,api_log_id,10,P3,Integrations/Alerts
+trip_master,Trip/LR reference needed for mapping fuel/toll/accompaniments to operations,trip_id,13,P1,Core Fleet
+toll_transaction,FASTag/manual toll transactions,toll_txn_id,10,P1,Masters/Config
+document_store,Uploaded documents/photos/invoices/certificates metadata,document_id,10,P3,Integrations/Alerts
+vehicle_cost_ledger,Unified vehicle/trailer cost ledger for profitability reporting,cost_ledger_id,11,P1,Core Fleet
+approval_matrix,Configurable approval levels and thresholds,approval_matrix_id,8,P1,Masters/Config
+alert_rule,Configurable alert thresholds and escalation rules,alert_rule_id,8,P3,Integrations/Alerts
+integration_config,External integration/API configuration,integration_config_id,8,P3,Integrations/Alerts

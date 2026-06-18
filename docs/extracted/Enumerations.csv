@@ -1,0 +1,16 @@
+Domain,Allowed Values,Used In Tables/Columns,Notes
+Fuel Type,"Diesel, CNG, LNG, EV, Hybrid",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Vehicle Status,"Available, Assigned, InTrip, UnderMaintenance, Breakdown, AccidentHold, ComplianceHold, WorkshopHold, Sold, Scrapped, Inactive",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Ownership Type,"Owned, Leased, Attached, Market",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Trailer Status,"Available, Attached, UnderMaintenance, ComplianceHold, Inactive",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Job Card Status,"Open, Assigned, Diagnosis, AwaitingParts, UnderRepair, QC, Completed, Closed, Reopened, Cancelled",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Job Card Type,"Scheduled, Breakdown, Accident, Inspection, Tyre, Accessory, Trailer, Consumable",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Invoice Status,"Draft, Matched, Exception, Approved, Posted, Paid, Rejected, Disputed",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Approval Status,"Pending, Approved, Rejected, Returned, Overridden",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Tyre Status,"New, InStock, Fitted, Running, Removed, Repairable, SentForRepair, Retreaded, Spare, Dead, Scrap, Disposed",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Accessory Status,"InStock, Installed, Active, Faulty, Removed, UnderRepair, Replaced, Scrap",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Accompaniment Type,"Tarpaulin, Seal, SmartSeal, OTPLock, ELock, Rope, Chain, LashingBelt, SafetyKit",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Compliance Status,"Valid, ExpiringSoon, Expired, UnderRenewal, Exempted, NotApplicable",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Inspection Outcome,"Approved, Conditional, Rejected, HoldForMaintenance",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+Alert Severity,"Info, Warning, Critical",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
+ULIP API Status,"Success, Failed, Retry, ManualOverride",See Data Dictionary and Screen Field Map,Use as dropdown/reference master values
