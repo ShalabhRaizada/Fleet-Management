@@ -153,6 +153,10 @@ const SettingsHome = React.lazy(() => import('./pages/settings/SettingsHome'));
 const AuditLogList = React.lazy(() => import('./pages/audit/AuditLogList'));
 const AuditLogDetail = React.lazy(() => import('./pages/audit/AuditLogDetail'));
 
+const HsIncidentList = React.lazy(() => import('./pages/hsIncidents/HsIncidentList'));
+const HsIncidentForm = React.lazy(() => import('./pages/hsIncidents/HsIncidentForm'));
+const HsIncidentDetail = React.lazy(() => import('./pages/hsIncidents/HsIncidentDetail'));
+
 const RouteLoadingFallback = () => (
   <div className="flex h-screen items-center justify-center text-gray-400 text-sm">
     Loading...
@@ -365,6 +369,13 @@ export default function App() {
               <Route element={<ProtectedRoute roles={['ADMIN']} />}>
                 <Route path="/audit-log" element={<AuditLogList />} />
                 <Route path="/audit-log/:id" element={<AuditLogDetail />} />
+              </Route>
+
+              <Route element={<ProtectedRoute roles={['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR']} />}>
+                <Route path="/hs-incidents" element={<HsIncidentList />} />
+                <Route path="/hs-incidents/:id" element={<HsIncidentDetail />} />
+                <Route path="/hs-incidents/:id/edit" element={<HsIncidentForm />} />
+                <Route path="/hs-incidents/new" element={<HsIncidentForm />} />
               </Route>
             </Route>
           </Route>

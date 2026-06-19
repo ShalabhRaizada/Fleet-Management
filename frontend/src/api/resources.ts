@@ -14,6 +14,7 @@ import type {
   ApprovalMatrix, MaintenanceSchedule, MaintenanceDue, BreakdownEvent, AccidentEvent,
   PayableValidation, StockLedger, InspectionEvent, InspectionResultLine, IntegrationConfig,
   UlipApiLog, AlertRule, DocumentStore, UserRecord, HandoverDocument, AuditLog,
+  HsIncident, HsCorrectiveAction,
 } from '../types/entities-p2p3';
 
 export const branchApi = createResource<Branch>('/branches');
@@ -83,3 +84,7 @@ export const auditLogApi = createResource<AuditLog>('/audit-log');
 export function setAuditLogLegalHold(id: string, legalHold: boolean): Promise<AuditLog> {
   return api.patch<AuditLog>(`/audit-log/${id}/legal-hold`, { legal_hold: legalHold });
 }
+
+// Health & Safety incident tracking (Phase A gap-closure item 2)
+export const hsIncidentApi = createResource<HsIncident>('/hs-incidents');
+export const hsCorrectiveActionApi = createResource<HsCorrectiveAction>('/hs-corrective-actions');

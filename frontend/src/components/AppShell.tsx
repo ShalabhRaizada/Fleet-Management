@@ -63,6 +63,7 @@ const MENU: MenuItem[] = [
   { to: '/reports/challan-register', label: 'Challan Register', roles: ['ADMIN', 'FLEET_MANAGER'] },
   { to: '/settings', label: 'Settings', roles: ['ADMIN'] },
   { to: '/audit-log', label: 'Audit Log', roles: ['ADMIN'] },
+  { to: '/hs-incidents', label: 'H&S Incidents', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
 ];
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-/i;

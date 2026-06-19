@@ -256,6 +256,31 @@ export interface UserRecord {
   created_at?: string;
 }
 
+export interface HsIncident {
+  incident_id: string;
+  incident_type: string;
+  severity: string;
+  vehicle_id?: string | null;
+  driver_id?: string | null;
+  location?: string | null;
+  occurred_at: string;
+  reported_by: string;
+  description?: string | null;
+  injury_details?: string | null;
+  is_recordable: boolean;
+  status: string;
+}
+
+export interface HsCorrectiveAction {
+  action_id: string;
+  incident_id: string;
+  action_description: string;
+  assigned_to: string;
+  due_date?: string | null;
+  completed_date?: string | null;
+  status: string;
+}
+
 export interface HandoverDocument {
   handover_id: string;
   inspection_event_id: string;

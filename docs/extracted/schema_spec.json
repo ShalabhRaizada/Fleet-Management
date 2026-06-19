@@ -6106,6 +6106,191 @@
           "desc": "When true, record is protected from purge/retention deletion"
         }
       ]
+    },
+    "hs_incident": {
+      "pk": "incident_id",
+      "phase": "P3",
+      "module": "Health & Safety",
+      "columns": [
+        {
+          "name": "incident_id",
+          "type": "uniqueidentifier",
+          "pk": true,
+          "fk": "",
+          "nullable": false,
+          "label": "Incident",
+          "desc": "Primary key"
+        },
+        {
+          "name": "incident_type",
+          "type": "varchar(30)",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Incident Type",
+          "desc": "NearMiss/Injury/PropertyDamage/Spill/GasLeak/Other"
+        },
+        {
+          "name": "severity",
+          "type": "varchar(20)",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Severity",
+          "desc": "Low/Medium/High/Critical"
+        },
+        {
+          "name": "vehicle_id",
+          "type": "uniqueidentifier",
+          "pk": false,
+          "fk": "YES: vehicle_master.vehicle_id",
+          "nullable": true,
+          "label": "Vehicle",
+          "desc": "Vehicle involved in the incident (nullable)"
+        },
+        {
+          "name": "driver_id",
+          "type": "uniqueidentifier",
+          "pk": false,
+          "fk": "YES: user_master.user_id",
+          "nullable": true,
+          "label": "Driver",
+          "desc": "Driver involved in the incident (nullable)"
+        },
+        {
+          "name": "location",
+          "type": "nvarchar(max)",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Location",
+          "desc": "Where the incident occurred"
+        },
+        {
+          "name": "occurred_at",
+          "type": "datetime2",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Occurred At",
+          "desc": "Timestamp when the incident occurred"
+        },
+        {
+          "name": "reported_by",
+          "type": "uniqueidentifier",
+          "pk": false,
+          "fk": "YES: user_master.user_id",
+          "nullable": false,
+          "label": "Reported By",
+          "desc": "User who reported the incident"
+        },
+        {
+          "name": "description",
+          "type": "nvarchar(max)",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Description",
+          "desc": "Free-text incident description"
+        },
+        {
+          "name": "injury_details",
+          "type": "nvarchar(max)",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Injury Details",
+          "desc": "Details of any injury sustained"
+        },
+        {
+          "name": "is_recordable",
+          "type": "bit",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Is Recordable",
+          "desc": "Whether the incident is a recordable safety event"
+        },
+        {
+          "name": "status",
+          "type": "varchar(30)",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Status",
+          "desc": "Reported/UnderInvestigation/CorrectiveActionPending/Closed"
+        }
+      ]
+    },
+    "hs_corrective_action": {
+      "pk": "action_id",
+      "phase": "P3",
+      "module": "Health & Safety",
+      "columns": [
+        {
+          "name": "action_id",
+          "type": "uniqueidentifier",
+          "pk": true,
+          "fk": "",
+          "nullable": false,
+          "label": "Action",
+          "desc": "Primary key"
+        },
+        {
+          "name": "incident_id",
+          "type": "uniqueidentifier",
+          "pk": false,
+          "fk": "YES: hs_incident.incident_id",
+          "nullable": false,
+          "label": "Incident",
+          "desc": "Incident this corrective action is raised against"
+        },
+        {
+          "name": "action_description",
+          "type": "nvarchar(max)",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Action Description",
+          "desc": "Description of the corrective action"
+        },
+        {
+          "name": "assigned_to",
+          "type": "uniqueidentifier",
+          "pk": false,
+          "fk": "YES: user_master.user_id",
+          "nullable": false,
+          "label": "Assigned To",
+          "desc": "User responsible for completing the action"
+        },
+        {
+          "name": "due_date",
+          "type": "date",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Due Date",
+          "desc": "Date the action is due"
+        },
+        {
+          "name": "completed_date",
+          "type": "date",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Completed Date",
+          "desc": "Date the action was completed"
+        },
+        {
+          "name": "status",
+          "type": "varchar(20)",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Status",
+          "desc": "Open/InProgress/Completed/Overdue"
+        }
+      ]
     }
   },
   "fks": [
@@ -6790,6 +6975,36 @@
     {
       "child_table": "vahan_validation_result",
       "child_col": "requested_by",
+      "parent_table": "user_master",
+      "parent_col": "user_id"
+    },
+    {
+      "child_table": "hs_incident",
+      "child_col": "vehicle_id",
+      "parent_table": "vehicle_master",
+      "parent_col": "vehicle_id"
+    },
+    {
+      "child_table": "hs_incident",
+      "child_col": "driver_id",
+      "parent_table": "user_master",
+      "parent_col": "user_id"
+    },
+    {
+      "child_table": "hs_incident",
+      "child_col": "reported_by",
+      "parent_table": "user_master",
+      "parent_col": "user_id"
+    },
+    {
+      "child_table": "hs_corrective_action",
+      "child_col": "incident_id",
+      "parent_table": "hs_incident",
+      "parent_col": "incident_id"
+    },
+    {
+      "child_table": "hs_corrective_action",
+      "child_col": "assigned_to",
       "parent_table": "user_master",
       "parent_col": "user_id"
     }

@@ -903,4 +903,102 @@ router.use(
   })
 );
 
+// ---- Health & Safety incident tracking (Phase A gap-closure item 2) ----
+
+/**
+ * @openapi
+ * /api/hs-incidents:
+ *   get:
+ *     summary: List health & safety incidents (paginated, filterable, searchable)
+ *     tags: [Health & Safety]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated H&S incident list }
+ *   post:
+ *     summary: Report a new H&S incident
+ *     tags: [Health & Safety]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       201: { description: Incident created }
+ * /api/hs-incidents/{id}:
+ *   get:
+ *     summary: Get an H&S incident by id
+ *     tags: [Health & Safety]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+ *     responses:
+ *       200: { description: Incident detail }
+ *   put:
+ *     summary: Update an H&S incident
+ *     tags: [Health & Safety]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+ *     responses:
+ *       200: { description: Incident updated }
+ *   delete:
+ *     summary: Soft-delete an H&S incident
+ *     tags: [Health & Safety]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+ *     responses:
+ *       200: { description: Incident deleted }
+ */
+router.use(
+  '/hs-incidents',
+  buildCrudRouter({
+    table: 'hs_incident',
+    pk: 'incident_id',
+    searchColumns: ['incident_type', 'severity', 'status', 'location'],
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR],
+  })
+);
+
+/**
+ * @openapi
+ * /api/hs-corrective-actions:
+ *   get:
+ *     summary: List H&S corrective actions (paginated, filterable, searchable)
+ *     tags: [Health & Safety]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated corrective action list }
+ *   post:
+ *     summary: Create a corrective action against an H&S incident
+ *     tags: [Health & Safety]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       201: { description: Corrective action created }
+ * /api/hs-corrective-actions/{id}:
+ *   get:
+ *     summary: Get a corrective action by id
+ *     tags: [Health & Safety]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+ *     responses:
+ *       200: { description: Corrective action detail }
+ *   put:
+ *     summary: Update a corrective action
+ *     tags: [Health & Safety]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+ *     responses:
+ *       200: { description: Corrective action updated }
+ *   delete:
+ *     summary: Soft-delete a corrective action
+ *     tags: [Health & Safety]
+ *     security: [{ bearerAuth: [] }]
+ *     parameters: [{ name: id, in: path, required: true, schema: { type: string } }]
+ *     responses:
+ *       200: { description: Corrective action deleted }
+ */
+router.use(
+  '/hs-corrective-actions',
+  buildCrudRouter({
+    table: 'hs_corrective_action',
+    pk: 'action_id',
+    searchColumns: ['action_description', 'status'],
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR],
+  })
+);
+
 export default router;
