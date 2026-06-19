@@ -3,6 +3,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AppShell } from './components/AppShell';
+import { ToastProvider } from './components/Toast';
 import Login from './pages/Login';
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
@@ -158,6 +159,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <ToastProvider>
         <React.Suspense fallback={<RouteLoadingFallback />}>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -360,6 +362,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
         </React.Suspense>
+        </ToastProvider>
       </AuthProvider>
     </BrowserRouter>
   );

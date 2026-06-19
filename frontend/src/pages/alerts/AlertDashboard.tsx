@@ -4,9 +4,11 @@ import { api, ApiError } from '../../api/client';
 import { DataTable, usePagedList } from '../../components/DataTable';
 import type { AlertEvent } from '../../types/entities';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../components/Toast';
 
 export default function AlertDashboard() {
   const { user } = useAuth();
+  const { addToast } = useToast();
   const [status, setStatus] = useState('Open');
   const [severity, setSeverity] = useState('');
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -29,9 +31,12 @@ export default function AlertDashboard() {
     setError(null);
     try {
       await api.post(`/alerts/${row.alert_id}/acknowledge`);
+      addToast('Alert acknowledged.', 'success');
       reload();
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Acknowledge failed');
+      const message = err instanceof ApiError ? err.message : 'Acknowledge failed';
+      setError(message);
+      addToast(message, 'error');
     } finally {
       setBusyId(null);
     }

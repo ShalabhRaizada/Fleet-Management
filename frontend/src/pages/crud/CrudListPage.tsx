@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DataTable, usePagedList, type ColumnDef } from '../../components/DataTable';
 import { ApiError } from '../../api/client';
+import { useToast } from '../../components/Toast';
 
 interface CrudListPageProps<T> {
   title: string;
@@ -24,6 +25,7 @@ export function CrudListPage<T>({
   title, basePath, columns, rowKey, list, remove, canCreate = true, searchable = true, extraActions,
 }: CrudListPageProps<T>) {
   const navigate = useNavigate();
+  const { addToast } = useToast();
   const { items, page, pageSize, total, loading, error, setPage, setQ, q, setSort, sortBy, sortDir, reload } =
     usePagedList<T>(list);
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
@@ -40,9 +42,12 @@ export function CrudListPage<T>({
       await remove(confirmDelete);
       setConfirmDelete(null);
       setDeleteError(null);
+      addToast('Record deleted.', 'success');
       reload();
     } catch (err) {
-      setDeleteError(err instanceof ApiError ? err.message : 'Delete failed');
+      const message = err instanceof ApiError ? err.message : 'Delete failed';
+      setDeleteError(message);
+      addToast(message, 'error');
     }
   }
 

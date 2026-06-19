@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormGrid, FormActions, type FieldDef } from '../../components/Form';
 import { ApiError } from '../../api/client';
+import { useToast } from '../../components/Toast';
 
 interface CrudFormPageProps<T> {
   title: string;
@@ -21,6 +22,7 @@ export function CrudFormPage<T>({ title, basePath, fields, get, create, update, 
   const id = params[idParam];
   const isNew = !id || id === 'new';
   const navigate = useNavigate();
+  const { addToast } = useToast();
   const [values, setValues] = useState<Partial<T>>(defaults);
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
@@ -60,12 +62,16 @@ export function CrudFormPage<T>({ title, basePath, fields, get, create, update, 
     try {
       if (isNew) {
         await create(values);
+        addToast('Record created successfully.', 'success');
       } else if (id) {
         await update(id, values);
+        addToast('Record updated successfully.', 'success');
       }
       navigate(basePath);
     } catch (err) {
-      setError(err instanceof ApiError ? `${err.message}${err.errors ? ' - ' + JSON.stringify(err.errors) : ''}` : 'Save failed');
+      const message = err instanceof ApiError ? `${err.message}${err.errors ? ' - ' + JSON.stringify(err.errors) : ''}` : 'Save failed';
+      setError(message);
+      addToast(message, 'error');
     } finally {
       setSaving(false);
     }

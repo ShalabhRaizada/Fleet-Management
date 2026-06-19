@@ -3,8 +3,10 @@ import { approvalApi } from '../../api/resources';
 import { api, ApiError } from '../../api/client';
 import { DataTable, usePagedList } from '../../components/DataTable';
 import type { ApprovalRequest } from '../../types/entities';
+import { useToast } from '../../components/Toast';
 
 export default function ApprovalInbox() {
+  const { addToast } = useToast();
   const [status, setStatus] = useState('Pending');
   const [remarksById, setRemarksById] = useState<Record<string, string>>({});
   const [busyId, setBusyId] = useState<string | null>(null);
@@ -29,9 +31,12 @@ export default function ApprovalInbox() {
         decision,
         remarks: remarksById[row.approval_id] || undefined,
       });
+      addToast(decision === 'Approved' ? 'Approval granted.' : 'Approval rejected.', decision === 'Approved' ? 'success' : 'info');
       reload();
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Decision failed');
+      const message = err instanceof ApiError ? err.message : 'Decision failed';
+      setError(message);
+      addToast(message, 'error');
     } finally {
       setBusyId(null);
     }
