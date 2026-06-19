@@ -13,9 +13,10 @@ interface CrudFormPageProps<T> {
   defaults?: Partial<T>;
   /** id param name in the route, defaults to "id" */
   idParam?: string;
+  validate?: (values: Partial<T>) => Record<string, string>;
 }
 
-export function CrudFormPage<T>({ title, basePath, fields, get, create, update, defaults = {}, idParam = 'id' }: CrudFormPageProps<T>) {
+export function CrudFormPage<T>({ title, basePath, fields, get, create, update, defaults = {}, idParam = 'id', validate }: CrudFormPageProps<T>) {
   const params = useParams();
   const id = params[idParam];
   const isNew = !id || id === 'new';
@@ -24,6 +25,7 @@ export function CrudFormPage<T>({ title, basePath, fields, get, create, update, 
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     if (isNew || !id) {
@@ -45,6 +47,14 @@ export function CrudFormPage<T>({ title, basePath, fields, get, create, update, 
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (validate) {
+      const validationErrors = validate(values);
+      if (Object.keys(validationErrors).length > 0) {
+        setErrors(validationErrors);
+        return;
+      }
+    }
+    setErrors({});
     setSaving(true);
     setError(null);
     try {
@@ -70,7 +80,7 @@ export function CrudFormPage<T>({ title, basePath, fields, get, create, update, 
       </div>
       {error && <div className="badge danger" style={{ display: 'block', padding: '8px 12px', marginBottom: 16 }}>{error}</div>}
       <form onSubmit={handleSubmit} className="card" style={{ padding: 20 }}>
-        <FormGrid fields={fields} values={values} onChange={handleChange} />
+        <FormGrid fields={fields} values={values} onChange={handleChange} errors={errors} />
         <FormActions>
           <button type="submit" disabled={saving} className="btn primary">
             {saving ? 'Saving...' : 'Save'}

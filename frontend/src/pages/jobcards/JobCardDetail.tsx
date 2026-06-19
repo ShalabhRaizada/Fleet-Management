@@ -124,8 +124,8 @@ export default function JobCardDetail() {
 
         <form onSubmit={addLine} className="flex flex-wrap gap-2 items-end bg-white border border-gray-200 rounded-lg p-4">
           <input className="border border-gray-300 rounded px-3 py-1.5 text-sm flex-1 min-w-[160px]" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} required />
-          <input className="border border-gray-300 rounded px-3 py-1.5 text-sm w-24" type="number" placeholder="Qty" value={quantity} onChange={(e) => setQuantity(e.target.value === '' ? '' : Number(e.target.value))} required />
-          <input className="border border-gray-300 rounded px-3 py-1.5 text-sm w-32" type="number" placeholder="Unit Rate" value={unitRate} onChange={(e) => setUnitRate(e.target.value === '' ? '' : Number(e.target.value))} required />
+          <input className="border border-gray-300 rounded px-3 py-1.5 text-sm w-24" type="number" min={1} placeholder="Qty" value={quantity} onChange={(e) => setQuantity(e.target.value === '' ? '' : Number(e.target.value))} required />
+          <input className="border border-gray-300 rounded px-3 py-1.5 text-sm w-32" type="number" min={0} placeholder="Unit Rate" value={unitRate} onChange={(e) => setUnitRate(e.target.value === '' ? '' : Number(e.target.value))} required />
           <button disabled={busy} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-sm px-4 py-1.5 rounded">
             Add Line
           </button>

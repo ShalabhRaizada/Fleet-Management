@@ -7,6 +7,11 @@ export interface FieldDef<T> {
   options?: { value: string; label: string }[];
   required?: boolean;
   placeholder?: string;
+  min?: number;
+  max?: number;
+  pattern?: string;
+  minLength?: number;
+  maxLength?: number;
 }
 
 interface SimpleFormProps<T> {
@@ -30,6 +35,7 @@ export function FormGrid<T>({ fields, values, onChange, errors }: SimpleFormProp
               className="select"
               value={(values[f.name] as string) ?? ''}
               onChange={(e) => onChange(f.name, e.target.value)}
+              required={f.required === true}
             >
               <option value="">-- select --</option>
               {f.options?.map((o) => (
@@ -40,7 +46,12 @@ export function FormGrid<T>({ fields, values, onChange, errors }: SimpleFormProp
             </select>
           ) : f.type === 'checkbox' ? (
             <label className="checkbox">
-              <input type="checkbox" checked={Boolean(values[f.name])} onChange={(e) => onChange(f.name, e.target.checked)} />
+              <input
+                type="checkbox"
+                checked={Boolean(values[f.name])}
+                onChange={(e) => onChange(f.name, e.target.checked)}
+                required={f.required === true}
+              />
             </label>
           ) : f.type === 'textarea' ? (
             <textarea
@@ -49,6 +60,9 @@ export function FormGrid<T>({ fields, values, onChange, errors }: SimpleFormProp
               placeholder={f.placeholder}
               onChange={(e) => onChange(f.name, e.target.value)}
               rows={3}
+              required={f.required === true}
+              minLength={f.minLength}
+              maxLength={f.maxLength}
             />
           ) : (
             <input
@@ -59,6 +73,10 @@ export function FormGrid<T>({ fields, values, onChange, errors }: SimpleFormProp
               onChange={(e) =>
                 onChange(f.name, f.type === 'number' ? (e.target.value === '' ? '' : Number(e.target.value)) : e.target.value)
               }
+              required={f.required === true}
+              {...(f.type === 'number'
+                ? { min: f.min, max: f.max }
+                : { pattern: f.pattern, minLength: f.minLength, maxLength: f.maxLength })}
             />
           )}
           {errors?.[f.name] && <p style={{ fontSize: 11.5, color: 'var(--danger)', margin: '2px 0 0' }}>{errors[f.name]}</p>}
