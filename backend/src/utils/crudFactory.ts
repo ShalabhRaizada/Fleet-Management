@@ -26,6 +26,38 @@ function quoteIdent(name: string) {
   return `"${name.replace(/"/g, '')}"`;
 }
 
+/**
+ * Best-effort audit log insert for create/update/soft-delete operations performed
+ * through the generic CRUD router. Failures here must never block or fail the
+ * main CRUD write, so all errors are caught and logged as a warning.
+ */
+async function recordAudit(
+  table: string,
+  recordId: string,
+  action: 'Insert' | 'Update' | 'Delete',
+  changedBy: string | null,
+  oldValues: any,
+  newValues: any
+): Promise<void> {
+  try {
+    await pool.query(
+      `INSERT INTO audit_log (table_name, record_id, action, changed_by, changed_at, old_values, new_values)
+       VALUES ($1, $2, $3, $4, now(), $5, $6)`,
+      [
+        table,
+        recordId,
+        action,
+        changedBy,
+        oldValues === undefined || oldValues === null ? null : JSON.stringify(oldValues),
+        newValues === undefined || newValues === null ? null : JSON.stringify(newValues),
+      ]
+    );
+  } catch (err: any) {
+    // eslint-disable-next-line no-console
+    console.warn(`audit_log insert failed for ${table}/${recordId} (${action}):`, err.message || err);
+  }
+}
+
 export function buildCrudRouter(opts: CrudOptions): Router {
   const router = Router();
   const validCols = new Set(tableColumns(opts.table));
@@ -138,6 +170,7 @@ export function buildCrudRouter(opts: CrudOptions): Router {
       const { rows } = await client.query(insertSql, values);
       if (opts.afterWrite) await opts.afterWrite(rows[0], false, client);
       await client.query('COMMIT');
+      await recordAudit(opts.table, String(rows[0][opts.pk]), 'Insert', req.user?.user_id || null, null, rows[0]);
       return ok(res, rows[0], `${opts.table} created`, 201);
     } catch (err: any) {
       await client.query('ROLLBACK');
@@ -158,6 +191,10 @@ export function buildCrudRouter(opts: CrudOptions): Router {
     const client = await pool.connect();
     try {
       await client.query('BEGIN');
+      const { rows: existingRows } = await client.query(
+        `SELECT * FROM ${tableIdent} WHERE ${quoteIdent(opts.pk)} = $1 AND deleted_flag = false`,
+        [req.params.id]
+      );
       let payload = { ...req.body };
       delete payload[opts.pk];
       Object.keys(payload).forEach((k) => {
@@ -188,6 +225,7 @@ export function buildCrudRouter(opts: CrudOptions): Router {
       }
       if (opts.afterWrite) await opts.afterWrite(rows[0], true, client);
       await client.query('COMMIT');
+      await recordAudit(opts.table, String(rows[0][opts.pk]), 'Update', req.user?.user_id || null, existingRows[0] || null, rows[0]);
       return ok(res, rows[0], `${opts.table} updated`);
     } catch (err: any) {
       await client.query('ROLLBACK');
@@ -201,11 +239,16 @@ export function buildCrudRouter(opts: CrudOptions): Router {
   // SOFT DELETE
   router.delete('/:id', writeGuard, async (req: Request, res: Response) => {
     try {
+      const { rows: existingRows } = await pool.query(
+        `SELECT * FROM ${tableIdent} WHERE ${quoteIdent(opts.pk)} = $1 AND deleted_flag = false`,
+        [req.params.id]
+      );
       const { rows } = await pool.query(
         `UPDATE ${tableIdent} SET deleted_flag = true, deleted_at = now(), updated_by = $2 WHERE ${quoteIdent(opts.pk)} = $1 AND deleted_flag = false RETURNING *`,
         [req.params.id, req.user?.user_id || null]
       );
       if (!rows.length) return fail(res, `${opts.table} not found`, 404);
+      await recordAudit(opts.table, String(rows[0][opts.pk]), 'Delete', req.user?.user_id || null, existingRows[0] || null, null);
       return ok(res, rows[0], `${opts.table} deleted`);
     } catch (err: any) {
       return fail(res, err.message || 'Delete failed', 500);

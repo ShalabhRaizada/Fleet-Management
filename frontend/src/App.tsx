@@ -150,6 +150,9 @@ const VendorPerformanceReport = React.lazy(() => import('./pages/reports/VendorP
 const ChallanRegister = React.lazy(() => import('./pages/reports/ChallanRegister'));
 const SettingsHome = React.lazy(() => import('./pages/settings/SettingsHome'));
 
+const AuditLogList = React.lazy(() => import('./pages/audit/AuditLogList'));
+const AuditLogDetail = React.lazy(() => import('./pages/audit/AuditLogDetail'));
+
 const RouteLoadingFallback = () => (
   <div className="flex h-screen items-center justify-center text-gray-400 text-sm">
     Loading...
@@ -358,6 +361,11 @@ export default function App() {
               <Route path="/reports/vendor-performance" element={<VendorPerformanceReport />} />
               <Route path="/reports/challan-register" element={<ChallanRegister />} />
               <Route path="/settings" element={<SettingsHome />} />
+
+              <Route element={<ProtectedRoute roles={['ADMIN']} />}>
+                <Route path="/audit-log" element={<AuditLogList />} />
+                <Route path="/audit-log/:id" element={<AuditLogDetail />} />
+              </Route>
             </Route>
           </Route>
 

@@ -136,6 +136,7 @@ export const api = {
   get: <T>(url: string, config?: AxiosRequestConfig) => unwrap<T>(http.get(url, config)),
   post: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => unwrap<T>(http.post(url, body, config)),
   put: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => unwrap<T>(http.put(url, body, config)),
+  patch: <T>(url: string, body?: unknown, config?: AxiosRequestConfig) => unwrap<T>(http.patch(url, body, config)),
   delete: <T>(url: string, config?: AxiosRequestConfig) => unwrap<T>(http.delete(url, config)),
   raw: http,
   baseUrl: BASE_URL,

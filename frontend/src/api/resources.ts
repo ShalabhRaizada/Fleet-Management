@@ -13,7 +13,7 @@ import type {
   InspectionTemplate, RouteFuelNorm, ComplianceAlertRecord, TripMaster, TollTransaction,
   ApprovalMatrix, MaintenanceSchedule, MaintenanceDue, BreakdownEvent, AccidentEvent,
   PayableValidation, StockLedger, InspectionEvent, InspectionResultLine, IntegrationConfig,
-  UlipApiLog, AlertRule, DocumentStore, UserRecord, HandoverDocument,
+  UlipApiLog, AlertRule, DocumentStore, UserRecord, HandoverDocument, AuditLog,
 } from '../types/entities-p2p3';
 
 export const branchApi = createResource<Branch>('/branches');
@@ -73,4 +73,13 @@ export const vahanValidationResultApi = createResource<VahanValidationResult>('/
 /** Custom (non-CRUD) action: validate a batch of vehicles against the VAHAN API. */
 export function validateVahan(vehicleIds: string[]): Promise<VahanValidationResponse> {
   return api.post<VahanValidationResponse>('/vahan-validation/validate', { vehicleIds });
+}
+
+// Audit log (read-only generic list/get; legal_hold toggle is a custom action -
+// the table is immutable otherwise, so no create/update/remove are exposed here).
+export const auditLogApi = createResource<AuditLog>('/audit-log');
+
+/** Custom (non-CRUD) action: set the legal_hold flag on an audit log entry (ADMIN only). */
+export function setAuditLogLegalHold(id: string, legalHold: boolean): Promise<AuditLog> {
+  return api.patch<AuditLog>(`/audit-log/${id}/legal-hold`, { legal_hold: legalHold });
 }

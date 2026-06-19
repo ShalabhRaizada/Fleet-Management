@@ -6018,6 +6018,94 @@
           "desc": "GVW reported by VAHAN"
         }
       ]
+    },
+    "audit_log": {
+      "pk": "audit_id",
+      "phase": "P3",
+      "module": "Integrations/Alerts",
+      "columns": [
+        {
+          "name": "audit_id",
+          "type": "uniqueidentifier",
+          "pk": true,
+          "fk": "",
+          "nullable": false,
+          "label": "Audit",
+          "desc": "Primary key"
+        },
+        {
+          "name": "table_name",
+          "type": "varchar(100)",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Table Name",
+          "desc": "Name of the table the audited record belongs to"
+        },
+        {
+          "name": "record_id",
+          "type": "varchar(100)",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Record",
+          "desc": "Primary key value of the audited record (as string)"
+        },
+        {
+          "name": "action",
+          "type": "varchar(20)",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Action",
+          "desc": "Insert/Update/Delete"
+        },
+        {
+          "name": "changed_by",
+          "type": "uniqueidentifier",
+          "pk": false,
+          "fk": "YES: user_master.user_id",
+          "nullable": true,
+          "label": "Changed By",
+          "desc": "User who performed the change"
+        },
+        {
+          "name": "changed_at",
+          "type": "datetime2",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Changed At",
+          "desc": "Timestamp of the change"
+        },
+        {
+          "name": "old_values",
+          "type": "nvarchar(max)",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Old Values",
+          "desc": "Prior row state as JSON (null for Insert)"
+        },
+        {
+          "name": "new_values",
+          "type": "nvarchar(max)",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "New Values",
+          "desc": "New row state as JSON (null for Delete)"
+        },
+        {
+          "name": "legal_hold",
+          "type": "bit",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Legal Hold",
+          "desc": "When true, record is protected from purge/retention deletion"
+        }
+      ]
     }
   },
   "fks": [

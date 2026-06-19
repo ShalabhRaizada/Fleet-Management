@@ -195,6 +195,18 @@ export interface IntegrationConfig {
   last_success_at?: string | null;
 }
 
+export interface AuditLog {
+  audit_id: string;
+  table_name: string;
+  record_id: string;
+  action: string;
+  changed_by?: string | null;
+  changed_at: string;
+  old_values?: unknown | null;
+  new_values?: unknown | null;
+  legal_hold: boolean;
+}
+
 export interface UlipApiLog {
   api_log_id: string;
   api_name?: string | null;
