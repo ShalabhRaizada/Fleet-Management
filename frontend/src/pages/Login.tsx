@@ -7,7 +7,7 @@ export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [loginId, setLoginId] = useState('admin@fleet.test');
+  const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -65,11 +65,6 @@ export default function Login() {
         <button type="submit" disabled={loading} className="btn primary lg" style={{ width: '100%', justifyContent: 'center' }}>
           {loading ? 'Signing in...' : 'Sign in'}
         </button>
-
-        <p className="muted" style={{ fontSize: 11.5, marginTop: 16 }}>
-          Seeded users: admin@fleet.test, fleetmanager@fleet.test, workshop@fleet.test, driver1@fleet.test,
-          approver@fleet.test — password: Password@123
-        </p>
       </form>
     </div>
   );

@@ -34,6 +34,11 @@ export default function CouplingPage() {
   async function handleCouple(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
+    if (vehicleId === trailerId) {
+      setError('Cannot couple a vehicle to itself.');
+      setBusy(false);
+      return;
+    }
     setBusy(true);
     try {
       await couplingApi.create({

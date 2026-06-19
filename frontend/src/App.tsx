@@ -158,15 +158,17 @@ export default function App() {
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Dashboard />} />
 
-              <Route path="/vehicles" element={<VehicleList />} />
-              <Route path="/vehicles/:id" element={<VehicleDetail />} />
-              <Route path="/vehicles/:id/edit" element={<VehicleForm />} />
-              <Route path="/vehicles/new" element={<VehicleForm />} />
+              <Route element={<ProtectedRoute roles={['ADMIN', 'FLEET_MANAGER']} />}>
+                <Route path="/vehicles" element={<VehicleList />} />
+                <Route path="/vehicles/:id" element={<VehicleDetail />} />
+                <Route path="/vehicles/:id/edit" element={<VehicleForm />} />
+                <Route path="/vehicles/new" element={<VehicleForm />} />
 
-              <Route path="/trailers" element={<TrailerList />} />
-              <Route path="/trailers/:id" element={<TrailerDetail />} />
-              <Route path="/trailers/:id/edit" element={<TrailerForm />} />
-              <Route path="/trailers/new" element={<TrailerForm />} />
+                <Route path="/trailers" element={<TrailerList />} />
+                <Route path="/trailers/:id" element={<TrailerDetail />} />
+                <Route path="/trailers/:id/edit" element={<TrailerForm />} />
+                <Route path="/trailers/new" element={<TrailerForm />} />
+              </Route>
 
               <Route path="/couplings" element={<CouplingPage />} />
 
@@ -176,37 +178,41 @@ export default function App() {
               <Route path="/fuel/:id" element={<FuelDetail />} />
               <Route path="/fuel/:id/edit" element={<FuelForm />} />
 
-              <Route path="/compliance" element={<ComplianceList />} />
-              <Route path="/compliance/expiry" element={<ComplianceExpiryList />} />
-              <Route path="/compliance/new" element={<ComplianceForm />} />
-              <Route path="/compliance/:id" element={<ComplianceDetail />} />
-              <Route path="/compliance/:id/edit" element={<ComplianceForm />} />
+              <Route element={<ProtectedRoute roles={['ADMIN', 'FLEET_MANAGER']} />}>
+                <Route path="/compliance" element={<ComplianceList />} />
+                <Route path="/compliance/expiry" element={<ComplianceExpiryList />} />
+                <Route path="/compliance/new" element={<ComplianceForm />} />
+                <Route path="/compliance/:id" element={<ComplianceDetail />} />
+                <Route path="/compliance/:id/edit" element={<ComplianceForm />} />
+              </Route>
 
-              <Route path="/job-cards" element={<JobCardList />} />
-              <Route path="/job-cards/:id" element={<JobCardDetail />} />
-              <Route path="/job-cards/:id/edit" element={<JobCardForm />} />
-              <Route path="/job-cards/new" element={<JobCardForm />} />
+              <Route element={<ProtectedRoute roles={['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR']} />}>
+                <Route path="/job-cards" element={<JobCardList />} />
+                <Route path="/job-cards/:id" element={<JobCardDetail />} />
+                <Route path="/job-cards/:id/edit" element={<JobCardForm />} />
+                <Route path="/job-cards/new" element={<JobCardForm />} />
 
-              <Route path="/workshops" element={<WorkshopList />} />
-              <Route path="/workshops/invoices" element={<InvoiceList />} />
-              <Route path="/workshops/invoices/new" element={<InvoiceForm />} />
-              <Route path="/workshops/invoices/:id" element={<InvoiceDetail />} />
-              <Route path="/workshops/invoices/:id/edit" element={<InvoiceForm />} />
-              <Route path="/workshops/new" element={<WorkshopForm />} />
-              <Route path="/workshops/:id" element={<WorkshopDetail />} />
-              <Route path="/workshops/:id/edit" element={<WorkshopForm />} />
+                <Route path="/workshops" element={<WorkshopList />} />
+                <Route path="/workshops/invoices" element={<InvoiceList />} />
+                <Route path="/workshops/invoices/new" element={<InvoiceForm />} />
+                <Route path="/workshops/invoices/:id" element={<InvoiceDetail />} />
+                <Route path="/workshops/invoices/:id/edit" element={<InvoiceForm />} />
+                <Route path="/workshops/new" element={<WorkshopForm />} />
+                <Route path="/workshops/:id" element={<WorkshopDetail />} />
+                <Route path="/workshops/:id/edit" element={<WorkshopForm />} />
 
-              <Route path="/tyres" element={<TyreList />} />
-              <Route path="/tyres/:id" element={<TyreDetail />} />
-              <Route path="/tyres/:id/edit" element={<TyreForm />} />
-              <Route path="/tyres/:id/fitment" element={<TyreMovementAction mode="fitment" />} />
-              <Route path="/tyres/:id/removal" element={<TyreMovementAction mode="removal" />} />
-              <Route path="/tyres/new" element={<TyreForm />} />
+                <Route path="/tyres" element={<TyreList />} />
+                <Route path="/tyres/:id" element={<TyreDetail />} />
+                <Route path="/tyres/:id/edit" element={<TyreForm />} />
+                <Route path="/tyres/:id/fitment" element={<TyreMovementAction mode="fitment" />} />
+                <Route path="/tyres/:id/removal" element={<TyreMovementAction mode="removal" />} />
+                <Route path="/tyres/new" element={<TyreForm />} />
 
-              <Route path="/accessories" element={<AccessoryList />} />
-              <Route path="/accessories/:id" element={<AccessoryDetail />} />
-              <Route path="/accessories/:id/edit" element={<AccessoryForm />} />
-              <Route path="/accessories/new" element={<AccessoryForm />} />
+                <Route path="/accessories" element={<AccessoryList />} />
+                <Route path="/accessories/:id" element={<AccessoryDetail />} />
+                <Route path="/accessories/:id/edit" element={<AccessoryForm />} />
+                <Route path="/accessories/new" element={<AccessoryForm />} />
+              </Route>
 
               <Route path="/accompaniments" element={<AccompanimentList />} />
               <Route path="/accompaniments/returns" element={<AccompanimentReturnPage />} />
@@ -215,7 +221,9 @@ export default function App() {
               <Route path="/accompaniments/new" element={<AccompanimentForm />} />
 
               <Route path="/approvals" element={<ApprovalInbox />} />
-              <Route path="/reports/cost" element={<CostReport />} />
+              <Route element={<ProtectedRoute roles={['ADMIN', 'FLEET_MANAGER', 'APPROVER']} />}>
+                <Route path="/reports/cost" element={<CostReport />} />
+              </Route>
               <Route path="/alerts" element={<AlertDashboard />} />
 
               <Route path="/inspection-templates" element={<InspectionTemplateList />} />

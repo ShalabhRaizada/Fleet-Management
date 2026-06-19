@@ -32,8 +32,13 @@ export function clearSession() {
 }
 
 export function getStoredUser() {
-  const raw = localStorage.getItem(USER_KEY);
-  return raw ? JSON.parse(raw) : null;
+  try {
+    const raw = localStorage.getItem(USER_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch {
+    localStorage.removeItem(USER_KEY);
+    return null;
+  }
 }
 
 const http = axios.create({ baseURL: BASE_URL });
@@ -60,7 +65,12 @@ async function performRefresh(): Promise<string | null> {
       return token;
     }
     return null;
-  } catch {
+  } catch (err) {
+    const status = (err as AxiosError).response?.status;
+    if (status === 401 || status === 403) {
+      clearSession();
+      window.location.href = '/login';
+    }
     return null;
   }
 }
