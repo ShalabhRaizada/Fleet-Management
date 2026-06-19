@@ -808,4 +808,73 @@ router.use(
   })
 );
 
+// ---- EPIC vehicle status upload workflow (gap-analysis closure) ----
+
+/**
+ * @openapi
+ * /api/epic-status-uploads:
+ *   get:
+ *     summary: List EPIC vehicle status upload batches (read-only; creation happens via /api/epic-upload)
+ *     tags: [Vehicle Status]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated upload batch list }
+ */
+// Read-only: block create/update/delete via the generic route (creation happens
+// exclusively through the /api/epic-upload file-upload endpoint).
+router.post('/epic-status-uploads', (_req, res) => res.status(403).json({ success: false, message: 'Create not allowed; use /api/epic-upload', data: null, errors: null }));
+router.put('/epic-status-uploads/:id', (_req, res) => res.status(403).json({ success: false, message: 'Update not allowed', data: null, errors: null }));
+router.delete('/epic-status-uploads/:id', (_req, res) => res.status(403).json({ success: false, message: 'Delete not allowed', data: null, errors: null }));
+router.use(
+  '/epic-status-uploads',
+  buildCrudRouter({
+    table: 'epic_status_upload',
+    pk: 'upload_id',
+    searchColumns: ['file_name', 'status'],
+    writeRoles: [ROLES.ADMIN],
+  })
+);
+
+/**
+ * @openapi
+ * /api/non-working-vehicle-actions:
+ *   get:
+ *     summary: List non-working vehicle actions flagged by an EPIC status upload
+ *     tags: [Vehicle Status]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated non-working vehicle action list }
+ */
+router.use(
+  '/non-working-vehicle-actions',
+  buildCrudRouter({
+    table: 'non_working_vehicle_action',
+    pk: 'action_id',
+    searchColumns: ['vehicle_no_raw', 'epic_status_raw', 'issue_category'],
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR],
+  })
+);
+
+// ---- PDI Handover document (gap-analysis closure) ----
+
+/**
+ * @openapi
+ * /api/handover-documents:
+ *   get:
+ *     summary: List PDI handover documents (driver acceptance / workshop release), linked to inspection_event
+ *     tags: [Phase 2 - Inspection]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated handover document list }
+ */
+router.use(
+  '/handover-documents',
+  buildCrudRouter({
+    table: 'handover_document',
+    pk: 'handover_id',
+    searchColumns: ['handover_type', 'handed_over_by', 'received_by'],
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER, ROLES.WORKSHOP_SUPERVISOR],
+  })
+);
+
 export default router;

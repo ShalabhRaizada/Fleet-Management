@@ -22,6 +22,8 @@ async function main() {
     console.log('Clearing previously seeded data (in FK-safe order)...');
     await client.query(`
       TRUNCATE TABLE
+        handover_document,
+        non_working_vehicle_action, epic_status_upload,
         challan, battery_master,
         alert_event, approval_request, job_card_line, job_card,
         accompaniment_issue, accompaniment_master,
@@ -561,6 +563,35 @@ async function main() {
        SELECT 'Vehicle', v.vehicle_id, 'RC', 'RC_DL01AB1234.pdf', 'https://mock.docs.example/rc/DL01AB1234.pdf', 'application/pdf', u.user_id, now()
        FROM vehicle_master v, user_master u
        WHERE v.registration_no = 'DL01AB1234' AND u.login_id = 'admin@fleet.test'`
+    );
+
+    console.log('Seeding epic_status_upload / non_working_vehicle_action...');
+    const epicUploadResult = await client.query(
+      `INSERT INTO epic_status_upload (uploaded_by, file_name, total_rows, matched_rows, unmatched_rows, status)
+       SELECT u.user_id, 'epic_status_2026_06_19.csv', 2, 1, 1, 'Completed'
+       FROM user_master u WHERE u.login_id = 'admin@fleet.test'
+       RETURNING upload_id`
+    );
+    const epicUploadId = epicUploadResult.rows[0]?.upload_id;
+    if (epicUploadId) {
+      await client.query(
+        `INSERT INTO non_working_vehicle_action (upload_id, vehicle_id, vehicle_no_raw, epic_status_raw, issue_category, escalation_level, resolved)
+         SELECT $1::uuid, v.vehicle_id, NULL::text, 'Breakdown', 'Mechanical', 0, false
+         FROM vehicle_master v WHERE v.registration_no = 'MH02CD5678'
+         UNION ALL
+         SELECT $1::uuid, NULL::uuid, 'UP16ZZ9999', 'OutOfService', 'Unmatched', 0, false`,
+        [epicUploadId]
+      );
+    }
+
+    console.log('Seeding handover_document...');
+    await client.query(
+      `INSERT INTO handover_document (inspection_event_id, vehicle_id, handover_type, handed_over_by, received_by, handover_date, driver_signature_name, acceptance_remarks, accepted)
+       SELECT ie.inspection_id, ie.vehicle_id, 'Driver Acceptance', 'Workshop Supervisor', 'Ramesh Kumar', now(), 'Ramesh Kumar', 'Vehicle inspected and accepted in good condition', true
+       FROM inspection_event ie
+       JOIN vehicle_master v ON v.vehicle_id = ie.vehicle_id
+       WHERE v.registration_no = 'DL01AB1234'
+       LIMIT 1`
     );
 
     await client.query('COMMIT');

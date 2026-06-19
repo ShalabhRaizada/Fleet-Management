@@ -128,6 +128,8 @@ import UserForm from './pages/users/UserForm';
 import UserDetail from './pages/users/UserDetail';
 
 import PdiWorkbench from './pages/inspections/PdiWorkbench';
+import HandoverList from './pages/inspections/HandoverList';
+import HandoverDetail from './pages/inspections/HandoverDetail';
 import Workbench from './pages/jobcards/Workbench';
 import NonWorkingList from './pages/vehicles/NonWorkingList';
 import ChallanList from './pages/challans/ChallanList';
@@ -317,6 +319,8 @@ export default function App() {
               <Route path="/pdi" element={<PdiWorkbench />} />
               <Route path="/workbench" element={<Workbench />} />
               <Route path="/vehicles/non-working" element={<NonWorkingList />} />
+              <Route path="/handovers" element={<HandoverList />} />
+              <Route path="/handovers/:id" element={<HandoverDetail />} />
               <Route path="/challans" element={<ChallanList />} />
               <Route path="/challans/:id" element={<ChallanDetail />} />
               <Route path="/challans/:id/edit" element={<ChallanForm />} />

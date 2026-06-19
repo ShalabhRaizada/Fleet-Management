@@ -243,3 +243,16 @@ export interface UserRecord {
   status: string;
   created_at?: string;
 }
+
+export interface HandoverDocument {
+  handover_id: string;
+  inspection_event_id: string;
+  vehicle_id: string;
+  handover_type: string;
+  handed_over_by?: string | null;
+  received_by?: string | null;
+  handover_date: string;
+  driver_signature_name?: string | null;
+  acceptance_remarks?: string | null;
+  accepted: boolean;
+}

@@ -47,6 +47,7 @@ const MENU: MenuItem[] = [
   { to: '/pdi', label: 'PDI', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
   { to: '/workbench', label: 'Workbench', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
   { to: '/vehicles/non-working', label: 'Non-Working Vehicles', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/handovers', label: 'Handover Documents', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
   { to: '/challans', label: 'Challans' },
   { to: '/batteries', label: 'Batteries', roles: ['ADMIN', 'WORKSHOP_SUPERVISOR'] },
   { to: '/reports/compliance', label: 'Compliance Report', roles: ['ADMIN', 'FLEET_MANAGER'] },

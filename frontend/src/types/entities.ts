@@ -372,3 +372,29 @@ export interface Challan {
   responsibility?: string | null;
   remarks?: string | null;
 }
+
+export interface EpicStatusUpload {
+  upload_id: string;
+  uploaded_by?: string | null;
+  uploaded_at: string;
+  file_name: string;
+  total_rows: number;
+  matched_rows: number;
+  unmatched_rows: number;
+  status: string;
+}
+
+export interface NonWorkingVehicleAction {
+  action_id: string;
+  upload_id: string;
+  vehicle_id?: string | null;
+  vehicle_no_raw?: string | null;
+  epic_status_raw?: string | null;
+  issue_category?: string | null;
+  remedial_action?: string | null;
+  assigned_vendor_id?: string | null;
+  escalation_level: number;
+  resolved: boolean;
+  resolved_at?: string | null;
+  remarks?: string | null;
+}

@@ -4,13 +4,14 @@ import type {
   AssetCompliance, ComplianceType, JobCard, JobCardLine, Workshop, VendorInvoice,
   Tyre, TyreMovement, Accessory, AccessoryEvent, Accompaniment, AccompanimentIssue,
   ApprovalRequest, AlertEvent, VehicleCostLedger, ItemMaster, Battery, Challan,
+  EpicStatusUpload, NonWorkingVehicleAction,
 } from '../types/entities';
 import type { FuelVariance } from '../types/entities-extra';
 import type {
   InspectionTemplate, RouteFuelNorm, ComplianceAlertRecord, TripMaster, TollTransaction,
   ApprovalMatrix, MaintenanceSchedule, MaintenanceDue, BreakdownEvent, AccidentEvent,
   PayableValidation, StockLedger, InspectionEvent, InspectionResultLine, IntegrationConfig,
-  UlipApiLog, AlertRule, DocumentStore, UserRecord,
+  UlipApiLog, AlertRule, DocumentStore, UserRecord, HandoverDocument,
 } from '../types/entities-p2p3';
 
 export const branchApi = createResource<Branch>('/branches');
@@ -60,3 +61,7 @@ export const userRecordApi = createResource<UserRecord>('/users');
 
 export const batteryApi = createResource<Battery>('/batteries');
 export const challanApi = createResource<Challan>('/challans');
+
+export const epicStatusUploadApi = createResource<EpicStatusUpload>('/epic-status-uploads');
+export const nonWorkingVehicleActionApi = createResource<NonWorkingVehicleAction>('/non-working-vehicle-actions');
+export const handoverDocumentApi = createResource<HandoverDocument>('/handover-documents');
