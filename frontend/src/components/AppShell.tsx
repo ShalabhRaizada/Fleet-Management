@@ -51,6 +51,10 @@ const MENU: MenuItem[] = [
   { to: '/batteries', label: 'Batteries', roles: ['ADMIN', 'WORKSHOP_SUPERVISOR'] },
   { to: '/reports/compliance', label: 'Compliance Report', roles: ['ADMIN', 'FLEET_MANAGER'] },
   { to: '/reports/maintenance', label: 'Maintenance Report', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/reports/tyre-cost', label: 'Tyre Cost/Km Report', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/reports/fleet-health', label: 'Fleet Health Dashboard', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/reports/vendor-performance', label: 'Vendor Performance', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/reports/challan-register', label: 'Challan Register', roles: ['ADMIN', 'FLEET_MANAGER'] },
   { to: '/settings', label: 'Settings', roles: ['ADMIN'] },
 ];
 

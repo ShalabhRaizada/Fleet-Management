@@ -18,6 +18,16 @@ export default function VendorDetail() {
         { key: 'email', label: 'Email' },
         { key: 'payment_terms_days', label: 'Payment Terms (Days)' },
         { key: 'status', label: 'Status' },
+        { key: 'is_msme', label: 'MSME Registered' },
+        { key: 'service_locations', label: 'Service Locations' },
+        { key: 'oem_association', label: 'OEM Association' },
+        { key: 'rate_contract_valid_from', label: 'Rate Contract Valid From' },
+        { key: 'rate_contract_valid_to', label: 'Rate Contract Valid To' },
+        { key: 'sla_terms', label: 'SLA Terms' },
+        { key: 'bank_account_no', label: 'Bank Account No' },
+        { key: 'bank_ifsc', label: 'Bank IFSC' },
+        { key: 'approval_status', label: 'Approval Status' },
+        { key: 'vendor_rating', label: 'Vendor Rating' },
       ]}
     />
   );

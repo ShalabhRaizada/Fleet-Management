@@ -19,6 +19,19 @@ const fields: FieldDef<Vendor>[] = [
     name: 'status', label: 'Status', type: 'select', required: true,
     options: ['Active', 'Blocked', 'Inactive'].map((v) => ({ value: v, label: v })),
   },
+  { name: 'is_msme', label: 'MSME Registered', type: 'checkbox' },
+  { name: 'service_locations', label: 'Service Locations', placeholder: 'Comma-separated, e.g. Delhi,Mumbai' },
+  { name: 'oem_association', label: 'OEM Association' },
+  { name: 'rate_contract_valid_from', label: 'Rate Contract Valid From', type: 'date' },
+  { name: 'rate_contract_valid_to', label: 'Rate Contract Valid To', type: 'date' },
+  { name: 'sla_terms', label: 'SLA Terms', type: 'textarea' },
+  { name: 'bank_account_no', label: 'Bank Account No' },
+  { name: 'bank_ifsc', label: 'Bank IFSC' },
+  {
+    name: 'approval_status', label: 'Approval Status', type: 'select', required: true,
+    options: ['Pending', 'Approved', 'Rejected'].map((v) => ({ value: v, label: v })),
+  },
+  { name: 'vendor_rating', label: 'Vendor Rating (0-5)', type: 'number' },
 ];
 
 export default function VendorForm() {
@@ -30,7 +43,7 @@ export default function VendorForm() {
       get={vendorApi.get}
       create={vendorApi.create}
       update={vendorApi.update}
-      defaults={{ vendor_type: 'Workshop', status: 'Active' }}
+      defaults={{ vendor_type: 'Workshop', status: 'Active', is_msme: false, approval_status: 'Pending' }}
     />
   );
 }

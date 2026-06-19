@@ -17,6 +17,7 @@ export default function VendorList() {
         { key: 'contact_person', header: 'Contact Person' },
         { key: 'mobile_no', header: 'Mobile No' },
         { key: 'status', header: 'Status', sortable: true },
+        { key: 'approval_status', header: 'Approval', sortable: true },
       ]}
     />
   );

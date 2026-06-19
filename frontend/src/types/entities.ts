@@ -22,6 +22,16 @@ export interface Vendor {
   email?: string | null;
   payment_terms_days?: number | null;
   status: string;
+  is_msme?: boolean;
+  service_locations?: string | null;
+  oem_association?: string | null;
+  rate_contract_valid_from?: string | null;
+  rate_contract_valid_to?: string | null;
+  sla_terms?: string | null;
+  bank_account_no?: string | null;
+  bank_ifsc?: string | null;
+  approval_status?: string;
+  vendor_rating?: number | null;
 }
 
 export interface Driver {

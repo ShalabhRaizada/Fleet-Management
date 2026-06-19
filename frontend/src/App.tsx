@@ -138,6 +138,10 @@ import BatteryForm from './pages/batteries/BatteryForm';
 import BatteryDetail from './pages/batteries/BatteryDetail';
 import ComplianceReport from './pages/reports/ComplianceReport';
 import MaintenanceReport from './pages/reports/MaintenanceReport';
+import TyreCostReport from './pages/reports/TyreCostReport';
+import FleetHealthReport from './pages/reports/FleetHealthReport';
+import VendorPerformanceReport from './pages/reports/VendorPerformanceReport';
+import ChallanRegister from './pages/reports/ChallanRegister';
 import SettingsHome from './pages/settings/SettingsHome';
 
 export default function App() {
@@ -324,6 +328,10 @@ export default function App() {
               <Route path="/batteries/new" element={<BatteryForm />} />
               <Route path="/reports/compliance" element={<ComplianceReport />} />
               <Route path="/reports/maintenance" element={<MaintenanceReport />} />
+              <Route path="/reports/tyre-cost" element={<TyreCostReport />} />
+              <Route path="/reports/fleet-health" element={<FleetHealthReport />} />
+              <Route path="/reports/vendor-performance" element={<VendorPerformanceReport />} />
+              <Route path="/reports/challan-register" element={<ChallanRegister />} />
               <Route path="/settings" element={<SettingsHome />} />
             </Route>
           </Route>

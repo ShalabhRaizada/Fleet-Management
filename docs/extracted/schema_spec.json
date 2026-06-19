@@ -367,6 +367,96 @@
      "nullable": false,
      "label": "Status",
      "desc": "Active/Blocked/Inactive"
+    },
+    {
+     "name": "is_msme",
+     "type": "bit",
+     "pk": false,
+     "fk": "",
+     "nullable": false,
+     "label": "Is Msme",
+     "desc": "MSME registered vendor flag"
+    },
+    {
+     "name": "service_locations",
+     "type": "text",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Service Locations",
+     "desc": "Comma-separated service locations"
+    },
+    {
+     "name": "oem_association",
+     "type": "text",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "OEM Association",
+     "desc": "Associated OEM(s)"
+    },
+    {
+     "name": "rate_contract_valid_from",
+     "type": "date",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Rate Contract Valid From",
+     "desc": "Rate contract start date"
+    },
+    {
+     "name": "rate_contract_valid_to",
+     "type": "date",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Rate Contract Valid To",
+     "desc": "Rate contract end date"
+    },
+    {
+     "name": "sla_terms",
+     "type": "text",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "SLA Terms",
+     "desc": "Service level agreement terms"
+    },
+    {
+     "name": "bank_account_no",
+     "type": "text",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Bank Account No",
+     "desc": "Bank account number"
+    },
+    {
+     "name": "bank_ifsc",
+     "type": "text",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Bank IFSC",
+     "desc": "Bank IFSC code"
+    },
+    {
+     "name": "approval_status",
+     "type": "varchar(20)",
+     "pk": false,
+     "fk": "",
+     "nullable": false,
+     "label": "Approval Status",
+     "desc": "Pending/Approved/Rejected"
+    },
+    {
+     "name": "vendor_rating",
+     "type": "numeric(3,2)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Vendor Rating",
+     "desc": "Vendor performance rating (0-5)"
     }
    ]
   },
@@ -3418,6 +3508,15 @@
      "nullable": true,
      "label": "Total Run Km",
      "desc": "Total run km"
+    },
+    {
+     "name": "scrap_value",
+     "type": "decimal(14,2)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Scrap Value",
+     "desc": "Estimated scrap/salvage value"
     }
    ]
   },
@@ -3542,6 +3641,24 @@
      "nullable": false,
      "label": "Status",
      "desc": "Completed/PendingApproval/Cancelled"
+    },
+    {
+     "name": "km_at_event",
+     "type": "decimal(12,1)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Km At Event",
+     "desc": "Odometer reading recorded at this movement event (mirrors odometer_km; used for cost-per-km derivation)"
+    },
+    {
+     "name": "event_cost",
+     "type": "decimal(14,2)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Event Cost",
+     "desc": "Cost incurred for this movement (repair/retread charge etc.)"
     }
    ]
   },

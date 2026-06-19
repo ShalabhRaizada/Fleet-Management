@@ -4,6 +4,10 @@ const REPORTS = [
   { to: '/reports/cost', name: 'Vehicle Cost Report', desc: 'Cost ledger entries by category and source.' },
   { to: '/reports/compliance', name: 'Compliance Summary', desc: 'Asset compliance records grouped by status.' },
   { to: '/reports/maintenance', name: 'Maintenance Due Summary', desc: 'Maintenance due records grouped by status.' },
+  { to: '/reports/tyre-cost', name: 'Tyre Cost-per-KM', desc: 'Per-tyre lifecycle cost and cost-per-km breakdown.' },
+  { to: '/reports/fleet-health', name: 'Fleet Health Dashboard', desc: 'Vehicle status, overdue maintenance, open breakdowns, expiring compliance.' },
+  { to: '/reports/vendor-performance', name: 'Vendor Performance', desc: 'Job cards, breakdowns, and ratings per vendor.' },
+  { to: '/reports/challan-register', name: 'Challan Register', desc: 'Challans grouped by payment status with totals.' },
 ];
 
 export default function ReportsHome() {

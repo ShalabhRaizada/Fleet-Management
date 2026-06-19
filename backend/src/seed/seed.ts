@@ -103,12 +103,12 @@ async function main() {
     // ---------- Vendors ----------
     console.log('Seeding vendor_master...');
     const vendorRows = await client.query(
-      `INSERT INTO vendor_master (vendor_code, vendor_name, vendor_type, gstin, contact_person, mobile_no, email, payment_terms_days, status)
+      `INSERT INTO vendor_master (vendor_code, vendor_name, vendor_type, gstin, contact_person, mobile_no, email, payment_terms_days, status, is_msme, service_locations, oem_association, rate_contract_valid_from, rate_contract_valid_to, sla_terms, approval_status, vendor_rating)
        VALUES
-        ('VEN-001','Bharat Petroleum Corp','FuelSupplier','07AAACB2902M1ZP','Vikram Joshi','9820000001','vikram@bpcl.test',30,'Active'),
-        ('VEN-002','MRF Tyres Distributor','TyreVendor','27AAACM1234A1ZQ','Suresh Iyer','9820000002','suresh@mrf.test',45,'Active'),
-        ('VEN-003','Apex Workshop Vendor','WorkshopVendor','29AAACA5678B1ZR','Lakshmi Rao','9820000003','lakshmi@apexws.test',30,'Active'),
-        ('VEN-004','TrackSafe GPS Devices','AccessoryVendor','06AAACT9012C1ZS','Rahul Mehta','9820000004','rahul@tracksafe.test',60,'Active')
+        ('VEN-001','Bharat Petroleum Corp','FuelSupplier','07AAACB2902M1ZP','Vikram Joshi','9820000001','vikram@bpcl.test',30,'Active',false,'Delhi,Mumbai,Chennai','BPCL','2025-01-01','2026-12-31','Fuel delivery within 24 hrs','Approved',4.50),
+        ('VEN-002','MRF Tyres Distributor','TyreVendor','27AAACM1234A1ZQ','Suresh Iyer','9820000002','suresh@mrf.test',45,'Active',true,'Delhi,Mumbai','MRF','2025-02-01','2027-01-31','Replacement within 48 hrs','Approved',4.20),
+        ('VEN-003','Apex Workshop Vendor','WorkshopVendor','29AAACA5678B1ZR','Lakshmi Rao','9820000003','lakshmi@apexws.test',30,'Active',true,'Delhi,Mumbai,Bengaluru',NULL,'2025-01-15','2026-06-30','Turnaround within 72 hrs','Approved',3.80),
+        ('VEN-004','TrackSafe GPS Devices','AccessoryVendor','06AAACT9012C1ZS','Rahul Mehta','9820000004','rahul@tracksafe.test',60,'Active',false,'Delhi','TrackSafe',NULL,NULL,'Installation within 5 days','Pending',NULL)
        RETURNING vendor_id, vendor_code`
     );
     const vendorByCode: Record<string, string> = {};
@@ -245,7 +245,9 @@ async function main() {
         ('PERMIT','Permit','Vehicle',true,'30','Active'),
         ('PUC','Pollution Under Control','Vehicle',false,'15','Active'),
         ('ROAD_TAX','Road Tax','Vehicle',true,'30','Active'),
-        ('TRAILER_FITNESS','Trailer Fitness Certificate','Trailer',true,'30','Active')`
+        ('TRAILER_FITNESS','Trailer Fitness Certificate','Trailer',true,'30','Active'),
+        ('PESO_CERT','PESO Certificate','Vehicle',true,'30','Active'),
+        ('PIPING_CERT','Piping Certificate','Vehicle',true,'30','Active')`
     );
 
     await client.query(
@@ -308,15 +310,32 @@ async function main() {
 
     // ---------- Tyres ----------
     console.log('Seeding tyre_master...');
-    await client.query(
+    const tyreRows = await client.query(
       `INSERT INTO tyre_master
         (tyre_serial_no, brand, model, size, ply_rating, purchase_date, vendor_id, purchase_cost, warranty_upto,
-         current_branch_id, current_vehicle_id, current_position, status, total_run_km)
+         current_branch_id, current_vehicle_id, current_position, status, total_run_km, scrap_value)
        VALUES
-        ('MRF-TY-1001','MRF','Steelmile','295/95 R22.5','16PR','2025-01-15',$1,18500,'2028-01-15',$2,$3,'FrontLeft','Fitted',45000),
-        ('MRF-TY-1002','MRF','Steelmile','295/95 R22.5','16PR','2025-01-15',$1,18500,'2028-01-15',$2,$3,'FrontRight','Fitted',45000),
-        ('CEAT-TY-2001','CEAT','Mile XL','215/75 R17.5','14PR','2025-06-01',$1,9800,'2027-06-01',$4,NULL,NULL,'InStock',0)`,
+        ('MRF-TY-1001','MRF','Steelmile','295/95 R22.5','16PR','2025-01-15',$1,18500,'2028-01-15',$2,$3,'FrontLeft','Fitted',45000,2500),
+        ('MRF-TY-1002','MRF','Steelmile','295/95 R22.5','16PR','2025-01-15',$1,18500,'2028-01-15',$2,$3,'FrontRight','Fitted',45000,2500),
+        ('CEAT-TY-2001','CEAT','Mile XL','215/75 R17.5','14PR','2025-06-01',$1,9800,'2027-06-01',$4,NULL,NULL,'InStock',0,NULL)
+       RETURNING tyre_id, tyre_serial_no`,
       [vendorByCode['VEN-002'], branchByCode['BR-DEL'], vehicleByReg['DL01AB1234'], branchByCode['BR-MUM']]
+    );
+    const tyreBySerial: Record<string, string> = {};
+    tyreRows.rows.forEach((r) => (tyreBySerial[r.tyre_serial_no] = r.tyre_id));
+
+    console.log('Seeding tyre_movement...');
+    await client.query(
+      `INSERT INTO tyre_movement
+        (tyre_id, movement_type, vehicle_id, from_position, to_position, odometer_km, km_at_event, tread_depth_mm, condition_notes, movement_datetime, status, event_cost)
+       VALUES
+        ($1,'Fitment',$3,NULL,'FrontLeft',0,0,12.0,'New tyre fitted','2025-01-15 09:00:00','Completed',0),
+        ($1,'RepairOut',$3,'FrontLeft','FrontLeft',20000,20000,9.5,'Sent for puncture repair','2025-07-10 10:00:00','Completed',450),
+        ($1,'RepairIn',$3,'FrontLeft','FrontLeft',20000,20000,9.5,'Returned after repair','2025-07-12 10:00:00','Completed',0),
+        ($1,'Rotation',$3,'FrontLeft','FrontLeft',45000,45000,6.0,'Routine rotation check','2026-01-05 10:00:00','Completed',0),
+        ($2,'Fitment',$3,NULL,'FrontRight',0,0,12.0,'New tyre fitted','2025-01-15 09:00:00','Completed',0),
+        ($2,'Retread',$3,'FrontRight','FrontRight',45000,45000,3.0,'Retreaded due to wear','2026-02-01 10:00:00','Completed',6500)`,
+      [tyreBySerial['MRF-TY-1001'], tyreBySerial['MRF-TY-1002'], vehicleByReg['DL01AB1234']]
     );
 
     // ---------- Accessories ----------

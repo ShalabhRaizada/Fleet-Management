@@ -9,6 +9,7 @@ import authRoutes from './routes/auth.routes';
 import entityRoutes from './routes/entities.routes';
 import approvalRoutes from './routes/approvals.routes';
 import alertRoutes from './routes/alerts.routes';
+import reportRoutes from './routes/reports.routes';
 import { notFoundHandler, errorHandler, requestLogger } from './middleware/errorHandler';
 import { openapiSpec } from './swagger';
 import { evaluateAlerts } from './services/alertsEngine';
@@ -27,6 +28,7 @@ export function createApp() {
   app.use('/api/auth', authRoutes);
   app.use('/api/approvals', approvalRoutes);
   app.use('/api/alerts', alertRoutes);
+  app.use('/api/reports', reportRoutes);
   app.use('/api', entityRoutes);
 
   app.use(notFoundHandler);
