@@ -4,6 +4,7 @@ import { tyreRotationApi, getTyreLayout } from '../../api/tyreRotation';
 import { vehicleApi, trailerApi, workshopApi } from '../../api/resources';
 import { ApiError } from '../../api/client';
 import { useToast } from '../../components/Toast';
+import { SearchableCombobox } from '../../components/common/SearchableCombobox';
 import type { Vehicle, Trailer, Workshop } from '../../types/entities';
 import type {
   TyreAssetType, TyreLayout, TyreMovementType, TyreDestinationStatus, TyreRotationLineInput,
@@ -174,12 +175,16 @@ export default function TyreRotationCreate() {
           </div>
           <div className="field">
             <label>{assetType}</label>
-            <select className="input" value={assetId} onChange={(e) => setAssetId(e.target.value)}>
-              <option value="">Select...</option>
-              {assetType === 'Vehicle'
-                ? vehicles.map((v) => <option key={v.vehicle_id} value={v.vehicle_id}>{v.registration_no}</option>)
-                : trailers.map((t) => <option key={t.trailer_id} value={t.trailer_id}>{t.trailer_no}</option>)}
-            </select>
+            <SearchableCombobox
+              value={assetId}
+              onChange={setAssetId}
+              placeholder={`Search ${assetType.toLowerCase()}...`}
+              options={
+                assetType === 'Vehicle'
+                  ? vehicles.map((v) => ({ value: v.vehicle_id, label: v.registration_no }))
+                  : trailers.map((t) => ({ value: t.trailer_id, label: t.trailer_no }))
+              }
+            />
           </div>
           <div className="field">
             <label>Rotation Date</label>
@@ -193,10 +198,12 @@ export default function TyreRotationCreate() {
         <div className="field-row cols-4" style={{ marginTop: 12 }}>
           <div className="field">
             <label>Workshop</label>
-            <select className="input" value={workshopId} onChange={(e) => setWorkshopId(e.target.value)}>
-              <option value="">None</option>
-              {workshops.map((w) => <option key={w.workshop_id} value={w.workshop_id}>{w.workshop_name}</option>)}
-            </select>
+            <SearchableCombobox
+              value={workshopId}
+              onChange={setWorkshopId}
+              placeholder="Search workshop..."
+              options={workshops.map((w) => ({ value: w.workshop_id, label: w.workshop_name }))}
+            />
           </div>
           <div className="field">
             <label>Technician</label>

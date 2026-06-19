@@ -1,16 +1,28 @@
 import { useState } from 'react';
-import { vehicleApi } from '../../api/resources';
-import { CrudFormPage } from '../crud/CrudFormPage';
+import { branchApi, driverApi, vehicleApi } from '../../api/resources';
+import { CrudFormPage, type FormSectionDef } from '../crud/CrudFormPage';
 import type { Vehicle } from '../../types/entities';
 import type { FieldDef } from '../../components/Form';
+import { SearchableCombobox } from '../../components/common/SearchableCombobox';
 
-const fields: FieldDef<Vehicle>[] = [
+const BASIC_FIELDS: FieldDef<Vehicle>[] = [
   { name: 'registration_no', label: 'Registration No', required: true },
   { name: 'vehicle_code', label: 'Vehicle Code' },
   {
     name: 'ownership_type', label: 'Ownership Type', type: 'select', required: true,
     options: ['Owned', 'Leased', 'Attached', 'Market'].map((v) => ({ value: v, label: v })),
   },
+  {
+    name: 'status', label: 'Status', type: 'select', required: true,
+    options: [
+      'Available', 'Assigned', 'InTrip', 'UnderMaintenance', 'Breakdown',
+      'AccidentHold', 'ComplianceHold', 'WorkshopHold', 'Sold', 'Scrapped', 'Inactive',
+    ].map((v) => ({ value: v, label: v })),
+  },
+  { name: 'branch_id', label: 'Branch / Operating Location' },
+];
+
+const ASSET_FIELDS: FieldDef<Vehicle>[] = [
   {
     name: 'vehicle_category', label: 'Vehicle Category', type: 'select', required: true,
     options: ['LCV', 'MCV', 'HCV', 'Trailer Truck', 'Special'].map((v) => ({ value: v, label: v })),
@@ -19,29 +31,36 @@ const fields: FieldDef<Vehicle>[] = [
     name: 'vehicle_type', label: 'Vehicle Type', type: 'select', required: true,
     options: ['Truck', 'Mini Truck', 'Pickup', 'Tanker', 'Tipper', 'Trailer', 'Special'].map((v) => ({ value: v, label: v })),
   },
-  {
-    name: 'fuel_type', label: 'Fuel Type', type: 'select', required: true,
-    options: ['Diesel', 'CNG', 'LNG', 'EV', 'Hybrid'].map((v) => ({ value: v, label: v })),
-  },
   { name: 'make', label: 'Make' },
   { name: 'model', label: 'Model' },
-  { name: 'manufacture_year', label: 'Manufacture Year', type: 'number', min: 1900, max: 2030 },
-  { name: 'vin_no', label: 'VIN No' },
-  { name: 'chassis_no', label: 'Chassis No' },
-  { name: 'engine_no', label: 'Engine No' },
+  { name: 'manufacture_year', label: 'Manufacturing Year', type: 'number', min: 1900, max: 2030 },
+  { name: 'current_driver_id', label: 'Current Driver' },
+];
+
+const TECHNICAL_FIELDS: FieldDef<Vehicle>[] = [
+  { name: 'vin_no', label: 'VIN Number' },
+  { name: 'chassis_no', label: 'Chassis Number' },
+  { name: 'engine_no', label: 'Engine Number' },
   { name: 'gvw_kg', label: 'GVW (kg)', type: 'number', min: 0 },
   { name: 'payload_capacity_kg', label: 'Payload Capacity (kg)', type: 'number', min: 0 },
   { name: 'volume_cbm', label: 'Volume (cbm)', type: 'number', min: 0 },
   { name: 'axle_configuration', label: 'Axle Configuration' },
   { name: 'body_type', label: 'Body Type' },
-  { name: 'current_odometer_km', label: 'Current Odometer (km)', type: 'number', min: 0 },
+];
+
+const OPERATIONS_FIELDS: FieldDef<Vehicle>[] = [
   {
-    name: 'status', label: 'Status', type: 'select', required: true,
-    options: [
-      'Available', 'Assigned', 'InTrip', 'UnderMaintenance', 'Breakdown',
-      'AccidentHold', 'ComplianceHold', 'WorkshopHold', 'Sold', 'Scrapped', 'Inactive',
-    ].map((v) => ({ value: v, label: v })),
+    name: 'fuel_type', label: 'Fuel Type', type: 'select', required: true,
+    options: ['Diesel', 'CNG', 'LNG', 'EV', 'Hybrid'].map((v) => ({ value: v, label: v })),
   },
+  { name: 'current_odometer_km', label: 'Current Odometer (km)', type: 'number', min: 0 },
+];
+
+const SECTIONS: FormSectionDef<Vehicle>[] = [
+  { title: 'Basic Information', fields: BASIC_FIELDS },
+  { title: 'Asset Details', fields: ASSET_FIELDS },
+  { title: 'Technical Details', fields: TECHNICAL_FIELDS },
+  { title: 'Fuel & Operations', fields: OPERATIONS_FIELDS },
 ];
 
 const REGISTRATION_PATTERN = /^[A-Z]{2}\d{2}[A-Z]{1,2}\d{4}$/;
@@ -52,6 +71,9 @@ function validate(values: Partial<Vehicle>): Record<string, string> {
   // (international plates may not match the Indian pattern).
   if (values.manufacture_year && values.manufacture_year > new Date().getFullYear()) {
     errors.manufacture_year = 'Manufacture year cannot be in the future';
+  }
+  if (values.current_odometer_km != null && values.current_odometer_km < 0) {
+    errors.current_odometer_km = 'Odometer cannot be negative';
   }
   return errors;
 }
@@ -78,7 +100,32 @@ export default function VehicleForm() {
       <CrudFormPage<Vehicle>
         title="Vehicle"
         basePath="/vehicles"
-        fields={fields}
+        fields={[...BASIC_FIELDS, ...ASSET_FIELDS, ...TECHNICAL_FIELDS, ...OPERATIONS_FIELDS]}
+        sections={SECTIONS}
+        renderers={{
+          branch_id: (value, onChange) => (
+            <SearchableCombobox
+              value={(value as string) ?? ''}
+              onChange={onChange}
+              loadOptions={async (q) => {
+                const res = await branchApi.list({ page: 1, pageSize: 20, q });
+                return res.items.map((b) => ({ value: b.branch_id, label: b.branch_name, code: b.branch_code }));
+              }}
+              placeholder="Search branch..."
+            />
+          ),
+          current_driver_id: (value, onChange) => (
+            <SearchableCombobox
+              value={(value as string) ?? ''}
+              onChange={onChange}
+              loadOptions={async (q) => {
+                const res = await driverApi.list({ page: 1, pageSize: 20, q });
+                return res.items.map((d) => ({ value: d.driver_id, label: d.driver_name, code: d.licence_no ?? undefined }));
+              }}
+              placeholder="Search driver..."
+            />
+          ),
+        }}
         get={vehicleApi.get}
         create={vehicleApi.create}
         update={vehicleApi.update}

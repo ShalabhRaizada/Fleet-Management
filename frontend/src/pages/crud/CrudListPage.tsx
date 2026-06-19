@@ -19,10 +19,12 @@ interface CrudListPageProps<T> {
   canCreate?: boolean;
   searchable?: boolean;
   extraActions?: (row: T) => React.ReactNode;
+  /** Extra controls rendered next to "+ Add New" in the page header, e.g. an ImportCsvButton. Receives a reload callback. */
+  headerActions?: (reload: () => void) => React.ReactNode;
 }
 
 export function CrudListPage<T>({
-  title, basePath, columns, rowKey, list, remove, canCreate = true, searchable = true, extraActions,
+  title, basePath, columns, rowKey, list, remove, canCreate = true, searchable = true, extraActions, headerActions,
 }: CrudListPageProps<T>) {
   const navigate = useNavigate();
   const { addToast } = useToast();
@@ -60,11 +62,14 @@ export function CrudListPage<T>({
     <div className="col gap-16">
       <div className="page-header">
         <h1>{title}</h1>
-        {canCreate && (
-          <button onClick={() => navigate(`${basePath}/new`)} className="btn primary">
-            + Add New
-          </button>
-        )}
+        <div className="row gap-8">
+          {headerActions?.(reload)}
+          {canCreate && (
+            <button onClick={() => navigate(`${basePath}/new`)} className="btn primary">
+              + Add New
+            </button>
+          )}
+        </div>
       </div>
       {error && <div className="badge danger" style={{ display: 'block', padding: '8px 12px' }}>{error}</div>}
       {confirmDelete && (

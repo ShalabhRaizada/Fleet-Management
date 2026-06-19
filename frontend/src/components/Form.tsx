@@ -12,6 +12,8 @@ export interface FieldDef<T> {
   pattern?: string;
   minLength?: number;
   maxLength?: number;
+  /** Logical section heading this field belongs to (used by sectioned form layouts). */
+  section?: string;
 }
 
 interface SimpleFormProps<T> {
@@ -19,6 +21,9 @@ interface SimpleFormProps<T> {
   values: Partial<T>;
   onChange: (name: keyof T & string, value: unknown) => void;
   errors?: Record<string, string>;
+  /** Override the default control for specific fields, e.g. a SearchableCombobox instead of a plain <select>. */
+  renderers?: Partial<Record<keyof T & string, (value: unknown, onChange: (v: unknown) => void) => ReactNode>>;
+  cols?: 2 | 3 | 4;
 }
 
 function formatInputValue(value: string | number | boolean | undefined): string | number {
@@ -27,16 +32,18 @@ function formatInputValue(value: string | number | boolean | undefined): string 
   return value;
 }
 
-export function FormGrid<T>({ fields, values, onChange, errors }: SimpleFormProps<T>) {
+export function FormGrid<T>({ fields, values, onChange, errors, renderers, cols = 2 }: SimpleFormProps<T>) {
   return (
-    <div className="field-row cols-2">
+    <div className={`field-row cols-${cols}`}>
       {fields.map((f) => (
         <div key={f.name} className="field" style={f.type === 'textarea' ? { gridColumn: '1 / -1' } : undefined}>
           <label>
             {f.label}
             {f.required && <span className="req">*</span>}
           </label>
-          {f.type === 'select' ? (
+          {renderers?.[f.name] ? (
+            renderers[f.name]!(values[f.name], (v) => onChange(f.name, v))
+          ) : f.type === 'select' ? (
             <select
               className="select"
               value={(values[f.name] as string) ?? ''}

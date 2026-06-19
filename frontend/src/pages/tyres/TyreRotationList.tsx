@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { tyreRotationApi } from '../../api/tyreRotation';
 import { ApiError } from '../../api/client';
+import { StatusBadge } from '../../components/common/StatusBadge';
 import type { TyreRotationHeader } from '../../types/tyreRotation';
 
 const STATUS_OPTIONS = ['Draft', 'Submitted', 'Approved'];
@@ -113,7 +114,7 @@ export default function TyreRotationList() {
                   <td className="num tnum">{r.odometer_km}</td>
                   <td>{r.line_count ?? '-'}</td>
                   <td>{r.reason_code || '-'}</td>
-                  <td><span className={`badge ${r.status === 'Approved' ? 'success' : r.status === 'Submitted' ? '' : 'warn'}`}>{r.status}</span></td>
+                  <td><StatusBadge status={r.status} /></td>
                   <td>
                     <Link to={`/tyre-rotations/${r.rotation_header_id}`} className="btn sm">View</Link>
                   </td>
