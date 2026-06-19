@@ -17,6 +17,7 @@ const MENU: MenuItem[] = [
   { to: '/fuel/variance', label: '↳ Planned vs Actual', roles: ['ADMIN', 'FLEET_MANAGER', 'DRIVER'], sub: true },
   { to: '/compliance', label: 'Compliance', roles: ['ADMIN', 'FLEET_MANAGER'] },
   { to: '/compliance/expiry', label: '↳ Expiry Alerts', roles: ['ADMIN', 'FLEET_MANAGER'], sub: true },
+  { to: '/compliance/vahan-validation', label: '↳ Validate VAHAN', roles: ['ADMIN', 'FLEET_MANAGER'], sub: true },
   { to: '/job-cards', label: 'Job Cards', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
   { to: '/workshops', label: 'Workshops', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
   { to: '/workshops/invoices', label: '↳ Invoices', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'], sub: true },

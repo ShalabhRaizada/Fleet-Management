@@ -877,4 +877,30 @@ router.use(
   })
 );
 
+// ---- VAHAN validation history (read-only; writes happen exclusively via
+// POST /api/vahan-validation/validate) ----
+
+/**
+ * @openapi
+ * /api/vahan-validation-results:
+ *   get:
+ *     summary: List VAHAN validation result history (read-only; creation happens via /api/vahan-validation/validate)
+ *     tags: [Compliance]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated VAHAN validation result list }
+ */
+router.post('/vahan-validation-results', (_req, res) => res.status(403).json({ success: false, message: 'Create not allowed; use /api/vahan-validation/validate', data: null, errors: null }));
+router.put('/vahan-validation-results/:id', (_req, res) => res.status(403).json({ success: false, message: 'Update not allowed', data: null, errors: null }));
+router.delete('/vahan-validation-results/:id', (_req, res) => res.status(403).json({ success: false, message: 'Delete not allowed', data: null, errors: null }));
+router.use(
+  '/vahan-validation-results',
+  buildCrudRouter({
+    table: 'vahan_validation_result',
+    pk: 'result_id',
+    searchColumns: ['vehicle_no', 'response_status', 'rc_status'],
+    writeRoles: [],
+  })
+);
+
 export default router;

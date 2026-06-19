@@ -27,6 +27,7 @@ const ComplianceList = React.lazy(() => import('./pages/compliance/ComplianceLis
 const ComplianceForm = React.lazy(() => import('./pages/compliance/ComplianceForm'));
 const ComplianceDetail = React.lazy(() => import('./pages/compliance/ComplianceDetail'));
 const ComplianceExpiryList = React.lazy(() => import('./pages/compliance/ComplianceExpiryList'));
+const VahanValidation = React.lazy(() => import('./pages/compliance/VahanValidation'));
 
 const JobCardList = React.lazy(() => import('./pages/jobcards/JobCardList'));
 const JobCardForm = React.lazy(() => import('./pages/jobcards/JobCardForm'));
@@ -192,6 +193,7 @@ export default function App() {
               <Route element={<ProtectedRoute roles={['ADMIN', 'FLEET_MANAGER']} />}>
                 <Route path="/compliance" element={<ComplianceList />} />
                 <Route path="/compliance/expiry" element={<ComplianceExpiryList />} />
+                <Route path="/compliance/vahan-validation" element={<VahanValidation />} />
                 <Route path="/compliance/new" element={<ComplianceForm />} />
                 <Route path="/compliance/:id" element={<ComplianceDetail />} />
                 <Route path="/compliance/:id/edit" element={<ComplianceForm />} />

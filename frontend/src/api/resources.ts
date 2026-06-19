@@ -1,3 +1,4 @@
+import { api } from './client';
 import { createResource } from './resource';
 import type {
   Branch, Vendor, Driver, Vehicle, Trailer, Coupling, FuelTransaction,
@@ -5,6 +6,7 @@ import type {
   Tyre, TyreMovement, Accessory, AccessoryEvent, Accompaniment, AccompanimentIssue,
   ApprovalRequest, AlertEvent, VehicleCostLedger, ItemMaster, Battery, Challan,
   EpicStatusUpload, NonWorkingVehicleAction,
+  VahanValidationResult, VahanValidationResponse,
 } from '../types/entities';
 import type { FuelVariance } from '../types/entities-extra';
 import type {
@@ -65,3 +67,10 @@ export const challanApi = createResource<Challan>('/challans');
 export const epicStatusUploadApi = createResource<EpicStatusUpload>('/epic-status-uploads');
 export const nonWorkingVehicleActionApi = createResource<NonWorkingVehicleAction>('/non-working-vehicle-actions');
 export const handoverDocumentApi = createResource<HandoverDocument>('/handover-documents');
+
+export const vahanValidationResultApi = createResource<VahanValidationResult>('/vahan-validation-results');
+
+/** Custom (non-CRUD) action: validate a batch of vehicles against the VAHAN API. */
+export function validateVahan(vehicleIds: string[]): Promise<VahanValidationResponse> {
+  return api.post<VahanValidationResponse>('/vahan-validation/validate', { vehicleIds });
+}

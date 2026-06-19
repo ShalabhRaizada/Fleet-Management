@@ -398,3 +398,49 @@ export interface NonWorkingVehicleAction {
   resolved_at?: string | null;
   remarks?: string | null;
 }
+
+export interface VahanValidationResult {
+  result_id: string;
+  vehicle_id?: string | null;
+  vehicle_no: string;
+  requested_by?: string | null;
+  requested_at: string;
+  response_status: 'Success' | 'NotFound' | 'InvalidFormat' | 'Error';
+  raw_response?: unknown;
+  rc_status?: string | null;
+  fitness_valid_upto?: string | null;
+  pucc_valid_upto?: string | null;
+  insurance_valid_upto?: string | null;
+  permit_valid_upto?: string | null;
+  road_tax_paid_upto?: string | null;
+  is_blacklisted: boolean;
+  blacklist_reason?: string | null;
+  gross_vehicle_weight_kg?: number | null;
+}
+
+export interface VahanValidationRequestResult {
+  vehicle_id: string;
+  vehicle_no: string;
+  response_status: 'Success' | 'NotFound' | 'InvalidFormat' | 'Error';
+  message?: string;
+  rc_status?: string | null;
+  fitness_valid_upto?: string | null;
+  pucc_valid_upto?: string | null;
+  insurance_valid_upto?: string | null;
+  permit_valid_upto?: string | null;
+  road_tax_paid_upto?: string | null;
+  is_blacklisted?: boolean;
+  blacklist_reason?: string | null;
+  gross_vehicle_weight_kg?: number | null;
+  result_id?: string;
+}
+
+export interface VahanValidationResponse {
+  summary: {
+    total: number;
+    matched: number;
+    notFound: number;
+    flagged: number;
+  };
+  results: VahanValidationRequestResult[];
+}

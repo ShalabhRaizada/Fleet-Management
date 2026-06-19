@@ -5867,6 +5867,157 @@
           "desc": "Whether handover was accepted"
         }
       ]
+    },
+    "vahan_validation_result": {
+      "pk": "result_id",
+      "phase": "P3",
+      "module": "Integrations/Alerts",
+      "columns": [
+        {
+          "name": "result_id",
+          "type": "uniqueidentifier",
+          "pk": true,
+          "fk": "",
+          "nullable": false,
+          "label": "Result",
+          "desc": "Primary key"
+        },
+        {
+          "name": "vehicle_id",
+          "type": "uniqueidentifier",
+          "pk": false,
+          "fk": "YES: vehicle_master.vehicle_id",
+          "nullable": true,
+          "label": "Vehicle",
+          "desc": "Matched vehicle (nullable if unmatched)"
+        },
+        {
+          "name": "vehicle_no",
+          "type": "varchar(20)",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Vehicle No",
+          "desc": "Vehicle registration number requested"
+        },
+        {
+          "name": "requested_by",
+          "type": "uniqueidentifier",
+          "pk": false,
+          "fk": "YES: user_master.user_id",
+          "nullable": true,
+          "label": "Requested By",
+          "desc": "User who triggered the validation"
+        },
+        {
+          "name": "requested_at",
+          "type": "datetime2",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Requested At",
+          "desc": "Request timestamp"
+        },
+        {
+          "name": "response_status",
+          "type": "varchar(20)",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Response Status",
+          "desc": "Success/NotFound/InvalidFormat/Error"
+        },
+        {
+          "name": "raw_response",
+          "type": "nvarchar(max)",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Raw Response",
+          "desc": "Full VAHAN API response JSON"
+        },
+        {
+          "name": "rc_status",
+          "type": "varchar(30)",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "RC Status",
+          "desc": "ACTIVE/SUSPENDED/etc from VAHAN"
+        },
+        {
+          "name": "fitness_valid_upto",
+          "type": "date",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Fitness Valid Upto",
+          "desc": "Fitness certificate validity"
+        },
+        {
+          "name": "pucc_valid_upto",
+          "type": "date",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "PUCC Valid Upto",
+          "desc": "Pollution certificate validity"
+        },
+        {
+          "name": "insurance_valid_upto",
+          "type": "date",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Insurance Valid Upto",
+          "desc": "Insurance policy validity"
+        },
+        {
+          "name": "permit_valid_upto",
+          "type": "date",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Permit Valid Upto",
+          "desc": "Permit validity"
+        },
+        {
+          "name": "road_tax_paid_upto",
+          "type": "date",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Road Tax Paid Upto",
+          "desc": "Road tax paid until"
+        },
+        {
+          "name": "is_blacklisted",
+          "type": "bit",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Is Blacklisted",
+          "desc": "Blacklist flag from VAHAN"
+        },
+        {
+          "name": "blacklist_reason",
+          "type": "varchar(500)",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Blacklist Reason",
+          "desc": "Reason if blacklisted"
+        },
+        {
+          "name": "gross_vehicle_weight_kg",
+          "type": "decimal(10,2)",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Gross Vehicle Weight (kg)",
+          "desc": "GVW reported by VAHAN"
+        }
+      ]
     }
   },
   "fks": [
@@ -6541,6 +6692,18 @@
       "child_col": "vehicle_id",
       "parent_table": "vehicle_master",
       "parent_col": "vehicle_id"
+    },
+    {
+      "child_table": "vahan_validation_result",
+      "child_col": "vehicle_id",
+      "parent_table": "vehicle_master",
+      "parent_col": "vehicle_id"
+    },
+    {
+      "child_table": "vahan_validation_result",
+      "child_col": "requested_by",
+      "parent_table": "user_master",
+      "parent_col": "user_id"
     }
   ]
 }

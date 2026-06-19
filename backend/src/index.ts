@@ -11,6 +11,7 @@ import approvalRoutes from './routes/approvals.routes';
 import alertRoutes from './routes/alerts.routes';
 import reportRoutes from './routes/reports.routes';
 import epicUploadRoutes from './routes/epicUpload.routes';
+import vahanValidationRoutes from './routes/vahanValidation.routes';
 import { notFoundHandler, errorHandler, requestLogger } from './middleware/errorHandler';
 import { openapiSpec } from './swagger';
 import { evaluateAlerts } from './services/alertsEngine';
@@ -31,6 +32,7 @@ export function createApp() {
   app.use('/api/alerts', alertRoutes);
   app.use('/api/reports', reportRoutes);
   app.use('/api/epic-upload', epicUploadRoutes);
+  app.use('/api/vahan-validation', vahanValidationRoutes);
   app.use('/api', entityRoutes);
 
   app.use(notFoundHandler);
