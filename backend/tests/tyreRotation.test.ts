@@ -155,6 +155,22 @@ describe('Tyre Rotation Management', () => {
     expect(approveRes.body.data.status).toBe('Approved');
   });
 
+  it('returns the current tyre layout for a trailer (axle_count-derived configuration)', async () => {
+    const trailerRes = await request(app)
+      .post('/api/trailers')
+      .set('Authorization', `Bearer ${adminToken}`)
+      .send({ trailer_no: `TRL${Date.now() % 1000000}`, trailer_type: 'Flatbed', axle_count: 2, status: 'Available' });
+    expect(trailerRes.status).toBe(201);
+    const trailerId = trailerRes.body.data.trailer_id;
+
+    const res = await request(app)
+      .get(`/api/assets/Trailer/${trailerId}/tyre-layout`)
+      .set('Authorization', `Bearer ${adminToken}`);
+    expect(res.status).toBe(200);
+    expect(res.body.data.axleConfiguration).toBe('2-Axle');
+    expect(res.body.data.positions.length).toBeGreaterThan(0);
+  });
+
   it('returns full movement history for a tyre', async () => {
     const res = await request(app)
       .get(`/api/tyres/${tyreAId}/history`)

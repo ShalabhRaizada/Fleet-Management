@@ -23,6 +23,7 @@ const MENU: MenuItem[] = [
   { to: '/workshops', label: 'Workshops', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
   { to: '/workshops/invoices', label: '↳ Invoices', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'], sub: true },
   { to: '/tyres', label: 'Tyres', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/tyre-rotations', label: '↳ Tyre Rotations', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'], sub: true },
   { to: '/accessories', label: 'Accessories', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
   { to: '/accompaniments', label: 'Accompaniments', roles: ['ADMIN', 'FLEET_MANAGER'] },
   { to: '/approvals', label: 'Approval Inbox' },

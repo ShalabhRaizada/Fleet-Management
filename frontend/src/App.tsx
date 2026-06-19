@@ -44,6 +44,9 @@ const TyreList = React.lazy(() => import('./pages/tyres/TyreList'));
 const TyreForm = React.lazy(() => import('./pages/tyres/TyreForm'));
 const TyreDetail = React.lazy(() => import('./pages/tyres/TyreDetail'));
 const TyreMovementAction = React.lazy(() => import('./pages/tyres/TyreMovementAction'));
+const TyreRotationList = React.lazy(() => import('./pages/tyres/TyreRotationList'));
+const TyreRotationCreate = React.lazy(() => import('./pages/tyres/TyreRotationCreate'));
+const TyreRotationDetail = React.lazy(() => import('./pages/tyres/TyreRotationDetail'));
 
 const AccessoryList = React.lazy(() => import('./pages/accessories/AccessoryList'));
 const AccessoryForm = React.lazy(() => import('./pages/accessories/AccessoryForm'));
@@ -228,6 +231,10 @@ export default function App() {
                 <Route path="/tyres/:id/fitment" element={<TyreMovementAction mode="fitment" />} />
                 <Route path="/tyres/:id/removal" element={<TyreMovementAction mode="removal" />} />
                 <Route path="/tyres/new" element={<TyreForm />} />
+
+                <Route path="/tyre-rotations" element={<TyreRotationList />} />
+                <Route path="/tyre-rotations/new" element={<TyreRotationCreate />} />
+                <Route path="/tyre-rotations/:id" element={<TyreRotationDetail />} />
 
                 <Route path="/accessories" element={<AccessoryList />} />
                 <Route path="/accessories/:id" element={<AccessoryDetail />} />

@@ -222,6 +222,8 @@ export interface Tyre {
   current_position?: string | null;
   status: string;
   total_run_km?: number | null;
+  last_rotation_date?: string | null;
+  last_rotation_odometer_km?: number | null;
 }
 
 export interface TyreMovement {
@@ -238,6 +240,7 @@ export interface TyreMovement {
   movement_datetime: string;
   job_card_id?: string | null;
   status: string;
+  rotation_header_id?: string | null;
 }
 
 export interface Accessory {

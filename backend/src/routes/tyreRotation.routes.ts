@@ -181,11 +181,17 @@ router.get('/assets/:assetType/:assetId/tyre-layout', async (req: Request, res: 
   if (!ASSET_TYPES.includes(assetType as any)) return fail(res, 'Invalid assetType', 422);
 
   const assetRes = await pool.query(
-    `SELECT axle_configuration, current_odometer_km AS odometer FROM ${assetTable(assetType)} WHERE ${assetPk(assetType)} = $1 AND deleted_flag = false`,
+    assetType === 'Vehicle'
+      ? `SELECT axle_configuration, current_odometer_km AS odometer FROM vehicle_master WHERE vehicle_id = $1 AND deleted_flag = false`
+      : `SELECT axle_count, NULL::decimal AS odometer FROM trailer_master WHERE trailer_id = $1 AND deleted_flag = false`,
     [assetId]
   );
   if (!assetRes.rows.length) return fail(res, 'Asset not found', 404);
-  const axleConfig = assetRes.rows[0].axle_configuration;
+  // trailer_master tracks axle_count (int), not a named axle_configuration like vehicle_master;
+  // derive the lookup key used by tyre_position_master from it.
+  const axleConfig = assetType === 'Vehicle'
+    ? assetRes.rows[0].axle_configuration
+    : `${assetRes.rows[0].axle_count}-Axle`;
 
   const positionsRes = await pool.query(
     `SELECT position_code, position_label, sort_order FROM tyre_position_master
