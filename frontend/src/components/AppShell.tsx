@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
@@ -84,6 +85,12 @@ export function AppShell() {
   const { user, logout } = useAuth();
   const location = useLocation();
   const crumbs = breadcrumbFromPath(location.pathname);
+  const [navOpen, setNavOpen] = useState(false);
+
+  // Close the mobile nav drawer whenever the route changes.
+  useEffect(() => {
+    setNavOpen(false);
+  }, [location.pathname]);
 
   const visibleMenu = MENU.filter((item) => !item.roles || (user && item.roles.includes(user.role_code)));
   const initials = (user?.display_name || user?.login_id || '?')
@@ -94,7 +101,8 @@ export function AppShell() {
     .toUpperCase();
 
   return (
-    <div className="app">
+    <div className={`app${navOpen ? ' nav-open' : ''}`}>
+      {navOpen && <div className="nav-scrim" onClick={() => setNavOpen(false)} />}
       <aside className="sidebar">
         <div className="brand">
           <div className="brand-mark">GL</div>
@@ -130,6 +138,14 @@ export function AppShell() {
         </div>
       </aside>
       <div className="topbar">
+        <button
+          type="button"
+          className="nav-toggle"
+          aria-label={navOpen ? 'Close navigation' : 'Open navigation'}
+          onClick={() => setNavOpen((v) => !v)}
+        >
+          {navOpen ? '✕' : '☰'}
+        </button>
         <div className="crumb">
           {crumbs.length ? (
             crumbs.map((c, i) => (

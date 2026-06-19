@@ -14,7 +14,7 @@ export default function SettingsHome() {
       <div className="page-header">
         <h1>Settings</h1>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 14 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
         {SECTIONS.map((s) => (
           <Link key={s.to} to={s.to} className="card" style={{ padding: 16, display: 'block', textDecoration: 'none' }}>
             <div style={{ fontWeight: 600, fontSize: 14 }}>{s.name}</div>

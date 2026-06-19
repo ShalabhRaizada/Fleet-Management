@@ -16,7 +16,7 @@ export default function ReportsHome() {
       <div className="page-header">
         <h1>Reports</h1>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 14 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 14 }}>
         {REPORTS.map((r) => (
           <Link key={r.to} to={r.to} className="card" style={{ padding: 16, display: 'block', textDecoration: 'none' }}>
             <div style={{ fontWeight: 600, fontSize: 14 }}>{r.name}</div>
