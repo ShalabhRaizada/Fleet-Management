@@ -88,6 +88,16 @@ export default function AlertDashboard() {
           { key: 'message', header: 'Message' },
           { key: 'created_at', header: 'Created At', render: (r) => new Date(r.created_at).toLocaleString(), sortable: true },
           { key: 'status', header: 'Status' },
+          {
+            key: 'escalation_level',
+            header: 'Escalation',
+            render: (r) =>
+              (r.escalation_level ?? 0) > 0 ? (
+                <span className="inline-block bg-red-600 text-white text-xs font-semibold px-2 py-0.5 rounded">
+                  Escalated{r.escalated_at ? ` ${new Date(r.escalated_at).toLocaleString()}` : ''}
+                </span>
+              ) : null,
+          },
         ]}
         rows={items}
         rowKey={(r) => r.alert_id}

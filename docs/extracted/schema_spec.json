@@ -4541,6 +4541,33 @@
           "nullable": false,
           "label": "Status",
           "desc": "Open/Acknowledged/Closed/Snoozed"
+        },
+        {
+          "name": "escalation_level",
+          "type": "int",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "Escalation Level",
+          "desc": "0 = not escalated, 1 = escalated to admin"
+        },
+        {
+          "name": "escalated_at",
+          "type": "datetime2",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "Escalated At",
+          "desc": "Timestamp when the alert was auto-escalated"
+        },
+        {
+          "name": "escalation_assignee",
+          "type": "uniqueidentifier",
+          "pk": false,
+          "fk": "YES: user_master.user_id",
+          "nullable": true,
+          "label": "Escalation Assignee",
+          "desc": "Admin user the escalated alert was assigned to"
         }
       ]
     },

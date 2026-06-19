@@ -317,6 +317,9 @@ export interface AlertEvent {
   vehicle_id?: string | null;
   trailer_id?: string | null;
   created_at: string;
+  escalation_level?: number;
+  escalated_at?: string | null;
+  escalation_assignee?: string | null;
 }
 
 export interface VehicleCostLedger {

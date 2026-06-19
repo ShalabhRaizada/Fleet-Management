@@ -15,14 +15,21 @@ import { pool } from '../db/pool';
  * Note: maintenance_schedule / maintenance_due are formally P2 tables; this
  * P1 rule is a light heuristic so the alerts engine has a working
  * maintenance-due signal without depending on P2 scheduling logic.
+ *
+ * Escalation (Phase A item 3): any Open + Critical alert that has been open
+ * longer than ESCALATION_THRESHOLD_MINUTES and has not yet been escalated
+ * (escalation_level = 0) is bumped to escalation_level = 1 and assigned to
+ * an ADMIN user. This is intentionally single-level (no repeat escalation).
  */
 
 const COMPLIANCE_WARNING_DAYS = 30;
 const MAINTENANCE_DUE_KM_THRESHOLD = 10000; // km since last job card before flagged due
+const ESCALATION_THRESHOLD_MINUTES = 60;
 
 export interface AlertsEvalResult {
   complianceAlertsCreated: number;
   maintenanceAlertsCreated: number;
+  alertsEscalated: number;
 }
 
 async function alertAlreadyOpen(entityType: string, entityId: string, alertType: string): Promise<boolean> {
@@ -95,8 +102,38 @@ async function evaluateMaintenanceDue(): Promise<number> {
   return created;
 }
 
+async function evaluateEscalations(): Promise<number> {
+  const { rows: adminRows } = await pool.query(
+    `SELECT user_id FROM user_master WHERE role_code = 'ADMIN' AND deleted_flag = false LIMIT 1`
+  );
+  if (adminRows.length === 0) return 0;
+  const adminUserId = adminRows[0].user_id;
+
+  const { rows } = await pool.query(
+    `SELECT alert_id FROM alert_event
+     WHERE status = 'Open'
+       AND severity = 'Critical'
+       AND escalation_level = 0
+       AND created_at <= (now() - ($1 || ' minutes')::interval)
+       AND deleted_flag = false`,
+    [ESCALATION_THRESHOLD_MINUTES]
+  );
+  let escalated = 0;
+  for (const row of rows) {
+    await pool.query(
+      `UPDATE alert_event
+       SET escalation_level = 1, escalated_at = now(), escalation_assignee = $2
+       WHERE alert_id = $1`,
+      [row.alert_id, adminUserId]
+    );
+    escalated++;
+  }
+  return escalated;
+}
+
 export async function evaluateAlerts(): Promise<AlertsEvalResult> {
   const complianceAlertsCreated = await evaluateComplianceExpiry();
   const maintenanceAlertsCreated = await evaluateMaintenanceDue();
-  return { complianceAlertsCreated, maintenanceAlertsCreated };
+  const alertsEscalated = await evaluateEscalations();
+  return { complianceAlertsCreated, maintenanceAlertsCreated, alertsEscalated };
 }
