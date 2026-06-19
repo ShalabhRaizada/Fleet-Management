@@ -1,155 +1,163 @@
+import React from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { AppShell } from './components/AppShell';
 import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
+const Dashboard = React.lazy(() => import('./pages/Dashboard'));
 
-import VehicleList from './pages/vehicles/VehicleList';
-import VehicleForm from './pages/vehicles/VehicleForm';
-import VehicleDetail from './pages/vehicles/VehicleDetail';
+const VehicleList = React.lazy(() => import('./pages/vehicles/VehicleList'));
+const VehicleForm = React.lazy(() => import('./pages/vehicles/VehicleForm'));
+const VehicleDetail = React.lazy(() => import('./pages/vehicles/VehicleDetail'));
 
-import TrailerList from './pages/trailers/TrailerList';
-import TrailerForm from './pages/trailers/TrailerForm';
-import TrailerDetail from './pages/trailers/TrailerDetail';
+const TrailerList = React.lazy(() => import('./pages/trailers/TrailerList'));
+const TrailerForm = React.lazy(() => import('./pages/trailers/TrailerForm'));
+const TrailerDetail = React.lazy(() => import('./pages/trailers/TrailerDetail'));
 
-import CouplingPage from './pages/coupling/CouplingPage';
+const CouplingPage = React.lazy(() => import('./pages/coupling/CouplingPage'));
 
-import FuelList from './pages/fuel/FuelList';
-import FuelForm from './pages/fuel/FuelForm';
-import FuelDetail from './pages/fuel/FuelDetail';
-import FuelPlannedVsActual from './pages/fuel/FuelPlannedVsActual';
+const FuelList = React.lazy(() => import('./pages/fuel/FuelList'));
+const FuelForm = React.lazy(() => import('./pages/fuel/FuelForm'));
+const FuelDetail = React.lazy(() => import('./pages/fuel/FuelDetail'));
+const FuelPlannedVsActual = React.lazy(() => import('./pages/fuel/FuelPlannedVsActual'));
 
-import ComplianceList from './pages/compliance/ComplianceList';
-import ComplianceForm from './pages/compliance/ComplianceForm';
-import ComplianceDetail from './pages/compliance/ComplianceDetail';
-import ComplianceExpiryList from './pages/compliance/ComplianceExpiryList';
+const ComplianceList = React.lazy(() => import('./pages/compliance/ComplianceList'));
+const ComplianceForm = React.lazy(() => import('./pages/compliance/ComplianceForm'));
+const ComplianceDetail = React.lazy(() => import('./pages/compliance/ComplianceDetail'));
+const ComplianceExpiryList = React.lazy(() => import('./pages/compliance/ComplianceExpiryList'));
 
-import JobCardList from './pages/jobcards/JobCardList';
-import JobCardForm from './pages/jobcards/JobCardForm';
-import JobCardDetail from './pages/jobcards/JobCardDetail';
+const JobCardList = React.lazy(() => import('./pages/jobcards/JobCardList'));
+const JobCardForm = React.lazy(() => import('./pages/jobcards/JobCardForm'));
+const JobCardDetail = React.lazy(() => import('./pages/jobcards/JobCardDetail'));
 
-import WorkshopList from './pages/workshops/WorkshopList';
-import WorkshopForm from './pages/workshops/WorkshopForm';
-import WorkshopDetail from './pages/workshops/WorkshopDetail';
-import InvoiceList from './pages/workshops/InvoiceList';
-import InvoiceForm from './pages/workshops/InvoiceForm';
-import InvoiceDetail from './pages/workshops/InvoiceDetail';
+const WorkshopList = React.lazy(() => import('./pages/workshops/WorkshopList'));
+const WorkshopForm = React.lazy(() => import('./pages/workshops/WorkshopForm'));
+const WorkshopDetail = React.lazy(() => import('./pages/workshops/WorkshopDetail'));
+const InvoiceList = React.lazy(() => import('./pages/workshops/InvoiceList'));
+const InvoiceForm = React.lazy(() => import('./pages/workshops/InvoiceForm'));
+const InvoiceDetail = React.lazy(() => import('./pages/workshops/InvoiceDetail'));
 
-import TyreList from './pages/tyres/TyreList';
-import TyreForm from './pages/tyres/TyreForm';
-import TyreDetail from './pages/tyres/TyreDetail';
-import TyreMovementAction from './pages/tyres/TyreMovementAction';
+const TyreList = React.lazy(() => import('./pages/tyres/TyreList'));
+const TyreForm = React.lazy(() => import('./pages/tyres/TyreForm'));
+const TyreDetail = React.lazy(() => import('./pages/tyres/TyreDetail'));
+const TyreMovementAction = React.lazy(() => import('./pages/tyres/TyreMovementAction'));
 
-import AccessoryList from './pages/accessories/AccessoryList';
-import AccessoryForm from './pages/accessories/AccessoryForm';
-import AccessoryDetail from './pages/accessories/AccessoryDetail';
+const AccessoryList = React.lazy(() => import('./pages/accessories/AccessoryList'));
+const AccessoryForm = React.lazy(() => import('./pages/accessories/AccessoryForm'));
+const AccessoryDetail = React.lazy(() => import('./pages/accessories/AccessoryDetail'));
 
-import AccompanimentList from './pages/accompaniments/AccompanimentList';
-import AccompanimentForm from './pages/accompaniments/AccompanimentForm';
-import AccompanimentIssuePage from './pages/accompaniments/AccompanimentIssuePage';
-import AccompanimentReturnPage from './pages/accompaniments/AccompanimentReturnPage';
+const AccompanimentList = React.lazy(() => import('./pages/accompaniments/AccompanimentList'));
+const AccompanimentForm = React.lazy(() => import('./pages/accompaniments/AccompanimentForm'));
+const AccompanimentIssuePage = React.lazy(() => import('./pages/accompaniments/AccompanimentIssuePage'));
+const AccompanimentReturnPage = React.lazy(() => import('./pages/accompaniments/AccompanimentReturnPage'));
 
-import ApprovalInbox from './pages/approvals/ApprovalInbox';
-import CostReport from './pages/reports/CostReport';
-import AlertDashboard from './pages/alerts/AlertDashboard';
+const ApprovalInbox = React.lazy(() => import('./pages/approvals/ApprovalInbox'));
+const CostReport = React.lazy(() => import('./pages/reports/CostReport'));
+const AlertDashboard = React.lazy(() => import('./pages/alerts/AlertDashboard'));
 
-import InspectionTemplateList from './pages/inspections/InspectionTemplateList';
-import InspectionTemplateForm from './pages/inspections/InspectionTemplateForm';
-import InspectionTemplateDetail from './pages/inspections/InspectionTemplateDetail';
-import InspectionEventList from './pages/inspections/InspectionEventList';
-import InspectionEventForm from './pages/inspections/InspectionEventForm';
-import InspectionEventDetail from './pages/inspections/InspectionEventDetail';
-import InspectionResultLineList from './pages/inspections/InspectionResultLineList';
-import InspectionResultLineForm from './pages/inspections/InspectionResultLineForm';
-import InspectionResultLineDetail from './pages/inspections/InspectionResultLineDetail';
+const InspectionTemplateList = React.lazy(() => import('./pages/inspections/InspectionTemplateList'));
+const InspectionTemplateForm = React.lazy(() => import('./pages/inspections/InspectionTemplateForm'));
+const InspectionTemplateDetail = React.lazy(() => import('./pages/inspections/InspectionTemplateDetail'));
+const InspectionEventList = React.lazy(() => import('./pages/inspections/InspectionEventList'));
+const InspectionEventForm = React.lazy(() => import('./pages/inspections/InspectionEventForm'));
+const InspectionEventDetail = React.lazy(() => import('./pages/inspections/InspectionEventDetail'));
+const InspectionResultLineList = React.lazy(() => import('./pages/inspections/InspectionResultLineList'));
+const InspectionResultLineForm = React.lazy(() => import('./pages/inspections/InspectionResultLineForm'));
+const InspectionResultLineDetail = React.lazy(() => import('./pages/inspections/InspectionResultLineDetail'));
 
-import RouteFuelNormList from './pages/masters/RouteFuelNormList';
-import RouteFuelNormForm from './pages/masters/RouteFuelNormForm';
-import RouteFuelNormDetail from './pages/masters/RouteFuelNormDetail';
+const RouteFuelNormList = React.lazy(() => import('./pages/masters/RouteFuelNormList'));
+const RouteFuelNormForm = React.lazy(() => import('./pages/masters/RouteFuelNormForm'));
+const RouteFuelNormDetail = React.lazy(() => import('./pages/masters/RouteFuelNormDetail'));
 
-import ComplianceAlertList from './pages/compliance/ComplianceAlertList';
-import ComplianceAlertForm from './pages/compliance/ComplianceAlertForm';
-import ComplianceAlertDetail from './pages/compliance/ComplianceAlertDetail';
+const ComplianceAlertList = React.lazy(() => import('./pages/compliance/ComplianceAlertList'));
+const ComplianceAlertForm = React.lazy(() => import('./pages/compliance/ComplianceAlertForm'));
+const ComplianceAlertDetail = React.lazy(() => import('./pages/compliance/ComplianceAlertDetail'));
 
-import TripList from './pages/trips/TripList';
-import TripForm from './pages/trips/TripForm';
-import TripDetail from './pages/trips/TripDetail';
-import TollTransactionList from './pages/trips/TollTransactionList';
-import TollTransactionForm from './pages/trips/TollTransactionForm';
-import TollTransactionDetail from './pages/trips/TollTransactionDetail';
+const TripList = React.lazy(() => import('./pages/trips/TripList'));
+const TripForm = React.lazy(() => import('./pages/trips/TripForm'));
+const TripDetail = React.lazy(() => import('./pages/trips/TripDetail'));
+const TollTransactionList = React.lazy(() => import('./pages/trips/TollTransactionList'));
+const TollTransactionForm = React.lazy(() => import('./pages/trips/TollTransactionForm'));
+const TollTransactionDetail = React.lazy(() => import('./pages/trips/TollTransactionDetail'));
 
-import ApprovalMatrixList from './pages/approvals/ApprovalMatrixList';
-import ApprovalMatrixForm from './pages/approvals/ApprovalMatrixForm';
-import ApprovalMatrixDetail from './pages/approvals/ApprovalMatrixDetail';
+const ApprovalMatrixList = React.lazy(() => import('./pages/approvals/ApprovalMatrixList'));
+const ApprovalMatrixForm = React.lazy(() => import('./pages/approvals/ApprovalMatrixForm'));
+const ApprovalMatrixDetail = React.lazy(() => import('./pages/approvals/ApprovalMatrixDetail'));
 
-import MaintenanceScheduleList from './pages/maintenance/MaintenanceScheduleList';
-import MaintenanceScheduleForm from './pages/maintenance/MaintenanceScheduleForm';
-import MaintenanceScheduleDetail from './pages/maintenance/MaintenanceScheduleDetail';
-import MaintenanceDueList from './pages/maintenance/MaintenanceDueList';
-import MaintenanceDueForm from './pages/maintenance/MaintenanceDueForm';
-import MaintenanceDueDetail from './pages/maintenance/MaintenanceDueDetail';
+const MaintenanceScheduleList = React.lazy(() => import('./pages/maintenance/MaintenanceScheduleList'));
+const MaintenanceScheduleForm = React.lazy(() => import('./pages/maintenance/MaintenanceScheduleForm'));
+const MaintenanceScheduleDetail = React.lazy(() => import('./pages/maintenance/MaintenanceScheduleDetail'));
+const MaintenanceDueList = React.lazy(() => import('./pages/maintenance/MaintenanceDueList'));
+const MaintenanceDueForm = React.lazy(() => import('./pages/maintenance/MaintenanceDueForm'));
+const MaintenanceDueDetail = React.lazy(() => import('./pages/maintenance/MaintenanceDueDetail'));
 
-import BreakdownEventList from './pages/breakdowns/BreakdownEventList';
-import BreakdownEventForm from './pages/breakdowns/BreakdownEventForm';
-import BreakdownEventDetail from './pages/breakdowns/BreakdownEventDetail';
-import AccidentEventList from './pages/breakdowns/AccidentEventList';
-import AccidentEventForm from './pages/breakdowns/AccidentEventForm';
-import AccidentEventDetail from './pages/breakdowns/AccidentEventDetail';
+const BreakdownEventList = React.lazy(() => import('./pages/breakdowns/BreakdownEventList'));
+const BreakdownEventForm = React.lazy(() => import('./pages/breakdowns/BreakdownEventForm'));
+const BreakdownEventDetail = React.lazy(() => import('./pages/breakdowns/BreakdownEventDetail'));
+const AccidentEventList = React.lazy(() => import('./pages/breakdowns/AccidentEventList'));
+const AccidentEventForm = React.lazy(() => import('./pages/breakdowns/AccidentEventForm'));
+const AccidentEventDetail = React.lazy(() => import('./pages/breakdowns/AccidentEventDetail'));
 
-import PayableValidationList from './pages/workshops/PayableValidationList';
-import PayableValidationForm from './pages/workshops/PayableValidationForm';
-import PayableValidationDetail from './pages/workshops/PayableValidationDetail';
+const PayableValidationList = React.lazy(() => import('./pages/workshops/PayableValidationList'));
+const PayableValidationForm = React.lazy(() => import('./pages/workshops/PayableValidationForm'));
+const PayableValidationDetail = React.lazy(() => import('./pages/workshops/PayableValidationDetail'));
 
-import StockLedgerList from './pages/inventory/StockLedgerList';
-import StockLedgerForm from './pages/inventory/StockLedgerForm';
-import StockLedgerDetail from './pages/inventory/StockLedgerDetail';
+const StockLedgerList = React.lazy(() => import('./pages/inventory/StockLedgerList'));
+const StockLedgerForm = React.lazy(() => import('./pages/inventory/StockLedgerForm'));
+const StockLedgerDetail = React.lazy(() => import('./pages/inventory/StockLedgerDetail'));
 
-import IntegrationConfigList from './pages/integrations/IntegrationConfigList';
-import IntegrationConfigForm from './pages/integrations/IntegrationConfigForm';
-import IntegrationConfigDetail from './pages/integrations/IntegrationConfigDetail';
-import UlipApiLogList from './pages/integrations/UlipApiLogList';
-import UlipApiLogDetail from './pages/integrations/UlipApiLogDetail';
+const IntegrationConfigList = React.lazy(() => import('./pages/integrations/IntegrationConfigList'));
+const IntegrationConfigForm = React.lazy(() => import('./pages/integrations/IntegrationConfigForm'));
+const IntegrationConfigDetail = React.lazy(() => import('./pages/integrations/IntegrationConfigDetail'));
+const UlipApiLogList = React.lazy(() => import('./pages/integrations/UlipApiLogList'));
+const UlipApiLogDetail = React.lazy(() => import('./pages/integrations/UlipApiLogDetail'));
 
-import AlertRuleList from './pages/alerts/AlertRuleList';
-import AlertRuleForm from './pages/alerts/AlertRuleForm';
-import AlertRuleDetail from './pages/alerts/AlertRuleDetail';
+const AlertRuleList = React.lazy(() => import('./pages/alerts/AlertRuleList'));
+const AlertRuleForm = React.lazy(() => import('./pages/alerts/AlertRuleForm'));
+const AlertRuleDetail = React.lazy(() => import('./pages/alerts/AlertRuleDetail'));
 
-import DocumentList from './pages/documents/DocumentList';
-import DocumentForm from './pages/documents/DocumentForm';
-import DocumentDetail from './pages/documents/DocumentDetail';
+const DocumentList = React.lazy(() => import('./pages/documents/DocumentList'));
+const DocumentForm = React.lazy(() => import('./pages/documents/DocumentForm'));
+const DocumentDetail = React.lazy(() => import('./pages/documents/DocumentDetail'));
 
-import VendorList from './pages/vendors/VendorList';
-import VendorForm from './pages/vendors/VendorForm';
-import VendorDetail from './pages/vendors/VendorDetail';
+const VendorList = React.lazy(() => import('./pages/vendors/VendorList'));
+const VendorForm = React.lazy(() => import('./pages/vendors/VendorForm'));
+const VendorDetail = React.lazy(() => import('./pages/vendors/VendorDetail'));
 
-import UserList from './pages/users/UserList';
-import UserForm from './pages/users/UserForm';
-import UserDetail from './pages/users/UserDetail';
+const UserList = React.lazy(() => import('./pages/users/UserList'));
+const UserForm = React.lazy(() => import('./pages/users/UserForm'));
+const UserDetail = React.lazy(() => import('./pages/users/UserDetail'));
 
-import PdiWorkbench from './pages/inspections/PdiWorkbench';
-import HandoverList from './pages/inspections/HandoverList';
-import HandoverDetail from './pages/inspections/HandoverDetail';
-import Workbench from './pages/jobcards/Workbench';
-import NonWorkingList from './pages/vehicles/NonWorkingList';
-import ChallanList from './pages/challans/ChallanList';
-import ChallanForm from './pages/challans/ChallanForm';
-import ChallanDetail from './pages/challans/ChallanDetail';
-import BatteryList from './pages/batteries/BatteryList';
-import BatteryForm from './pages/batteries/BatteryForm';
-import BatteryDetail from './pages/batteries/BatteryDetail';
-import ComplianceReport from './pages/reports/ComplianceReport';
-import MaintenanceReport from './pages/reports/MaintenanceReport';
-import TyreCostReport from './pages/reports/TyreCostReport';
-import FleetHealthReport from './pages/reports/FleetHealthReport';
-import VendorPerformanceReport from './pages/reports/VendorPerformanceReport';
-import ChallanRegister from './pages/reports/ChallanRegister';
-import SettingsHome from './pages/settings/SettingsHome';
+const PdiWorkbench = React.lazy(() => import('./pages/inspections/PdiWorkbench'));
+const HandoverList = React.lazy(() => import('./pages/inspections/HandoverList'));
+const HandoverDetail = React.lazy(() => import('./pages/inspections/HandoverDetail'));
+const Workbench = React.lazy(() => import('./pages/jobcards/Workbench'));
+const NonWorkingList = React.lazy(() => import('./pages/vehicles/NonWorkingList'));
+const ChallanList = React.lazy(() => import('./pages/challans/ChallanList'));
+const ChallanForm = React.lazy(() => import('./pages/challans/ChallanForm'));
+const ChallanDetail = React.lazy(() => import('./pages/challans/ChallanDetail'));
+const BatteryList = React.lazy(() => import('./pages/batteries/BatteryList'));
+const BatteryForm = React.lazy(() => import('./pages/batteries/BatteryForm'));
+const BatteryDetail = React.lazy(() => import('./pages/batteries/BatteryDetail'));
+const ComplianceReport = React.lazy(() => import('./pages/reports/ComplianceReport'));
+const MaintenanceReport = React.lazy(() => import('./pages/reports/MaintenanceReport'));
+const TyreCostReport = React.lazy(() => import('./pages/reports/TyreCostReport'));
+const FleetHealthReport = React.lazy(() => import('./pages/reports/FleetHealthReport'));
+const VendorPerformanceReport = React.lazy(() => import('./pages/reports/VendorPerformanceReport'));
+const ChallanRegister = React.lazy(() => import('./pages/reports/ChallanRegister'));
+const SettingsHome = React.lazy(() => import('./pages/settings/SettingsHome'));
+
+const RouteLoadingFallback = () => (
+  <div className="flex h-screen items-center justify-center text-gray-400 text-sm">
+    Loading...
+  </div>
+);
 
 export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
+        <React.Suspense fallback={<RouteLoadingFallback />}>
         <Routes>
           <Route path="/login" element={<Login />} />
 
@@ -350,6 +358,7 @@ export default function App() {
 
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>
+        </React.Suspense>
       </AuthProvider>
     </BrowserRouter>
   );

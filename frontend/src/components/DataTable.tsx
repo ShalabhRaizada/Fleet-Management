@@ -25,13 +25,21 @@ interface DataTableProps<T> {
   actions?: (row: T) => React.ReactNode;
 }
 
+const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}T/;
+
 function toCsv<T>(rows: T[], columns: ColumnDef<T>[]): string {
   const headers = columns.map((c) => c.header);
   const lines = [headers.join(',')];
   for (const row of rows) {
     const cells = columns.map((c) => {
       const raw = (row as Record<string, unknown>)[c.key];
-      const val = raw === null || raw === undefined ? '' : String(raw);
+      let val = raw === null || raw === undefined ? '' : String(raw);
+      if (typeof raw === 'string' && ISO_DATE_PATTERN.test(raw)) {
+        const date = new Date(raw);
+        if (!isNaN(date.getTime())) {
+          val = date.toLocaleDateString();
+        }
+      }
       return `"${val.replace(/"/g, '""')}"`;
     });
     lines.push(cells.join(','));
@@ -171,22 +179,28 @@ export function usePagedList<T>(
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const reload = useCallback(async () => {
+  const reload = useCallback(async (cancelled?: { current: boolean }) => {
     setLoading(true);
     setError(null);
     try {
       const res = await fetcher({ page, pageSize, q: q || undefined, sortBy, sortDir });
+      if (cancelled?.current) return;
       setItems(res.items);
       setTotal(res.total);
     } catch (err) {
+      if (cancelled?.current) return;
       setError(err instanceof Error ? err.message : 'Failed to load');
     } finally {
-      setLoading(false);
+      if (!cancelled?.current) setLoading(false);
     }
   }, [fetcher, page, pageSize, q, sortBy, sortDir]);
 
   useEffect(() => {
-    reload();
+    const cancelled = { current: false };
+    reload(cancelled);
+    return () => {
+      cancelled.current = true;
+    };
   }, [reload]);
 
   return {
