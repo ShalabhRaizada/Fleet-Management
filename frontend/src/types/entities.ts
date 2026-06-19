@@ -159,6 +159,8 @@ export interface JobCard {
   status: string;
   opened_at: string;
   closed_at?: string | null;
+  sla_target_hours?: number | null;
+  sla_breached?: boolean;
 }
 
 export interface JobCardLine {

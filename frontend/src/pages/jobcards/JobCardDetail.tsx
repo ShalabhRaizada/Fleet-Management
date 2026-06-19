@@ -93,7 +93,14 @@ export default function JobCardDetail() {
   return (
     <div className="flex flex-col gap-4 max-w-4xl">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold">Job Card: {jobCard.job_card_no}</h1>
+        <h1 className="text-lg font-semibold flex items-center gap-2">
+          Job Card: {jobCard.job_card_no}
+          {jobCard.sla_breached && (
+            <span className="inline-block bg-red-600 text-white text-xs font-semibold px-2 py-0.5 rounded">
+              SLA Breached
+            </span>
+          )}
+        </h1>
         <div className="flex gap-2">
           <button onClick={() => navigate(`/job-cards/${id}/edit`)} className="text-sm px-3 py-1.5 bg-amber-100 hover:bg-amber-200 rounded">Edit</button>
           <button onClick={() => navigate('/job-cards')} className="text-sm px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded border border-gray-300">Back</button>
@@ -105,6 +112,7 @@ export default function JobCardDetail() {
         <div><div className="text-xs uppercase text-gray-400">Type</div><div className="text-sm">{jobCard.job_card_type}</div></div>
         <div><div className="text-xs uppercase text-gray-400">Priority</div><div className="text-sm">{jobCard.priority}</div></div>
         <div><div className="text-xs uppercase text-gray-400">Status</div><div className="text-sm">{jobCard.status}</div></div>
+        <div><div className="text-xs uppercase text-gray-400">SLA Target Hours</div><div className="text-sm">{jobCard.sla_target_hours ?? '-'}</div></div>
         <div className="md:col-span-3"><div className="text-xs uppercase text-gray-400">Defect Summary</div><div className="text-sm">{jobCard.defect_summary}</div></div>
         <div><div className="text-xs uppercase text-gray-400">Estimated Amount</div><div className="text-sm">{jobCard.estimated_amount ?? '-'}</div></div>
         <div><div className="text-xs uppercase text-gray-400">Approved Amount</div><div className="text-sm">{jobCard.approved_amount ?? '-'}</div></div>

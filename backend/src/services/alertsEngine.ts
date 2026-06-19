@@ -20,16 +20,25 @@ import { pool } from '../db/pool';
  * longer than ESCALATION_THRESHOLD_MINUTES and has not yet been escalated
  * (escalation_level = 0) is bumped to escalation_level = 1 and assigned to
  * an ADMIN user. This is intentionally single-level (no repeat escalation).
+ *
+ * Job card SLA breach (Phase A item 4): any job_card still open (status not
+ * in 'Closed'/'Reopened') where sla_breached = false and now() is past
+ * reported_datetime + sla_target_hours is marked sla_breached = true and an
+ * alert_event (alert_type='JobCardSlaBreach') is raised. Severity is
+ * 'Critical' once overdue by more than SLA_BREACH_CRITICAL_GRACE_HOURS past
+ * the target, otherwise 'Warning'.
  */
 
 const COMPLIANCE_WARNING_DAYS = 30;
 const MAINTENANCE_DUE_KM_THRESHOLD = 10000; // km since last job card before flagged due
 const ESCALATION_THRESHOLD_MINUTES = 60;
+const SLA_BREACH_CRITICAL_GRACE_HOURS = 24; // hours past SLA target before bumping to Critical
 
 export interface AlertsEvalResult {
   complianceAlertsCreated: number;
   maintenanceAlertsCreated: number;
   alertsEscalated: number;
+  slaBreachAlertsCreated: number;
 }
 
 async function alertAlreadyOpen(entityType: string, entityId: string, alertType: string): Promise<boolean> {
@@ -131,9 +140,50 @@ async function evaluateEscalations(): Promise<number> {
   return escalated;
 }
 
+async function evaluateJobCardSlaBreaches(): Promise<number> {
+  const { rows } = await pool.query(
+    `SELECT job_card_id, job_card_no, reported_datetime, sla_target_hours
+     FROM job_card
+     WHERE deleted_flag = false
+       AND status NOT IN ('Closed', 'Reopened')
+       AND sla_breached = false
+       AND reported_datetime + (COALESCE(sla_target_hours, 48) || ' hours')::interval < now()`
+  );
+  let created = 0;
+  for (const row of rows) {
+    const slaTargetHours = Number(row.sla_target_hours ?? 48);
+    const dueAt = new Date(row.reported_datetime).getTime() + slaTargetHours * 3600 * 1000;
+    const overdueHours = (Date.now() - dueAt) / (3600 * 1000);
+    const severity = overdueHours > SLA_BREACH_CRITICAL_GRACE_HOURS ? 'Critical' : 'Warning';
+
+    await pool.query(`UPDATE job_card SET sla_breached = true, updated_at = now() WHERE job_card_id = $1`, [
+      row.job_card_id,
+    ]);
+
+    const already = await alertAlreadyOpen('JobCard', row.job_card_id, 'JobCardSlaBreach');
+    if (already) continue;
+    await pool.query(
+      `INSERT INTO alert_event (alert_type, severity, entity_type, entity_id, alert_title, alert_message, status)
+       VALUES ('JobCardSlaBreach', $1, 'JobCard', $2, $3, $4, 'Open')`,
+      [
+        severity,
+        row.job_card_id,
+        `Job card ${row.job_card_no} breached SLA`,
+        `Job card ${row.job_card_no} has been open past its SLA target of ${slaTargetHours} hours (overdue by ~${Math.max(
+          0,
+          Math.round(overdueHours)
+        )} hours).`,
+      ]
+    );
+    created++;
+  }
+  return created;
+}
+
 export async function evaluateAlerts(): Promise<AlertsEvalResult> {
   const complianceAlertsCreated = await evaluateComplianceExpiry();
   const maintenanceAlertsCreated = await evaluateMaintenanceDue();
   const alertsEscalated = await evaluateEscalations();
-  return { complianceAlertsCreated, maintenanceAlertsCreated, alertsEscalated };
+  const slaBreachAlertsCreated = await evaluateJobCardSlaBreaches();
+  return { complianceAlertsCreated, maintenanceAlertsCreated, alertsEscalated, slaBreachAlertsCreated };
 }

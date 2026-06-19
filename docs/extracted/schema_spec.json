@@ -2270,6 +2270,24 @@
           "nullable": true,
           "label": "Closed At",
           "desc": "Closed timestamp"
+        },
+        {
+          "name": "sla_target_hours",
+          "type": "int",
+          "pk": false,
+          "fk": "",
+          "nullable": true,
+          "label": "SLA Target Hours",
+          "desc": "Hours from reported_datetime within which the job card should be closed"
+        },
+        {
+          "name": "sla_breached",
+          "type": "bit",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "SLA Breached",
+          "desc": "True once the job card has been flagged as past its SLA target"
         }
       ]
     },
