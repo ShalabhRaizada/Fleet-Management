@@ -39,19 +39,49 @@ router.post('/login', async (req: Request, res: Response) => {
   const parsed = loginSchema.safeParse(req.body);
   if (!parsed.success) return fail(res, 'Invalid request body', 400, parsed.error.issues);
   const { login_id, password } = parsed.data;
+  const MAX_FAILED_ATTEMPTS = 5;
+  const LOCKOUT_MINUTES = 15;
   try {
     const { rows } = await pool.query(
-      `SELECT user_id, login_id, display_name, role_code, branch_id, status, password_hash
+      `SELECT user_id, login_id, display_name, role_code, branch_id, status, password_hash,
+              failed_login_attempts, locked_until
        FROM user_master WHERE login_id = $1 AND deleted_flag = false`,
       [login_id],
     );
     if (!rows.length) return fail(res, 'Invalid credentials', 401);
     const user = rows[0];
     if (user.status !== 'Active') return fail(res, 'User account is not active', 403);
+
+    if (user.locked_until && new Date(user.locked_until).getTime() > Date.now()) {
+      return fail(
+        res,
+        'Account is temporarily locked due to repeated failed login attempts. Please try again later.',
+        423,
+      );
+    }
+
     if (!user.password_hash) return fail(res, 'Invalid credentials', 401);
 
     const valid = await bcrypt.compare(password, user.password_hash);
-    if (!valid) return fail(res, 'Invalid credentials', 401);
+    if (!valid) {
+      const attempts = (user.failed_login_attempts || 0) + 1;
+      if (attempts >= MAX_FAILED_ATTEMPTS) {
+        await pool.query(
+          `UPDATE user_master SET failed_login_attempts = $1, locked_until = now() + interval '${LOCKOUT_MINUTES} minutes' WHERE user_id = $2`,
+          [attempts, user.user_id],
+        );
+        return fail(
+          res,
+          'Account locked due to repeated failed login attempts. Please try again in 15 minutes.',
+          423,
+        );
+      }
+      await pool.query(`UPDATE user_master SET failed_login_attempts = $1 WHERE user_id = $2`, [
+        attempts,
+        user.user_id,
+      ]);
+      return fail(res, 'Invalid credentials', 401);
+    }
 
     const authUser = {
       user_id: user.user_id,
@@ -63,10 +93,12 @@ router.post('/login', async (req: Request, res: Response) => {
     const refreshToken = signRefreshToken(authUser);
     const refreshHash = await bcrypt.hash(refreshToken, 8);
 
-    await pool.query(`UPDATE user_master SET refresh_token_hash = $1, last_login_at = now() WHERE user_id = $2`, [
-      refreshHash,
-      user.user_id,
-    ]);
+    await pool.query(
+      `UPDATE user_master
+       SET refresh_token_hash = $1, last_login_at = now(), failed_login_attempts = 0, locked_until = NULL
+       WHERE user_id = $2`,
+      [refreshHash, user.user_id],
+    );
 
     return ok(res, {
       accessToken,

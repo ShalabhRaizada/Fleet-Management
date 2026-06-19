@@ -131,6 +131,11 @@ import PdiWorkbench from './pages/inspections/PdiWorkbench';
 import Workbench from './pages/jobcards/Workbench';
 import NonWorkingList from './pages/vehicles/NonWorkingList';
 import ChallanList from './pages/challans/ChallanList';
+import ChallanForm from './pages/challans/ChallanForm';
+import ChallanDetail from './pages/challans/ChallanDetail';
+import BatteryList from './pages/batteries/BatteryList';
+import BatteryForm from './pages/batteries/BatteryForm';
+import BatteryDetail from './pages/batteries/BatteryDetail';
 import ComplianceReport from './pages/reports/ComplianceReport';
 import MaintenanceReport from './pages/reports/MaintenanceReport';
 import SettingsHome from './pages/settings/SettingsHome';
@@ -309,6 +314,14 @@ export default function App() {
               <Route path="/workbench" element={<Workbench />} />
               <Route path="/vehicles/non-working" element={<NonWorkingList />} />
               <Route path="/challans" element={<ChallanList />} />
+              <Route path="/challans/:id" element={<ChallanDetail />} />
+              <Route path="/challans/:id/edit" element={<ChallanForm />} />
+              <Route path="/challans/new" element={<ChallanForm />} />
+
+              <Route path="/batteries" element={<BatteryList />} />
+              <Route path="/batteries/:id" element={<BatteryDetail />} />
+              <Route path="/batteries/:id/edit" element={<BatteryForm />} />
+              <Route path="/batteries/new" element={<BatteryForm />} />
               <Route path="/reports/compliance" element={<ComplianceReport />} />
               <Route path="/reports/maintenance" element={<MaintenanceReport />} />
               <Route path="/settings" element={<SettingsHome />} />

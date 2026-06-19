@@ -1,14 +1,23 @@
+import { challanApi } from '../../api/resources';
+import { CrudListPage } from '../crud/CrudListPage';
+import type { Challan } from '../../types/entities';
+
 export default function ChallanList() {
   return (
-    <div className="col gap-16">
-      <div className="page-header">
-        <h1>Challans &amp; PUC</h1>
-      </div>
-      <div className="card" style={{ padding: 20 }}>
-        <span className="badge info" style={{ display: 'inline-block', padding: '8px 12px' }}>
-          Traffic challan integration not yet available — pending backend support
-        </span>
-      </div>
-    </div>
+    <CrudListPage<Challan>
+      title="Challans & Fines"
+      basePath="/challans"
+      rowKey={(r) => r.challan_id}
+      list={challanApi.list}
+      remove={challanApi.remove}
+      columns={[
+        { key: 'challan_no', header: 'Challan No', sortable: true },
+        { key: 'violation_type', header: 'Violation Type' },
+        { key: 'violation_date', header: 'Violation Date', sortable: true },
+        { key: 'amount', header: 'Amount' },
+        { key: 'payment_status', header: 'Payment Status', sortable: true },
+        { key: 'responsibility', header: 'Responsibility' },
+      ]}
+    />
   );
 }

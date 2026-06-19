@@ -766,4 +766,46 @@ router.use(
   buildCrudRouter({ table: 'document_store', pk: 'document_id', writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER] })
 );
 
+// ---- Battery management & Challan/Fine management (gap-analysis closure) ----
+
+/**
+ * @openapi
+ * /api/batteries:
+ *   get:
+ *     summary: List batteries (fitment/removal lifecycle tracking)
+ *     tags: [Battery]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated battery list }
+ */
+router.use(
+  '/batteries',
+  buildCrudRouter({
+    table: 'battery_master',
+    pk: 'battery_id',
+    searchColumns: ['battery_serial_no'],
+    writeRoles: [ROLES.ADMIN, ROLES.WORKSHOP_SUPERVISOR],
+  })
+);
+
+/**
+ * @openapi
+ * /api/challans:
+ *   get:
+ *     summary: List traffic challans/fines
+ *     tags: [Challan]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated challan list }
+ */
+router.use(
+  '/challans',
+  buildCrudRouter({
+    table: 'challan',
+    pk: 'challan_id',
+    searchColumns: ['challan_no'],
+    writeRoles: [ROLES.ADMIN, ROLES.FLEET_MANAGER],
+  })
+);
+
 export default router;

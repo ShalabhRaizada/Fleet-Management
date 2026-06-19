@@ -328,3 +328,37 @@ export interface ItemMaster {
   item_code: string;
   item_name: string;
 }
+
+export interface Battery {
+  battery_id: string;
+  battery_serial_no: string;
+  vehicle_id?: string | null;
+  oem_name?: string | null;
+  capacity_ah?: number | null;
+  voltage?: number | null;
+  warranty_months?: number | null;
+  fitment_date?: string | null;
+  removal_date?: string | null;
+  removal_reason?: string | null;
+  status: string;
+  purchase_cost?: number | null;
+  vendor_id?: string | null;
+}
+
+export interface Challan {
+  challan_id: string;
+  challan_no: string;
+  vehicle_id: string;
+  driver_id?: string | null;
+  violation_type: string;
+  violation_date: string;
+  location?: string | null;
+  amount: number;
+  issuing_authority?: string | null;
+  due_date?: string | null;
+  payment_status: string;
+  payment_date?: string | null;
+  payment_reference?: string | null;
+  responsibility?: string | null;
+  remarks?: string | null;
+}

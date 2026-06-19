@@ -3,7 +3,7 @@ import type {
   Branch, Vendor, Driver, Vehicle, Trailer, Coupling, FuelTransaction,
   AssetCompliance, ComplianceType, JobCard, JobCardLine, Workshop, VendorInvoice,
   Tyre, TyreMovement, Accessory, AccessoryEvent, Accompaniment, AccompanimentIssue,
-  ApprovalRequest, AlertEvent, VehicleCostLedger, ItemMaster,
+  ApprovalRequest, AlertEvent, VehicleCostLedger, ItemMaster, Battery, Challan,
 } from '../types/entities';
 import type { FuelVariance } from '../types/entities-extra';
 import type {
@@ -57,3 +57,6 @@ export const ulipApiLogApi = createResource<UlipApiLog>('/ulip-api-logs');
 export const alertRuleApi = createResource<AlertRule>('/alert-rules');
 export const documentApi = createResource<DocumentStore>('/documents');
 export const userRecordApi = createResource<UserRecord>('/users');
+
+export const batteryApi = createResource<Battery>('/batteries');
+export const challanApi = createResource<Challan>('/challans');

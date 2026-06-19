@@ -22,6 +22,7 @@ async function main() {
     console.log('Clearing previously seeded data (in FK-safe order)...');
     await client.query(`
       TRUNCATE TABLE
+        challan, battery_master,
         alert_event, approval_request, job_card_line, job_card,
         accompaniment_issue, accompaniment_master,
         accessory_event, accessory_master,
@@ -508,6 +509,31 @@ async function main() {
         ('ComplianceExpiry','AssetCompliance',15,'Days','Warning','FLEET_MANAGER',true),
         ('MaintenanceDue','Vehicle',500,'KM','Warning','WORKSHOP_SUPERVISOR',true),
         ('FuelVariance','FuelTransaction',10,'Percent','Critical','FLEET_MANAGER',true)`
+    );
+
+    console.log('Seeding battery_master...');
+    await client.query(
+      `INSERT INTO battery_master
+        (battery_serial_no, vehicle_id, oem_name, capacity_ah, voltage, warranty_months, fitment_date, status, purchase_cost, vendor_id)
+       SELECT 'BAT-EXIDE-1001', v.vehicle_id, 'Exide Industries', 150, 12, 24, '2023-06-01'::date, 'Active', 9500, vn.vendor_id
+       FROM vehicle_master v, vendor_master vn
+       WHERE v.registration_no = 'DL01AB1234' AND vn.vendor_code = 'VEN-003'
+       UNION ALL
+       SELECT 'BAT-EV-EXIDE-2001', v.vehicle_id, 'Exide Industries', 250, 400, 36, '2023-08-15'::date, 'Active', 185000, vn.vendor_id
+       FROM vehicle_master v, vendor_master vn
+       WHERE v.registration_no = 'DL04GH3456' AND vn.vendor_code = 'VEN-003'`
+    );
+
+    console.log('Seeding challan...');
+    await client.query(
+      `INSERT INTO challan
+        (challan_no, vehicle_id, driver_id, violation_type, violation_date, location, amount, issuing_authority, due_date, payment_status, responsibility)
+       SELECT 'CHL-2026-0001', v.vehicle_id, d.driver_id, 'Overspeeding', CURRENT_DATE - interval '5 days', 'NH-48, Gurugram', 1000, 'Delhi Traffic Police', CURRENT_DATE + interval '25 days', 'Pending', 'Driver'
+       FROM vehicle_master v, driver_master d
+       WHERE v.registration_no = 'DL01AB1234' AND d.driver_code = 'DRV-001'
+       UNION ALL
+       SELECT 'CHL-2026-0002', v.vehicle_id, NULL, 'Documents Not Carried', CURRENT_DATE - interval '20 days', 'Mumbai RTO Checkpost', 500, 'Mumbai Traffic Police', CURRENT_DATE - interval '5 days', 'Paid', 'Company'
+       FROM vehicle_master v WHERE v.registration_no = 'MH02CD5678'`
     );
 
     console.log('Seeding document_store...');

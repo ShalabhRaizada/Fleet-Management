@@ -191,6 +191,24 @@
      "nullable": false,
      "label": "Created At",
      "desc": "Created timestamp"
+    },
+    {
+     "name": "failed_login_attempts",
+     "type": "int",
+     "pk": false,
+     "fk": "",
+     "nullable": false,
+     "label": "Failed Login Attempts",
+     "desc": "Consecutive failed login attempts (read-only, system maintained)"
+    },
+    {
+     "name": "locked_until",
+     "type": "datetime2",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Locked Until",
+     "desc": "Account lockout expiry timestamp (read-only, system maintained)"
     }
    ]
   },
@@ -5166,6 +5184,281 @@
      "desc": "Last success"
     }
    ]
+  },
+  "battery_master": {
+   "pk": "battery_id",
+   "phase": "P1",
+   "module": "Masters/Config",
+   "columns": [
+    {
+     "name": "battery_id",
+     "type": "uniqueidentifier",
+     "pk": true,
+     "fk": "",
+     "nullable": false,
+     "label": "Battery",
+     "desc": "Primary key"
+    },
+    {
+     "name": "battery_serial_no",
+     "type": "varchar(80)",
+     "pk": false,
+     "fk": "",
+     "nullable": false,
+     "label": "Battery Serial No",
+     "desc": "Battery serial/asset number"
+    },
+    {
+     "name": "vehicle_id",
+     "type": "uniqueidentifier",
+     "pk": false,
+     "fk": "YES: vehicle_master.vehicle_id",
+     "nullable": true,
+     "label": "Vehicle",
+     "desc": "Currently fitted vehicle"
+    },
+    {
+     "name": "oem_name",
+     "type": "varchar(120)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "OEM Name",
+     "desc": "Battery manufacturer"
+    },
+    {
+     "name": "capacity_ah",
+     "type": "decimal(10,2)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Capacity (Ah)",
+     "desc": "Capacity in ampere-hours"
+    },
+    {
+     "name": "voltage",
+     "type": "decimal(8,2)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Voltage",
+     "desc": "Nominal voltage"
+    },
+    {
+     "name": "warranty_months",
+     "type": "int",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Warranty Months",
+     "desc": "Warranty period in months"
+    },
+    {
+     "name": "fitment_date",
+     "type": "date",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Fitment Date",
+     "desc": "Date fitted to vehicle"
+    },
+    {
+     "name": "removal_date",
+     "type": "date",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Removal Date",
+     "desc": "Date removed from vehicle"
+    },
+    {
+     "name": "removal_reason",
+     "type": "varchar(300)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Removal Reason",
+     "desc": "Reason for removal"
+    },
+    {
+     "name": "status",
+     "type": "varchar(20)",
+     "pk": false,
+     "fk": "",
+     "nullable": false,
+     "label": "Status",
+     "desc": "Active/Removed/Scrapped/Warranty Claim"
+    },
+    {
+     "name": "purchase_cost",
+     "type": "decimal(14,2)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Purchase Cost",
+     "desc": "Purchase cost"
+    },
+    {
+     "name": "vendor_id",
+     "type": "uniqueidentifier",
+     "pk": false,
+     "fk": "YES: vendor_master.vendor_id",
+     "nullable": true,
+     "label": "Vendor",
+     "desc": "Supplying vendor"
+    },
+    {
+     "name": "created_at",
+     "type": "datetime2",
+     "pk": false,
+     "fk": "",
+     "nullable": false,
+     "label": "Created At",
+     "desc": "Created timestamp"
+    }
+   ]
+  },
+  "challan": {
+   "pk": "challan_id",
+   "phase": "P1",
+   "module": "Compliance",
+   "columns": [
+    {
+     "name": "challan_id",
+     "type": "uniqueidentifier",
+     "pk": true,
+     "fk": "",
+     "nullable": false,
+     "label": "Challan",
+     "desc": "Primary key"
+    },
+    {
+     "name": "challan_no",
+     "type": "varchar(50)",
+     "pk": false,
+     "fk": "",
+     "nullable": false,
+     "label": "Challan No",
+     "desc": "Challan/fine reference number"
+    },
+    {
+     "name": "vehicle_id",
+     "type": "uniqueidentifier",
+     "pk": false,
+     "fk": "YES: vehicle_master.vehicle_id",
+     "nullable": false,
+     "label": "Vehicle",
+     "desc": "Vehicle the challan was issued against"
+    },
+    {
+     "name": "driver_id",
+     "type": "uniqueidentifier",
+     "pk": false,
+     "fk": "YES: driver_master.driver_id",
+     "nullable": true,
+     "label": "Driver",
+     "desc": "Driver responsible at time of violation"
+    },
+    {
+     "name": "violation_type",
+     "type": "varchar(120)",
+     "pk": false,
+     "fk": "",
+     "nullable": false,
+     "label": "Violation Type",
+     "desc": "Type of traffic violation"
+    },
+    {
+     "name": "violation_date",
+     "type": "date",
+     "pk": false,
+     "fk": "",
+     "nullable": false,
+     "label": "Violation Date",
+     "desc": "Date of violation"
+    },
+    {
+     "name": "location",
+     "type": "varchar(300)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Location",
+     "desc": "Location of violation"
+    },
+    {
+     "name": "amount",
+     "type": "decimal(14,2)",
+     "pk": false,
+     "fk": "",
+     "nullable": false,
+     "label": "Amount",
+     "desc": "Fine amount"
+    },
+    {
+     "name": "issuing_authority",
+     "type": "varchar(150)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Issuing Authority",
+     "desc": "Authority that issued the challan"
+    },
+    {
+     "name": "due_date",
+     "type": "date",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Due Date",
+     "desc": "Payment due date"
+    },
+    {
+     "name": "payment_status",
+     "type": "varchar(20)",
+     "pk": false,
+     "fk": "",
+     "nullable": false,
+     "label": "Payment Status",
+     "desc": "Pending/Paid/Disputed/Waived"
+    },
+    {
+     "name": "payment_date",
+     "type": "date",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Payment Date",
+     "desc": "Date payment was made"
+    },
+    {
+     "name": "payment_reference",
+     "type": "varchar(100)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Payment Reference",
+     "desc": "Payment transaction reference"
+    },
+    {
+     "name": "responsibility",
+     "type": "varchar(20)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Responsibility",
+     "desc": "Driver/Company"
+    },
+    {
+     "name": "remarks",
+     "type": "varchar(500)",
+     "pk": false,
+     "fk": "",
+     "nullable": true,
+     "label": "Remarks",
+     "desc": "Additional remarks"
+    }
+   ]
   }
  },
  "fks": [
@@ -5780,6 +6073,30 @@
    "child_col": "notify_role_code",
    "parent_table": "role_master",
    "parent_col": "role_code"
+  },
+  {
+   "child_table": "battery_master",
+   "child_col": "vehicle_id",
+   "parent_table": "vehicle_master",
+   "parent_col": "vehicle_id"
+  },
+  {
+   "child_table": "battery_master",
+   "child_col": "vendor_id",
+   "parent_table": "vendor_master",
+   "parent_col": "vendor_id"
+  },
+  {
+   "child_table": "challan",
+   "child_col": "vehicle_id",
+   "parent_table": "vehicle_master",
+   "parent_col": "vehicle_id"
+  },
+  {
+   "child_table": "challan",
+   "child_col": "driver_id",
+   "parent_table": "driver_master",
+   "parent_col": "driver_id"
   }
  ]
 }
