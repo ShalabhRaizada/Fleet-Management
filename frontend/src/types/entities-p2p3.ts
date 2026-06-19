@@ -231,3 +231,15 @@ export interface DocumentStore {
   uploaded_at?: string | null;
   ocr_json?: string | null;
 }
+
+export interface UserRecord {
+  user_id: string;
+  login_id: string;
+  display_name: string;
+  mobile_no?: string | null;
+  email?: string | null;
+  role_code: string;
+  branch_id?: string | null;
+  status: string;
+  created_at?: string;
+}

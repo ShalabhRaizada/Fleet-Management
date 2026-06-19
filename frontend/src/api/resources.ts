@@ -10,7 +10,7 @@ import type {
   InspectionTemplate, RouteFuelNorm, ComplianceAlertRecord, TripMaster, TollTransaction,
   ApprovalMatrix, MaintenanceSchedule, MaintenanceDue, BreakdownEvent, AccidentEvent,
   PayableValidation, StockLedger, InspectionEvent, InspectionResultLine, IntegrationConfig,
-  UlipApiLog, AlertRule, DocumentStore,
+  UlipApiLog, AlertRule, DocumentStore, UserRecord,
 } from '../types/entities-p2p3';
 
 export const branchApi = createResource<Branch>('/branches');
@@ -56,3 +56,4 @@ export const integrationConfigApi = createResource<IntegrationConfig>('/integrat
 export const ulipApiLogApi = createResource<UlipApiLog>('/ulip-api-logs');
 export const alertRuleApi = createResource<AlertRule>('/alert-rules');
 export const documentApi = createResource<DocumentStore>('/documents');
+export const userRecordApi = createResource<UserRecord>('/users');

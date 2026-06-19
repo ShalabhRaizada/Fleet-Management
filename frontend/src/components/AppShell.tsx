@@ -41,6 +41,16 @@ const MENU: MenuItem[] = [
   { to: '/ulip-api-logs', label: 'ULIP API Logs', roles: ['ADMIN'] },
   { to: '/alert-rules', label: 'Alert Rules', roles: ['ADMIN'] },
   { to: '/documents', label: 'Documents', roles: ['ADMIN', 'FLEET_MANAGER'] },
+
+  { to: '/vendors', label: 'Vendors', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/users', label: 'Users', roles: ['ADMIN'] },
+  { to: '/pdi', label: 'PDI', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/workbench', label: 'Workbench', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/vehicles/non-working', label: 'Non-Working Vehicles', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/challans', label: 'Challans' },
+  { to: '/reports/compliance', label: 'Compliance Report', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/reports/maintenance', label: 'Maintenance Report', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/settings', label: 'Settings', roles: ['ADMIN'] },
 ];
 
 function breadcrumbFromPath(pathname: string): string[] {

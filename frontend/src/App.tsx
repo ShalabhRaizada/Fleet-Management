@@ -119,6 +119,22 @@ import DocumentList from './pages/documents/DocumentList';
 import DocumentForm from './pages/documents/DocumentForm';
 import DocumentDetail from './pages/documents/DocumentDetail';
 
+import VendorList from './pages/vendors/VendorList';
+import VendorForm from './pages/vendors/VendorForm';
+import VendorDetail from './pages/vendors/VendorDetail';
+
+import UserList from './pages/users/UserList';
+import UserForm from './pages/users/UserForm';
+import UserDetail from './pages/users/UserDetail';
+
+import PdiWorkbench from './pages/inspections/PdiWorkbench';
+import Workbench from './pages/jobcards/Workbench';
+import NonWorkingList from './pages/vehicles/NonWorkingList';
+import ChallanList from './pages/challans/ChallanList';
+import ComplianceReport from './pages/reports/ComplianceReport';
+import MaintenanceReport from './pages/reports/MaintenanceReport';
+import SettingsHome from './pages/settings/SettingsHome';
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -278,6 +294,24 @@ export default function App() {
               <Route path="/documents/:id" element={<DocumentDetail />} />
               <Route path="/documents/:id/edit" element={<DocumentForm />} />
               <Route path="/documents/new" element={<DocumentForm />} />
+
+              <Route path="/vendors" element={<VendorList />} />
+              <Route path="/vendors/:id" element={<VendorDetail />} />
+              <Route path="/vendors/:id/edit" element={<VendorForm />} />
+              <Route path="/vendors/new" element={<VendorForm />} />
+
+              <Route path="/users" element={<UserList />} />
+              <Route path="/users/:id" element={<UserDetail />} />
+              <Route path="/users/:id/edit" element={<UserForm />} />
+              <Route path="/users/new" element={<UserForm />} />
+
+              <Route path="/pdi" element={<PdiWorkbench />} />
+              <Route path="/workbench" element={<Workbench />} />
+              <Route path="/vehicles/non-working" element={<NonWorkingList />} />
+              <Route path="/challans" element={<ChallanList />} />
+              <Route path="/reports/compliance" element={<ComplianceReport />} />
+              <Route path="/reports/maintenance" element={<MaintenanceReport />} />
+              <Route path="/settings" element={<SettingsHome />} />
             </Route>
           </Route>
 

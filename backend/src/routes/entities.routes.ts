@@ -398,6 +398,18 @@ router.use('/items', buildCrudRouter({ table: 'item_master', pk: 'item_id', sear
  */
 router.use('/roles', buildCrudRouter({ table: 'role_master', pk: 'role_code', writeRoles: [ROLES.ADMIN] }));
 
+/**
+ * @openapi
+ * /api/users:
+ *   get:
+ *     summary: List users (login_id, display_name, role, branch, status only - password_hash never exposed)
+ *     tags: [Masters]
+ *     security: [{ bearerAuth: [] }]
+ *     responses:
+ *       200: { description: Paginated user list }
+ */
+router.use('/users', buildCrudRouter({ table: 'user_master', pk: 'user_id', searchColumns: ['login_id', 'display_name'], writeRoles: [ROLES.ADMIN] }));
+
 // ---- Additional P1 tables required by frontend screens (generic CRUD, no custom validation) ----
 
 /**
