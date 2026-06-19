@@ -20,6 +20,12 @@ export interface CrudOptions {
   beforeWrite?: (payload: any, isUpdate: boolean, client: any) => Promise<any>;
   /** hook invoked after successful insert/update inside same transaction */
   afterWrite?: (row: any, isUpdate: boolean, client: any) => Promise<void>;
+  /**
+   * Columns to strip from every row before it is sent in an API response (list/get/create/update).
+   * Use for sensitive columns (e.g. password_hash, mfa_secret) that must never leave the server via
+   * the generic CRUD surface, even though the underlying queries use SELECT *.
+   */
+  responseExclude?: string[];
 }
 
 function quoteIdent(name: string) {
@@ -62,6 +68,14 @@ export function buildCrudRouter(opts: CrudOptions): Router {
   const router = Router();
   const validCols = new Set(tableColumns(opts.table));
   const tableIdent = quoteIdent(opts.table);
+  const excludeCols = opts.responseExclude || [];
+
+  function sanitize<T extends Record<string, any>>(row: T): T {
+    if (!excludeCols.length || !row) return row;
+    const clone = { ...row };
+    for (const col of excludeCols) delete clone[col];
+    return clone;
+  }
 
   router.use(authenticate);
 
@@ -119,7 +133,7 @@ export function buildCrudRouter(opts: CrudOptions): Router {
         params
       );
 
-      return ok(res, { items: rows, page, pageSize, total, totalPages: Math.ceil(total / pageSize) });
+      return ok(res, { items: rows.map(sanitize), page, pageSize, total, totalPages: Math.ceil(total / pageSize) });
     } catch (err: any) {
       return fail(res, err.message || 'List failed', 500);
     }
@@ -133,7 +147,7 @@ export function buildCrudRouter(opts: CrudOptions): Router {
         [req.params.id]
       );
       if (!rows.length) return fail(res, `${opts.table} not found`, 404);
-      return ok(res, rows[0]);
+      return ok(res, sanitize(rows[0]));
     } catch (err: any) {
       return fail(res, err.message || 'Fetch failed', 500);
     }
@@ -171,7 +185,7 @@ export function buildCrudRouter(opts: CrudOptions): Router {
       if (opts.afterWrite) await opts.afterWrite(rows[0], false, client);
       await client.query('COMMIT');
       await recordAudit(opts.table, String(rows[0][opts.pk]), 'Insert', req.user?.user_id || null, null, rows[0]);
-      return ok(res, rows[0], `${opts.table} created`, 201);
+      return ok(res, sanitize(rows[0]), `${opts.table} created`, 201);
     } catch (err: any) {
       await client.query('ROLLBACK');
       const status = err.statusCode || (err.code === '23505' ? 409 : err.code === '23503' ? 409 : 400);
@@ -226,7 +240,7 @@ export function buildCrudRouter(opts: CrudOptions): Router {
       if (opts.afterWrite) await opts.afterWrite(rows[0], true, client);
       await client.query('COMMIT');
       await recordAudit(opts.table, String(rows[0][opts.pk]), 'Update', req.user?.user_id || null, existingRows[0] || null, rows[0]);
-      return ok(res, rows[0], `${opts.table} updated`);
+      return ok(res, sanitize(rows[0]), `${opts.table} updated`);
     } catch (err: any) {
       await client.query('ROLLBACK');
       const status = err.statusCode || (err.code === '23505' ? 409 : err.code === '23503' ? 409 : 400);
@@ -249,7 +263,7 @@ export function buildCrudRouter(opts: CrudOptions): Router {
       );
       if (!rows.length) return fail(res, `${opts.table} not found`, 404);
       await recordAudit(opts.table, String(rows[0][opts.pk]), 'Delete', req.user?.user_id || null, existingRows[0] || null, null);
-      return ok(res, rows[0], `${opts.table} deleted`);
+      return ok(res, sanitize(rows[0]), `${opts.table} deleted`);
     } catch (err: any) {
       return fail(res, err.message || 'Delete failed', 500);
     }

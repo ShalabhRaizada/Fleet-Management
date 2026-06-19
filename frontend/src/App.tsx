@@ -149,6 +149,7 @@ const FleetHealthReport = React.lazy(() => import('./pages/reports/FleetHealthRe
 const VendorPerformanceReport = React.lazy(() => import('./pages/reports/VendorPerformanceReport'));
 const ChallanRegister = React.lazy(() => import('./pages/reports/ChallanRegister'));
 const SettingsHome = React.lazy(() => import('./pages/settings/SettingsHome'));
+const MfaSetup = React.lazy(() => import('./pages/settings/MfaSetup'));
 
 const AuditLogList = React.lazy(() => import('./pages/audit/AuditLogList'));
 const AuditLogDetail = React.lazy(() => import('./pages/audit/AuditLogDetail'));
@@ -365,6 +366,7 @@ export default function App() {
               <Route path="/reports/vendor-performance" element={<VendorPerformanceReport />} />
               <Route path="/reports/challan-register" element={<ChallanRegister />} />
               <Route path="/settings" element={<SettingsHome />} />
+              <Route path="/settings/mfa" element={<MfaSetup />} />
 
               <Route element={<ProtectedRoute roles={['ADMIN']} />}>
                 <Route path="/audit-log" element={<AuditLogList />} />

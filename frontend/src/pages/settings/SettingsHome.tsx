@@ -5,6 +5,7 @@ const SECTIONS = [
   { to: '/alert-rules', name: 'Alert Rules', desc: 'Configure thresholds and severities for automated fleet alerts.' },
   { to: '/approval-matrix', name: 'Approval Matrix', desc: 'Define approval levels and limits for workflow requests.' },
   { to: '/users', name: 'Users & Roles', desc: 'Manage user accounts, roles and access status.' },
+  { to: '/settings/mfa', name: 'Two-Factor Authentication', desc: 'Enable or disable TOTP-based two-factor login on your account.' },
 ];
 
 export default function SettingsHome() {

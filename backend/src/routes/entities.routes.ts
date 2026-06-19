@@ -408,7 +408,17 @@ router.use('/roles', buildCrudRouter({ table: 'role_master', pk: 'role_code', wr
  *     responses:
  *       200: { description: Paginated user list }
  */
-router.use('/users', buildCrudRouter({ table: 'user_master', pk: 'user_id', searchColumns: ['login_id', 'display_name'], writeRoles: [ROLES.ADMIN] }));
+router.use(
+  '/users',
+  buildCrudRouter({
+    table: 'user_master',
+    pk: 'user_id',
+    searchColumns: ['login_id', 'display_name'],
+    writeRoles: [ROLES.ADMIN],
+    // password_hash/refresh_token_hash/mfa_secret must never leave the server via generic CRUD.
+    responseExclude: ['password_hash', 'refresh_token_hash', 'mfa_secret'],
+  }),
+);
 
 // ---- Additional P1 tables required by frontend screens (generic CRUD, no custom validation) ----
 

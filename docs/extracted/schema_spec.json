@@ -209,6 +209,15 @@
           "nullable": true,
           "label": "Locked Until",
           "desc": "Account lockout expiry timestamp (read-only, system maintained)"
+        },
+        {
+          "name": "mfa_enabled",
+          "type": "bit",
+          "pk": false,
+          "fk": "",
+          "nullable": false,
+          "label": "MFA Enabled",
+          "desc": "Whether TOTP multi-factor authentication is enabled (read-only indicator, system maintained)"
         }
       ]
     },
