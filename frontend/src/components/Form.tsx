@@ -21,6 +21,12 @@ interface SimpleFormProps<T> {
   errors?: Record<string, string>;
 }
 
+function formatInputValue(value: string | number | boolean | undefined): string | number {
+  if (value === undefined || value === null) return '';
+  if (typeof value === 'boolean') return value ? 'true' : 'false';
+  return value;
+}
+
 export function FormGrid<T>({ fields, values, onChange, errors }: SimpleFormProps<T>) {
   return (
     <div className="field-row cols-2">
@@ -68,7 +74,7 @@ export function FormGrid<T>({ fields, values, onChange, errors }: SimpleFormProp
             <input
               type={f.type || 'text'}
               className="input"
-              value={(values[f.name] as string | number) ?? ''}
+              value={formatInputValue(values[f.name] as string | number | boolean | undefined)}
               placeholder={f.placeholder}
               onChange={(e) =>
                 onChange(f.name, f.type === 'number' ? (e.target.value === '' ? '' : Number(e.target.value)) : e.target.value)

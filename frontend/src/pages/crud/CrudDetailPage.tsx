@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ApiError } from '../../api/client';
 
@@ -16,15 +16,20 @@ export function CrudDetailPage<T>({ title, basePath, get, fieldsToShow, extra }:
   const [row, setRow] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const getRef = useRef(get);
+
+  useEffect(() => {
+    getRef.current = get;
+  }, [get]);
 
   useEffect(() => {
     if (!id) return;
     setLoading(true);
-    get(id)
+    getRef.current(id)
       .then(setRow)
       .catch((err) => setError(err instanceof ApiError ? err.message : 'Failed to load'))
       .finally(() => setLoading(false));
-  }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [id]);
 
   if (loading) return <div className="muted">Loading...</div>;
   if (error) return <div className="badge danger" style={{ display: 'block', padding: '8px 12px' }}>{error}</div>;

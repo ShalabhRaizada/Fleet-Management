@@ -1,9 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type ReactNode } from 'react';
 
 export interface ColumnDef<T> {
   key: string;
   header: string;
-  render?: (row: T) => React.ReactNode;
+  render?: (row: T) => ReactNode;
   sortable?: boolean;
   className?: string;
 }
@@ -28,12 +28,20 @@ interface DataTableProps<T> {
 
 const ISO_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}T/;
 
+/** Narrow, local helper: DataTable's columns address rows by string key, but
+ * the row type T is intentionally left unconstrained so any plain entity
+ * interface can be passed in without forcing an index signature on every
+ * entity type across the codebase. This keeps the unsafe cast in one place. */
+function asRecord(row: unknown): Record<string, unknown> {
+  return row as Record<string, unknown>;
+}
+
 function toCsv<T>(rows: T[], columns: ColumnDef<T>[]): string {
   const headers = columns.map((c) => c.header);
   const lines = [headers.join(',')];
   for (const row of rows) {
     const cells = columns.map((c) => {
-      const raw = (row as Record<string, unknown>)[c.key];
+      const raw = asRecord(row)[c.key];
       let val = raw === null || raw === undefined ? '' : String(raw);
       if (typeof raw === 'string' && ISO_DATE_PATTERN.test(raw)) {
         const date = new Date(raw);
@@ -135,7 +143,7 @@ export function DataTable<T>({
                 <tr key={rowKey(row)}>
                   {columns.map((col) => (
                     <td key={col.key} className={col.className}>
-                      {col.render ? col.render(row) : String((row as Record<string, unknown>)[col.key] ?? '')}
+                      {col.render ? col.render(row) : String(asRecord(row)[col.key] ?? '')}
                     </td>
                   ))}
                   {actions && <td className="actions">{actions(row)}</td>}

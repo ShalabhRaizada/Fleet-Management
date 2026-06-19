@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FormGrid, FormActions, type FieldDef } from '../../components/Form';
 import { ApiError } from '../../api/client';
@@ -28,19 +28,24 @@ export function CrudFormPage<T>({ title, basePath, fields, get, create, update, 
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const getRef = useRef(get);
+  const defaultsRef = useRef(defaults);
+
+  useEffect(() => {
+    getRef.current = get;
+    defaultsRef.current = defaults;
+  }, [get, defaults]);
 
   useEffect(() => {
     if (isNew || !id) {
-      setValues(defaults);
+      setValues(defaultsRef.current);
       return;
     }
     setLoading(true);
-    get(id)
+    getRef.current(id)
       .then(setValues)
       .catch((err) => setError(err instanceof ApiError ? err.message : 'Failed to load'))
       .finally(() => setLoading(false));
-    // defaults/get intentionally omitted: defaults is a fresh object/reference per render
-    // and get is treated as a stable callback supplied by the caller for the lifetime of the route.
   }, [id, isNew]);
 
   function handleChange(name: keyof T & string, value: unknown) {

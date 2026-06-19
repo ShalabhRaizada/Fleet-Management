@@ -100,8 +100,8 @@ http.interceptors.response.use(
 
 export class ApiError extends Error {
   status: number;
-  errors: unknown[] | null;
-  constructor(message: string, status: number, errors: unknown[] | null) {
+  errors: Array<{ field?: string; message: string }> | null;
+  constructor(message: string, status: number, errors: Array<{ field?: string; message: string }> | null) {
     super(message);
     this.status = status;
     this.errors = errors;
@@ -112,7 +112,11 @@ async function unwrap<T>(promise: Promise<{ data: Envelope<T> }>): Promise<T> {
   try {
     const res = await promise;
     if (!res.data.success) {
-      throw new ApiError(res.data.message, 400, res.data.errors);
+      const rawErrors = res.data.errors;
+      const errors = Array.isArray(rawErrors)
+        ? (rawErrors as Array<{ field?: string; message: string }>)
+        : null;
+      throw new ApiError(res.data.message, 400, errors);
     }
     return res.data.data as T;
   } catch (err) {
@@ -120,7 +124,10 @@ async function unwrap<T>(promise: Promise<{ data: Envelope<T> }>): Promise<T> {
     const axiosErr = err as AxiosError<Envelope<unknown>>;
     const message = axiosErr.response?.data?.message || axiosErr.message || 'Request failed';
     const status = axiosErr.response?.status || 500;
-    const errors = axiosErr.response?.data?.errors || null;
+    const rawErrors = axiosErr.response?.data?.errors;
+    const errors = Array.isArray(rawErrors)
+      ? (rawErrors as Array<{ field?: string; message: string }>)
+      : null;
     throw new ApiError(message, status, errors);
   }
 }
