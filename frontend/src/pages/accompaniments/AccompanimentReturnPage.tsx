@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { accompanimentIssueApi, accompanimentApi } from '../../api/resources';
 import type { AccompanimentIssue } from '../../types/entities';
 import { ApiError } from '../../api/client';
+import { useToast } from '../../components/Toast';
 
 export default function AccompanimentReturnPage() {
   const [issues, setIssues] = useState<AccompanimentIssue[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const { addToast } = useToast();
 
   async function load() {
     setLoading(true);
@@ -34,40 +36,45 @@ export default function AccompanimentReturnPage() {
         status: 'Returned',
       });
       await accompanimentApi.update(issue.accompaniment_id, { current_status: 'InStock' });
+      addToast('Accompaniment marked as returned.', 'success');
       load();
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Return failed');
+      const message = err instanceof ApiError ? err.message : 'Return failed';
+      setError(message);
+      addToast(message, 'error');
     } finally {
       setBusyId(null);
     }
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-lg font-semibold">Accompaniment Returns</h1>
-      {error && <div className="bg-red-50 text-red-700 text-sm px-3 py-2 rounded">{error}</div>}
-      <div className="overflow-x-auto border border-gray-200 rounded-lg">
-        <table className="min-w-full text-sm">
-          <thead className="bg-gray-50">
+    <div>
+      <div className="page-header">
+        <h1>Accompaniment Returns</h1>
+      </div>
+      {error && <div className="badge danger" style={{ display: 'block', padding: '8px 12px', marginBottom: 16 }}>{error}</div>}
+      <div className="card">
+        <table className="tbl">
+          <thead>
             <tr>
-              <th className="text-left px-3 py-2">Accompaniment</th>
-              <th className="text-left px-3 py-2">Vehicle</th>
-              <th className="text-left px-3 py-2">Issued At</th>
-              <th className="text-left px-3 py-2">Seal No</th>
-              <th className="px-3 py-2" />
+              <th>Accompaniment</th>
+              <th>Vehicle</th>
+              <th>Issued At</th>
+              <th>Seal No</th>
+              <th />
             </tr>
           </thead>
           <tbody>
-            {loading && <tr><td colSpan={5} className="px-3 py-4 text-gray-500">Loading...</td></tr>}
-            {!loading && issues.length === 0 && <tr><td colSpan={5} className="px-3 py-4 text-gray-500">No items currently issued.</td></tr>}
+            {loading && <tr><td colSpan={5} className="muted">Loading...</td></tr>}
+            {!loading && issues.length === 0 && <tr><td colSpan={5} className="muted">No items currently issued.</td></tr>}
             {!loading && issues.map((i) => (
-              <tr key={i.accompaniment_issue_id} className="border-t border-gray-100">
-                <td className="px-3 py-2">{i.accompaniment_id}</td>
-                <td className="px-3 py-2">{i.vehicle_id || '-'}</td>
-                <td className="px-3 py-2">{new Date(i.issue_datetime).toLocaleString()}</td>
-                <td className="px-3 py-2">{i.seal_no || '-'}</td>
-                <td className="px-3 py-2">
-                  <button disabled={busyId === i.accompaniment_issue_id} onClick={() => handleReturn(i)} className="text-emerald-600 hover:underline">
+              <tr key={i.accompaniment_issue_id}>
+                <td>{i.accompaniment_id}</td>
+                <td>{i.vehicle_id || '-'}</td>
+                <td>{new Date(i.issue_datetime).toLocaleString()}</td>
+                <td>{i.seal_no || '-'}</td>
+                <td>
+                  <button disabled={busyId === i.accompaniment_issue_id} onClick={() => handleReturn(i)} className="link">
                     Mark Returned
                   </button>
                 </td>

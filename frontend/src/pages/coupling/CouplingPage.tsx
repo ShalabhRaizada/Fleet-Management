@@ -3,8 +3,12 @@ import { couplingApi, vehicleApi, trailerApi } from '../../api/resources';
 import type { Coupling, Vehicle, Trailer } from '../../types/entities';
 import { ApiError } from '../../api/client';
 import { DataTable, usePagedList } from '../../components/DataTable';
+import { SearchableCombobox } from '../../components/common/SearchableCombobox';
+import { StatusBadge } from '../../components/common/StatusBadge';
+import { useToast } from '../../components/Toast';
 
 export default function CouplingPage() {
+  const { addToast } = useToast();
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [trailers, setTrailers] = useState<Trailer[]>([]);
   const [vehicleId, setVehicleId] = useState('');
@@ -36,11 +40,15 @@ export default function CouplingPage() {
     }
   }, []);
 
+  const loadAssets = useCallback(() => {
+    vehicleApi.list({ page: 1, pageSize: 200, status: 'Available' }).then((r) => setVehicles(r.items));
+    trailerApi.list({ page: 1, pageSize: 200, status: 'Available' }).then((r) => setTrailers(r.items));
+  }, []);
+
   useEffect(() => {
-    vehicleApi.list({ page: 1, pageSize: 200 }).then((r) => setVehicles(r.items));
-    trailerApi.list({ page: 1, pageSize: 200 }).then((r) => setTrailers(r.items));
+    loadAssets();
     loadActiveCouplings();
-  }, [loadActiveCouplings]);
+  }, [loadAssets, loadActiveCouplings]);
 
   const vehicleName = (id?: string | null) => vehicles.find((v) => v.vehicle_id === id)?.registration_no || id || '-';
   const trailerName = (id?: string | null) => trailers.find((t) => t.trailer_id === id)?.trailer_no || id || '-';
@@ -48,9 +56,8 @@ export default function CouplingPage() {
   async function handleCouple(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
-    if (vehicleId === trailerId) {
-      setError('Cannot couple a vehicle to itself.');
-      setBusy(false);
+    if (!vehicleId || !trailerId) {
+      setError('Select both a vehicle and a trailer.');
       return;
     }
     setBusy(true);
@@ -63,14 +70,18 @@ export default function CouplingPage() {
         odometer_km: odometer === '' ? undefined : odometer,
         status: 'Active',
       });
+      addToast('Vehicle and trailer coupled.', 'success');
       setVehicleId('');
       setTrailerId('');
       setLocationField('');
       setOdometer('');
       reload();
       loadActiveCouplings();
+      loadAssets();
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Coupling failed');
+      const message = err instanceof ApiError ? err.message : 'Coupling failed';
+      setError(message);
+      addToast(message, 'error');
     } finally {
       setBusy(false);
     }
@@ -81,96 +92,117 @@ export default function CouplingPage() {
     setError(null);
     try {
       await couplingApi.update(row.coupling_id, { decoupled_at: new Date().toISOString(), status: 'Decoupled' });
+      addToast('Decoupled.', 'success');
       reload();
       loadActiveCouplings();
+      loadAssets();
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Decouple failed');
+      const message = err instanceof ApiError ? err.message : 'Decouple failed';
+      setError(message);
+      addToast(message, 'error');
     } finally {
       setBusy(false);
     }
   }
 
   return (
-    <div className="flex flex-col gap-6">
-      <h1 className="text-lg font-semibold">Vehicle-Trailer Coupling</h1>
-      {error && <div className="bg-red-50 text-red-700 text-sm px-3 py-2 rounded">{error}</div>}
+    <div className="col gap-16">
+      <div className="page-header">
+        <h1>Vehicle-Trailer Coupling</h1>
+      </div>
+      {error && <div className="badge danger" style={{ display: 'block', padding: '8px 12px' }}>{error}</div>}
 
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h2 className="text-sm font-medium mb-3">Couple a vehicle and trailer</h2>
-        <form onSubmit={handleCouple} className="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
-          <select className="border border-gray-300 rounded px-3 py-1.5 text-sm" value={vehicleId} onChange={(e) => setVehicleId(e.target.value)} required>
-            <option value="">Select vehicle</option>
-            {vehicles.map((v) => (
-              <option key={v.vehicle_id} value={v.vehicle_id}>{v.registration_no}</option>
-            ))}
-          </select>
-          <select className="border border-gray-300 rounded px-3 py-1.5 text-sm" value={trailerId} onChange={(e) => setTrailerId(e.target.value)} required>
-            <option value="">Select trailer</option>
-            {trailers.map((t) => (
-              <option key={t.trailer_id} value={t.trailer_id}>{t.trailer_no}</option>
-            ))}
-          </select>
-          <input className="border border-gray-300 rounded px-3 py-1.5 text-sm" placeholder="Location" value={location} onChange={(e) => setLocationField(e.target.value)} />
-          <input
-            className="border border-gray-300 rounded px-3 py-1.5 text-sm"
-            placeholder="Odometer (km)"
-            type="number"
-            value={odometer}
-            onChange={(e) => setOdometer(e.target.value === '' ? '' : Number(e.target.value))}
-          />
-          <button disabled={busy} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white text-sm px-4 py-1.5 rounded col-span-1">
-            Couple
-          </button>
+      <div className="card" style={{ padding: 16 }}>
+        <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 12 }}>Couple a Vehicle and Trailer</div>
+        <form onSubmit={handleCouple} className="field-row cols-4">
+          <div className="field">
+            <label>Vehicle (available only)<span className="req">*</span></label>
+            <SearchableCombobox
+              value={vehicleId}
+              onChange={setVehicleId}
+              options={vehicles.map((v) => ({ value: v.vehicle_id, label: v.registration_no }))}
+              placeholder="Search vehicle..."
+              required
+            />
+          </div>
+          <div className="field">
+            <label>Trailer (available only)<span className="req">*</span></label>
+            <SearchableCombobox
+              value={trailerId}
+              onChange={setTrailerId}
+              options={trailers.map((t) => ({ value: t.trailer_id, label: t.trailer_no }))}
+              placeholder="Search trailer..."
+              required
+            />
+          </div>
+          <div className="field">
+            <label>Coupling Location</label>
+            <input className="input" placeholder="Location" value={location} onChange={(e) => setLocationField(e.target.value)} />
+          </div>
+          <div className="field">
+            <label>Odometer (km)</label>
+            <input
+              className="input"
+              placeholder="Odometer (km)"
+              type="number"
+              min={0}
+              value={odometer}
+              onChange={(e) => setOdometer(e.target.value === '' ? '' : Number(e.target.value))}
+            />
+          </div>
+          <div className="row gap-8" style={{ gridColumn: '1 / -1' }}>
+            <button type="submit" disabled={busy || !vehicleId || !trailerId} className="btn primary">
+              {busy ? 'Coupling...' : 'Couple'}
+            </button>
+          </div>
         </form>
       </div>
 
-      <div>
-        <h2 className="text-sm font-medium mb-3">Current Active Couplings</h2>
-        <div className="overflow-x-auto border border-gray-200 rounded-lg">
-          <table className="min-w-full text-sm">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="text-left px-3 py-2">Vehicle</th>
-                <th className="text-left px-3 py-2">Trailer</th>
-                <th className="text-left px-3 py-2">Coupled At</th>
-                <th className="text-left px-3 py-2">Location</th>
-                <th className="px-3 py-2" />
+      <div className="card" style={{ padding: 16 }}>
+        <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 12 }}>Current Active Couplings</div>
+        <table className="tbl">
+          <thead>
+            <tr>
+              <th>Vehicle</th>
+              <th>Trailer</th>
+              <th>Coupled At</th>
+              <th>Location</th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {activeLoading && (
+              <tr><td colSpan={5} className="muted">Loading...</td></tr>
+            )}
+            {!activeLoading && activeCouplings.length === 0 && (
+              <tr><td colSpan={5} className="muted">No active couplings.</td></tr>
+            )}
+            {!activeLoading && activeCouplings.map((c) => (
+              <tr key={c.coupling_id}>
+                <td>{vehicleName(c.vehicle_id)}</td>
+                <td>{trailerName(c.trailer_id)}</td>
+                <td>{new Date(c.coupled_at).toLocaleString()}</td>
+                <td>{c.coupling_location || '-'}</td>
+                <td>
+                  <span className="link" style={{ color: 'var(--danger)' }} onClick={() => handleDecouple(c)}>
+                    Decouple
+                  </span>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {activeLoading && (
-                <tr><td colSpan={5} className="px-3 py-4 text-gray-500">Loading...</td></tr>
-              )}
-              {!activeLoading && activeCouplings.length === 0 && (
-                <tr><td colSpan={5} className="px-3 py-4 text-gray-500">No active couplings.</td></tr>
-              )}
-              {!activeLoading && activeCouplings.map((c) => (
-                <tr key={c.coupling_id} className="border-t border-gray-100">
-                  <td className="px-3 py-2">{vehicleName(c.vehicle_id)}</td>
-                  <td className="px-3 py-2">{trailerName(c.trailer_id)}</td>
-                  <td className="px-3 py-2">{new Date(c.coupled_at).toLocaleString()}</td>
-                  <td className="px-3 py-2">{c.coupling_location || '-'}</td>
-                  <td className="px-3 py-2">
-                    <button onClick={() => handleDecouple(c)} disabled={busy} className="text-red-600 hover:underline">
-                      Decouple
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       <div>
-        <h2 className="text-sm font-medium mb-3">Coupling History</h2>
+        <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 12 }}>Coupling History</div>
         <DataTable
           columns={[
             { key: 'vehicle_id', header: 'Vehicle', render: (r) => vehicleName(r.vehicle_id) },
             { key: 'trailer_id', header: 'Trailer', render: (r) => trailerName(r.trailer_id) },
             { key: 'coupled_at', header: 'Coupled At', render: (r) => new Date(r.coupled_at).toLocaleString() },
             { key: 'decoupled_at', header: 'Decoupled At', render: (r) => (r.decoupled_at ? new Date(r.decoupled_at).toLocaleString() : '-') },
-            { key: 'status', header: 'Status' },
+            { key: 'status', header: 'Status', render: (r) => <StatusBadge status={r.status} /> },
           ]}
           rows={items}
           rowKey={(r) => r.coupling_id}
