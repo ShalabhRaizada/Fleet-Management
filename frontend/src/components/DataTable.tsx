@@ -5,6 +5,7 @@ export interface ColumnDef<T> {
   header: string;
   render?: (row: T) => React.ReactNode;
   sortable?: boolean;
+  className?: string;
 }
 
 interface DataTableProps<T> {
@@ -133,7 +134,7 @@ export function DataTable<T>({
               rows.map((row) => (
                 <tr key={rowKey(row)}>
                   {columns.map((col) => (
-                    <td key={col.key}>
+                    <td key={col.key} className={col.className}>
                       {col.render ? col.render(row) : String((row as Record<string, unknown>)[col.key] ?? '')}
                     </td>
                   ))}

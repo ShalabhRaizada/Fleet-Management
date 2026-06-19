@@ -21,15 +21,29 @@ export default function CouplingPage() {
   );
   const { items, page, pageSize, total, setPage, loading, reload } = usePagedList<Coupling>(fetcher);
 
+  const [activeCouplings, setActiveCouplings] = useState<Coupling[]>([]);
+  const [activeLoading, setActiveLoading] = useState(false);
+
+  const loadActiveCouplings = useCallback(async () => {
+    setActiveLoading(true);
+    try {
+      const res = await couplingApi.list({ page: 1, pageSize: 100, status: 'Active', sortBy: 'coupled_at', sortDir: 'DESC' });
+      setActiveCouplings(res.items);
+    } catch {
+      // surfaced via the shared error state on subsequent actions; non-fatal for this widget
+    } finally {
+      setActiveLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     vehicleApi.list({ page: 1, pageSize: 200 }).then((r) => setVehicles(r.items));
     trailerApi.list({ page: 1, pageSize: 200 }).then((r) => setTrailers(r.items));
-  }, []);
+    loadActiveCouplings();
+  }, [loadActiveCouplings]);
 
   const vehicleName = (id?: string | null) => vehicles.find((v) => v.vehicle_id === id)?.registration_no || id || '-';
   const trailerName = (id?: string | null) => trailers.find((t) => t.trailer_id === id)?.trailer_no || id || '-';
-
-  const activeCouplings = items.filter((c) => c.status === 'Active' || !c.decoupled_at);
 
   async function handleCouple(e: React.FormEvent) {
     e.preventDefault();
@@ -54,6 +68,7 @@ export default function CouplingPage() {
       setLocationField('');
       setOdometer('');
       reload();
+      loadActiveCouplings();
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Coupling failed');
     } finally {
@@ -67,6 +82,7 @@ export default function CouplingPage() {
     try {
       await couplingApi.update(row.coupling_id, { decoupled_at: new Date().toISOString(), status: 'Decoupled' });
       reload();
+      loadActiveCouplings();
     } catch (err) {
       setError(err instanceof ApiError ? err.message : 'Decouple failed');
     } finally {
@@ -122,10 +138,13 @@ export default function CouplingPage() {
               </tr>
             </thead>
             <tbody>
-              {activeCouplings.length === 0 && (
+              {activeLoading && (
+                <tr><td colSpan={5} className="px-3 py-4 text-gray-500">Loading...</td></tr>
+              )}
+              {!activeLoading && activeCouplings.length === 0 && (
                 <tr><td colSpan={5} className="px-3 py-4 text-gray-500">No active couplings.</td></tr>
               )}
-              {activeCouplings.map((c) => (
+              {!activeLoading && activeCouplings.map((c) => (
                 <tr key={c.coupling_id} className="border-t border-gray-100">
                   <td className="px-3 py-2">{vehicleName(c.vehicle_id)}</td>
                   <td className="px-3 py-2">{trailerName(c.trailer_id)}</td>

@@ -61,7 +61,7 @@ export default function ApprovalInbox() {
           { key: 'requested_at', header: 'Requested At', render: (r) => new Date(r.requested_at).toLocaleString() },
           ...(status === 'Pending'
             ? [{
-                key: 'remarks', header: 'Remarks', render: (r: ApprovalRequest) => (
+                key: 'remarks', header: 'Remarks', className: 'min-w-[180px]', render: (r: ApprovalRequest) => (
                   <input
                     className="border border-gray-300 rounded px-2 py-1 text-xs w-40"
                     placeholder="Remarks"

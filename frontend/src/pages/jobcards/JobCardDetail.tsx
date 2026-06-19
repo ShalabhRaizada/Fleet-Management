@@ -16,6 +16,8 @@ export default function JobCardDetail() {
   const [quantity, setQuantity] = useState<number | ''>(1);
   const [unitRate, setUnitRate] = useState<number | ''>('');
   const [busy, setBusy] = useState(false);
+  const [removingId, setRemovingId] = useState<string | null>(null);
+  const [confirmRemoveId, setConfirmRemoveId] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     if (!id) return;
@@ -61,6 +63,28 @@ export default function JobCardDetail() {
     }
   }
 
+  function requestRemove(lineId: string) {
+    setConfirmRemoveId(lineId);
+  }
+
+  function cancelRemove() {
+    setConfirmRemoveId(null);
+  }
+
+  async function confirmRemove(lineId: string) {
+    setRemovingId(lineId);
+    setError(null);
+    try {
+      await jobCardLineApi.remove(lineId);
+      setConfirmRemoveId(null);
+      load();
+    } catch (err) {
+      setError(err instanceof ApiError ? err.message : 'Failed to remove line');
+    } finally {
+      setRemovingId(null);
+    }
+  }
+
   if (loading) return <div className="text-gray-500 text-sm">Loading...</div>;
   if (!jobCard) return <div className="text-red-600 text-sm">Job card not found.</div>;
 
@@ -98,10 +122,11 @@ export default function JobCardDetail() {
                 <th className="text-left px-3 py-2">Unit Rate</th>
                 <th className="text-left px-3 py-2">Line Amount</th>
                 <th className="text-left px-3 py-2">Status</th>
+                <th className="px-3 py-2" />
               </tr>
             </thead>
             <tbody>
-              {lines.length === 0 && <tr><td colSpan={5} className="px-3 py-4 text-gray-500">No line items yet.</td></tr>}
+              {lines.length === 0 && <tr><td colSpan={6} className="px-3 py-4 text-gray-500">No line items yet.</td></tr>}
               {lines.map((l) => (
                 <tr key={l.job_card_line_id} className="border-t border-gray-100">
                   <td className="px-3 py-2">{l.description}</td>
@@ -109,6 +134,31 @@ export default function JobCardDetail() {
                   <td className="px-3 py-2">{l.unit_rate}</td>
                   <td className="px-3 py-2">{l.line_amount}</td>
                   <td className="px-3 py-2">{l.status}</td>
+                  <td className="px-3 py-2">
+                    {confirmRemoveId === l.job_card_line_id ? (
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-500">Remove?</span>
+                        <button
+                          disabled={removingId === l.job_card_line_id}
+                          onClick={() => confirmRemove(l.job_card_line_id)}
+                          className="text-red-600 hover:underline text-xs disabled:opacity-50"
+                        >
+                          Yes
+                        </button>
+                        <button onClick={cancelRemove} className="text-gray-600 hover:underline text-xs">
+                          Cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        disabled={removingId === l.job_card_line_id}
+                        onClick={() => requestRemove(l.job_card_line_id)}
+                        className="text-red-600 hover:underline disabled:opacity-50"
+                      >
+                        Remove
+                      </button>
+                    )}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -116,6 +166,7 @@ export default function JobCardDetail() {
               <tr className="border-t border-gray-200 font-medium">
                 <td className="px-3 py-2" colSpan={3}>Total</td>
                 <td className="px-3 py-2">{total.toFixed(2)}</td>
+                <td />
                 <td />
               </tr>
             </tfoot>

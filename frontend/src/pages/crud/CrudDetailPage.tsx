@@ -30,6 +30,30 @@ export function CrudDetailPage<T>({ title, basePath, get, fieldsToShow, extra }:
   if (error) return <div className="badge danger" style={{ display: 'block', padding: '8px 12px' }}>{error}</div>;
   if (!row) return null;
 
+  function formatValue(key: string, value: unknown): string {
+    if (value === null || value === undefined) return '—';
+    if (typeof value === 'boolean') return value ? 'Yes' : 'No';
+    if (key.endsWith('_at') || key.endsWith('_datetime') || key === 'valid_upto') {
+      try {
+        const d = new Date(value as string | number | Date);
+        if (!isNaN(d.getTime())) return d.toLocaleString();
+      } catch {
+        // fall through to default formatting
+      }
+      return String(value);
+    }
+    if (key.endsWith('_date') || key === 'valid_upto') {
+      try {
+        const d = new Date(value as string | number | Date);
+        if (!isNaN(d.getTime())) return d.toLocaleDateString();
+      } catch {
+        // fall through to default formatting
+      }
+      return String(value);
+    }
+    return String(value);
+  }
+
   return (
     <div className="col gap-16" style={{ maxWidth: 760 }}>
       <div className="page-header">
@@ -47,7 +71,7 @@ export function CrudDetailPage<T>({ title, basePath, get, fieldsToShow, extra }:
         {fieldsToShow.map((f) => (
           <div key={f.key} className="field">
             <label>{f.label}</label>
-            <div style={{ fontSize: 13 }}>{String((row as Record<string, unknown>)[f.key] ?? '-')}</div>
+            <div style={{ fontSize: 13 }}>{formatValue(f.key, (row as Record<string, unknown>)[f.key])}</div>
           </div>
         ))}
       </div>
