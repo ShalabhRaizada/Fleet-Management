@@ -5,6 +5,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import { AppShell } from './components/AppShell';
 import Login from './pages/Login';
 const Dashboard = React.lazy(() => import('./pages/Dashboard'));
+const NotFound = React.lazy(() => import('./pages/NotFound'));
 
 const VehicleList = React.lazy(() => import('./pages/vehicles/VehicleList'));
 const VehicleForm = React.lazy(() => import('./pages/vehicles/VehicleForm'));
@@ -356,7 +357,7 @@ export default function App() {
             </Route>
           </Route>
 
-          <Route path="*" element={<Navigate to="/dashboard" replace />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         </React.Suspense>
       </AuthProvider>

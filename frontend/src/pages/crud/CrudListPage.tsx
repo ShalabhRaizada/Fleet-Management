@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DataTable, usePagedList, type ColumnDef } from '../../components/DataTable';
 import { ApiError } from '../../api/client';
@@ -25,16 +26,29 @@ export function CrudListPage<T>({
   const navigate = useNavigate();
   const { items, page, pageSize, total, loading, error, setPage, setQ, q, setSort, sortBy, sortDir, reload } =
     usePagedList<T>(list);
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
-  async function handleDelete(row: T) {
+  function handleDelete(row: T) {
     if (!remove) return;
-    if (!confirm('Delete this record?')) return;
+    setConfirmDelete(rowKey(row));
+  }
+
+  async function confirmDeleteNow() {
+    if (!remove || !confirmDelete) return;
     try {
-      await remove(rowKey(row));
+      await remove(confirmDelete);
+      setConfirmDelete(null);
+      setDeleteError(null);
       reload();
     } catch (err) {
-      alert(err instanceof ApiError ? err.message : 'Delete failed');
+      setDeleteError(err instanceof ApiError ? err.message : 'Delete failed');
     }
+  }
+
+  function cancelDelete() {
+    setConfirmDelete(null);
+    setDeleteError(null);
   }
 
   return (
@@ -48,6 +62,18 @@ export function CrudListPage<T>({
         )}
       </div>
       {error && <div className="badge danger" style={{ display: 'block', padding: '8px 12px' }}>{error}</div>}
+      {confirmDelete && (
+        <div className="badge danger" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '8px 12px' }}>
+          <span>Confirm delete?</span>
+          <button onClick={confirmDeleteNow} className="btn primary">
+            Yes, delete
+          </button>
+          <button onClick={cancelDelete} className="btn">
+            Cancel
+          </button>
+        </div>
+      )}
+      {deleteError && <div className="badge danger" style={{ display: 'block', padding: '8px 12px' }}>{deleteError}</div>}
       <DataTable
         columns={columns}
         rows={items}

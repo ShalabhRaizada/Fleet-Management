@@ -5,6 +5,7 @@ interface MenuItem {
   to: string;
   label: string;
   roles?: string[]; // if omitted, visible to all authenticated roles
+  sub?: boolean; // sub-navigation item, indented under its parent
 }
 
 const MENU: MenuItem[] = [
@@ -13,9 +14,12 @@ const MENU: MenuItem[] = [
   { to: '/trailers', label: 'Trailers', roles: ['ADMIN', 'FLEET_MANAGER'] },
   { to: '/couplings', label: 'Coupling', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
   { to: '/fuel', label: 'Fuel', roles: ['ADMIN', 'FLEET_MANAGER', 'DRIVER'] },
+  { to: '/fuel/variance', label: '↳ Planned vs Actual', roles: ['ADMIN', 'FLEET_MANAGER', 'DRIVER'], sub: true },
   { to: '/compliance', label: 'Compliance', roles: ['ADMIN', 'FLEET_MANAGER'] },
+  { to: '/compliance/expiry', label: '↳ Expiry Alerts', roles: ['ADMIN', 'FLEET_MANAGER'], sub: true },
   { to: '/job-cards', label: 'Job Cards', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
   { to: '/workshops', label: 'Workshops', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
+  { to: '/workshops/invoices', label: '↳ Invoices', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'], sub: true },
   { to: '/tyres', label: 'Tyres', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
   { to: '/accessories', label: 'Accessories', roles: ['ADMIN', 'FLEET_MANAGER', 'WORKSHOP_SUPERVISOR'] },
   { to: '/accompaniments', label: 'Accompaniments', roles: ['ADMIN', 'FLEET_MANAGER'] },
@@ -59,11 +63,18 @@ const MENU: MenuItem[] = [
   { to: '/settings', label: 'Settings', roles: ['ADMIN'] },
 ];
 
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-/i;
+
 function breadcrumbFromPath(pathname: string): string[] {
   return pathname
     .split('/')
     .filter(Boolean)
-    .map((seg) => seg.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()));
+    .map((seg) => {
+      if (UUID_PATTERN.test(seg)) return 'Detail';
+      if (seg.toLowerCase() === 'edit') return 'Edit';
+      if (seg.toLowerCase() === 'new') return 'New';
+      return seg.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+    });
 }
 
 export function AppShell() {
@@ -95,7 +106,11 @@ export function AppShell() {
         </div>
         <nav className="nav">
           {visibleMenu.map((item) => (
-            <NavLink key={item.to} to={item.to} className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}>
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) => `nav-item${isActive ? ' active' : ''}${item.sub ? ' pl-7' : ''}`}
+            >
               {item.label}
             </NavLink>
           ))}
