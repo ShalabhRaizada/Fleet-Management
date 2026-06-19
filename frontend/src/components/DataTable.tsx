@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export interface ColumnDef<T> {
   key: string;
@@ -171,27 +171,22 @@ export function usePagedList<T>(
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const reload = useMemo(
-    () => async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const res = await fetcher({ page, pageSize, q: q || undefined, sortBy, sortDir });
-        setItems(res.items);
-        setTotal(res.total);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load');
-      } finally {
-        setLoading(false);
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [page, pageSize, q, sortBy, sortDir]
-  );
+  const reload = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetcher({ page, pageSize, q: q || undefined, sortBy, sortDir });
+      setItems(res.items);
+      setTotal(res.total);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load');
+    } finally {
+      setLoading(false);
+    }
+  }, [fetcher, page, pageSize, q, sortBy, sortDir]);
 
   useEffect(() => {
     reload();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
   return {

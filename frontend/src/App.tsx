@@ -172,15 +172,15 @@ export default function App() {
 
               <Route path="/fuel" element={<FuelList />} />
               <Route path="/fuel/variance" element={<FuelPlannedVsActual />} />
+              <Route path="/fuel/new" element={<FuelForm />} />
               <Route path="/fuel/:id" element={<FuelDetail />} />
               <Route path="/fuel/:id/edit" element={<FuelForm />} />
-              <Route path="/fuel/new" element={<FuelForm />} />
 
               <Route path="/compliance" element={<ComplianceList />} />
               <Route path="/compliance/expiry" element={<ComplianceExpiryList />} />
+              <Route path="/compliance/new" element={<ComplianceForm />} />
               <Route path="/compliance/:id" element={<ComplianceDetail />} />
               <Route path="/compliance/:id/edit" element={<ComplianceForm />} />
-              <Route path="/compliance/new" element={<ComplianceForm />} />
 
               <Route path="/job-cards" element={<JobCardList />} />
               <Route path="/job-cards/:id" element={<JobCardDetail />} />
@@ -189,12 +189,12 @@ export default function App() {
 
               <Route path="/workshops" element={<WorkshopList />} />
               <Route path="/workshops/invoices" element={<InvoiceList />} />
+              <Route path="/workshops/invoices/new" element={<InvoiceForm />} />
               <Route path="/workshops/invoices/:id" element={<InvoiceDetail />} />
               <Route path="/workshops/invoices/:id/edit" element={<InvoiceForm />} />
-              <Route path="/workshops/invoices/new" element={<InvoiceForm />} />
+              <Route path="/workshops/new" element={<WorkshopForm />} />
               <Route path="/workshops/:id" element={<WorkshopDetail />} />
               <Route path="/workshops/:id/edit" element={<WorkshopForm />} />
-              <Route path="/workshops/new" element={<WorkshopForm />} />
 
               <Route path="/tyres" element={<TyreList />} />
               <Route path="/tyres/:id" element={<TyreDetail />} />

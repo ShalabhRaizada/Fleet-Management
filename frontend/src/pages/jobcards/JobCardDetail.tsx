@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { jobCardApi, jobCardLineApi } from '../../api/resources';
 import type { JobCard, JobCardLine } from '../../types/entities';
@@ -17,7 +17,7 @@ export default function JobCardDetail() {
   const [unitRate, setUnitRate] = useState<number | ''>('');
   const [busy, setBusy] = useState(false);
 
-  async function load() {
+  const load = useCallback(async () => {
     if (!id) return;
     setLoading(true);
     try {
@@ -30,12 +30,11 @@ export default function JobCardDetail() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [id]);
 
   useEffect(() => {
     load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id]);
+  }, [load]);
 
   async function addLine(e: React.FormEvent) {
     e.preventDefault();

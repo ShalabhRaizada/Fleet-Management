@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { approvalApi } from '../../api/resources';
 import { api, ApiError } from '../../api/client';
 import { DataTable, usePagedList } from '../../components/DataTable';
@@ -10,9 +10,16 @@ export default function ApprovalInbox() {
   const [busyId, setBusyId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const { items, page, pageSize, total, setPage, loading, reload } = usePagedList<ApprovalRequest>((p) =>
-    approvalApi.list({ ...p, status })
+  const fetcher = useCallback(
+    (p: { page: number; pageSize: number; q?: string; sortBy?: string; sortDir?: 'ASC' | 'DESC' }) =>
+      approvalApi.list({ ...p, status }),
+    [status]
   );
+  const { items, page, pageSize, total, setPage, loading, reload } = usePagedList<ApprovalRequest>(fetcher);
+
+  useEffect(() => {
+    setPage(1);
+  }, [status, setPage]);
 
   async function decide(row: ApprovalRequest, decision: 'Approved' | 'Rejected') {
     setBusyId(row.approval_id);

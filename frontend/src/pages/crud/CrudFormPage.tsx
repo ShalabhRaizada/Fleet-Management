@@ -26,13 +26,18 @@ export function CrudFormPage<T>({ title, basePath, fields, get, create, update, 
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isNew || !id) return;
+    if (isNew || !id) {
+      setValues(defaults);
+      return;
+    }
     setLoading(true);
     get(id)
       .then(setValues)
       .catch((err) => setError(err instanceof ApiError ? err.message : 'Failed to load'))
       .finally(() => setLoading(false));
-  }, [id, isNew]); // eslint-disable-line react-hooks/exhaustive-deps
+    // defaults/get intentionally omitted: defaults is a fresh object/reference per render
+    // and get is treated as a stable callback supplied by the caller for the lifetime of the route.
+  }, [id, isNew]);
 
   function handleChange(name: keyof T & string, value: unknown) {
     setValues((prev) => ({ ...prev, [name]: value }));

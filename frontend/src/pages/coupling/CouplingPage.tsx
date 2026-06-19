@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { couplingApi, vehicleApi, trailerApi } from '../../api/resources';
 import type { Coupling, Vehicle, Trailer } from '../../types/entities';
 import { ApiError } from '../../api/client';
@@ -14,9 +14,12 @@ export default function CouplingPage() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  const { items, page, pageSize, total, setPage, loading, reload } = usePagedList<Coupling>((p) =>
-    couplingApi.list({ ...p, sortBy: 'coupled_at', sortDir: 'DESC' })
+  const fetcher = useCallback(
+    (p: { page: number; pageSize: number; q?: string; sortBy?: string; sortDir?: 'ASC' | 'DESC' }) =>
+      couplingApi.list({ ...p, sortBy: 'coupled_at', sortDir: 'DESC' }),
+    []
   );
+  const { items, page, pageSize, total, setPage, loading, reload } = usePagedList<Coupling>(fetcher);
 
   useEffect(() => {
     vehicleApi.list({ page: 1, pageSize: 200 }).then((r) => setVehicles(r.items));

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { alertApi } from '../../api/resources';
 import { api, ApiError } from '../../api/client';
 import { DataTable, usePagedList } from '../../components/DataTable';
@@ -13,9 +13,16 @@ export default function AlertDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [evaluating, setEvaluating] = useState(false);
 
-  const { items, page, pageSize, total, setPage, loading, reload } = usePagedList<AlertEvent>((p) =>
-    alertApi.list({ ...p, status: status || undefined, severity: severity || undefined })
+  const fetcher = useCallback(
+    (p: { page: number; pageSize: number; q?: string; sortBy?: string; sortDir?: 'ASC' | 'DESC' }) =>
+      alertApi.list({ ...p, status: status || undefined, severity: severity || undefined }),
+    [status, severity]
   );
+  const { items, page, pageSize, total, setPage, loading, reload } = usePagedList<AlertEvent>(fetcher);
+
+  useEffect(() => {
+    setPage(1);
+  }, [status, severity, setPage]);
 
   async function acknowledge(row: AlertEvent) {
     setBusyId(row.alert_id);

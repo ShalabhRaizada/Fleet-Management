@@ -1,13 +1,20 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { complianceApi } from '../../api/resources';
 import { DataTable, usePagedList } from '../../components/DataTable';
 import type { AssetCompliance } from '../../types/entities';
 
 export default function ComplianceExpiryList() {
   const [status, setStatus] = useState<'ExpiringSoon' | 'Expired'>('ExpiringSoon');
-  const { items, page, pageSize, total, setPage, loading } = usePagedList<AssetCompliance>((p) =>
-    complianceApi.list({ ...p, status })
+  const fetcher = useCallback(
+    (p: { page: number; pageSize: number; q?: string; sortBy?: string; sortDir?: 'ASC' | 'DESC' }) =>
+      complianceApi.list({ ...p, status }),
+    [status]
   );
+  const { items, page, pageSize, total, setPage, loading } = usePagedList<AssetCompliance>(fetcher);
+
+  useEffect(() => {
+    setPage(1);
+  }, [status, setPage]);
 
   return (
     <div className="flex flex-col gap-4">

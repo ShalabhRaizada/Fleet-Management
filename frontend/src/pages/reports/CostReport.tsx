@@ -1,13 +1,20 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { costLedgerApi } from '../../api/resources';
 import { DataTable, usePagedList } from '../../components/DataTable';
 import type { VehicleCostLedger } from '../../types/entities';
 
 export default function CostReport() {
   const [category, setCategory] = useState('');
-  const { items, page, pageSize, total, setPage, loading } = usePagedList<VehicleCostLedger>((p) =>
-    costLedgerApi.list({ ...p, cost_category: category || undefined })
+  const fetcher = useCallback(
+    (p: { page: number; pageSize: number; q?: string; sortBy?: string; sortDir?: 'ASC' | 'DESC' }) =>
+      costLedgerApi.list({ ...p, cost_category: category || undefined }),
+    [category]
   );
+  const { items, page, pageSize, total, setPage, loading } = usePagedList<VehicleCostLedger>(fetcher);
+
+  useEffect(() => {
+    setPage(1);
+  }, [category, setPage]);
 
   const totalAmount = items.reduce((sum, r) => sum + Number(r.amount || 0), 0);
 
