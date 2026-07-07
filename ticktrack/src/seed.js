@@ -1,10 +1,10 @@
 'use strict';
 
-// Seed demo data for Tricktrack: a small user directory covering every role,
+// Seed demo data for Ticktrack: a small user directory covering every role,
 // an asset master spanning all eight categories, inventory instances, and the
 // approved catalog cards from section 11 of the spec.
 //
-//   node src/seed.js          (uses tricktrack.db next to server.js, or TRICKTRACK_DB)
+//   node src/seed.js          (uses ticktrack.db next to server.js, or TICKTRACK_DB)
 
 const path = require('node:path');
 const { openDb } = require('./db');
@@ -198,7 +198,7 @@ function seed(db) {
     'For approved project development. Monthly cost applies. Mandatory decommission date.',
     { issue_days: 3, cost: 'Monthly cost applies', temporary: true, max_days: 180, return_required: true });
 
-  console.log('Seeded Tricktrack demo data:');
+  console.log('Seeded Ticktrack demo data:');
   console.log('  Users (sign in with x-user-id):');
   for (const [key, id] of Object.entries(u)) {
     const row = db.prepare('SELECT name, role FROM users WHERE id = ?').get(id);
@@ -207,7 +207,7 @@ function seed(db) {
 }
 
 if (require.main === module) {
-  const dbPath = process.env.TRICKTRACK_DB ?? path.join(__dirname, '..', 'tricktrack.db');
+  const dbPath = process.env.TICKTRACK_DB ?? path.join(__dirname, '..', 'ticktrack.db');
   const db = openDb(dbPath);
   seed(db);
 }

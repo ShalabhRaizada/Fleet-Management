@@ -1,6 +1,6 @@
 'use strict';
 
-// Central vocabulary for the Tricktrack ITAM module. Everything the API and UI
+// Central vocabulary for the Ticktrack ITAM module. Everything the API and UI
 // validate against lives here so admins/developers change it in one place.
 
 const ASSET_CATEGORIES = {

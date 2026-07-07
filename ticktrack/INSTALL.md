@@ -1,6 +1,7 @@
-# Tricktrack — Install & Run Guide
+# Ticktrack — Install & Run Guide
 
-Tricktrack is the IT Asset Management module for Tickie. It is fully
+Ticktrack is the IT Asset Management module of Tickie, the Portfolio and
+Project Management System. It is fully
 self-contained: **no npm install, no database server, no configuration files
 needed**. The only requirement is Node.js.
 
@@ -22,7 +23,7 @@ If you need Node.js, download the LTS installer from https://nodejs.org
 Unzip the archive anywhere, then open a terminal in the extracted folder:
 
 ```bash
-cd tricktrack
+cd ticktrack
 ```
 
 That's it — there is nothing to install. (`npm install` is not needed; the
@@ -34,7 +35,7 @@ module has zero dependencies.)
 npm run seed
 ```
 
-This creates `tricktrack.db` (a local SQLite file) with:
+This creates `ticktrack.db` (a local SQLite file) with:
 
 - 8 demo users covering every role (admin, IT asset admin, manager, security,
   finance, IT support, and two end users)
@@ -44,7 +45,7 @@ This creates `tricktrack.db` (a local SQLite file) with:
 - Inventory instances with tags, serials, PO/invoice references, warranties
 - The Approved Asset Catalog users request from
 
-To start over with fresh data at any time: delete `tricktrack.db*` and run
+To start over with fresh data at any time: delete `ticktrack.db*` and run
 `npm run seed` again.
 
 ## 4. Start the server
@@ -115,7 +116,7 @@ all the main business flows.
 | `Cannot find module 'node:sqlite'` or SQLite error on start | Your Node.js is older than 22.5 — upgrade from https://nodejs.org |
 | Browser shows "API not reachable, or database not seeded" | Run `npm run seed`, then restart with `npm start` |
 | Port 3000 already in use | Start with a different port (see step 4) |
-| Want a clean slate | Stop the server, delete `tricktrack.db*`, re-run `npm run seed` |
+| Want a clean slate | Stop the server, delete `ticktrack.db*`, re-run `npm run seed` |
 
 ## Notes for integration
 

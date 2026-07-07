@@ -1,9 +1,9 @@
 'use strict';
 
-// Tricktrack — IT Asset Management module for Tickie.
+// Ticktrack — IT Asset Management module for Tickie.
 // Zero-dependency Node.js server: node:http + node:sqlite.
 //
-//   node server.js            start on PORT (default 3000) with tricktrack.db
+//   node server.js            start on PORT (default 3000) with ticktrack.db
 //   node src/seed.js          load demo users, assets, and catalog first
 
 const http = require('node:http');
@@ -35,16 +35,16 @@ function buildServer(dbPath) {
   };
 
   const server = http.createServer((req, res) => dispatch(app, ctxFactory, publicDir, req, res));
-  server.tricktrackDb = db;
+  server.ticktrackDb = db;
   return server;
 }
 
 if (require.main === module) {
   const port = Number(process.env.PORT ?? 3000);
-  const dbPath = process.env.TRICKTRACK_DB ?? path.join(__dirname, 'tricktrack.db');
+  const dbPath = process.env.TICKTRACK_DB ?? path.join(__dirname, 'ticktrack.db');
   const server = buildServer(dbPath);
   server.listen(port, () => {
-    console.log(`Tricktrack (Tickie ITAM module) listening on http://localhost:${port}`);
+    console.log(`Ticktrack (Tickie ITAM module) listening on http://localhost:${port}`);
     console.log(`Database: ${dbPath}`);
   });
 }

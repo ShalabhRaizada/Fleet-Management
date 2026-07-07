@@ -11,7 +11,7 @@ function register(app, db) {
   // ---------------- Meta / session ----------------
 
   app.get('/api/meta', ({ ctx }) => ({
-    module: 'Tricktrack',
+    module: 'Ticktrack',
     product: 'Tickie',
     user: ctx.user ?? null,
     categories: constants.ASSET_CATEGORIES,

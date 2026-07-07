@@ -1,6 +1,7 @@
-# Tricktrack — IT Asset Management module for Tickie
+# Ticktrack — IT Asset Management module for Tickie
 
-Tricktrack is a simple, auditable, ITAM-aligned asset management module. It manages the
+Ticktrack is the IT Asset Management module of **Tickie**, the Portfolio and
+Project Management System. It is a simple, auditable, ITAM-aligned module. It manages the
 full lifecycle of IT assets — hardware, desk-side equipment, network gear, software,
 licenses, business applications, APIs, AI tools, and cloud infrastructure — from
 creation through allocation, return, repair, renewal, retirement, and disposal.
@@ -17,7 +18,7 @@ No ITAM jargon is shown to end users; the controls run in the background.
 Requires Node.js ≥ 22.5 (uses the built-in `node:sqlite` — **zero npm dependencies**).
 
 ```bash
-cd tricktrack
+cd ticktrack
 npm run seed     # load demo users, asset master, inventory, catalog
 npm start        # http://localhost:3000
 npm test         # end-to-end API tests
@@ -94,7 +95,7 @@ IT support, security, finance, admin).
 ## Layout
 
 ```
-tricktrack/
+ticktrack/
   server.js            entry point (node:http, static + API)
   src/
     constants.js       statuses, categories, urgency, stages, roles

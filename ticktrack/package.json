@@ -1,7 +1,7 @@
 {
-  "name": "tricktrack",
+  "name": "ticktrack",
   "version": "1.0.0",
-  "description": "Tricktrack — IT Asset Management (ITAM) module for Tickie",
+  "description": "Ticktrack — IT Asset Management (ITAM) module for Tickie",
   "private": true,
   "main": "server.js",
   "scripts": {

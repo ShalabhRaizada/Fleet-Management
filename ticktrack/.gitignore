@@ -1,5 +1,5 @@
-tricktrack.db
-tricktrack.db-*
+ticktrack.db
+ticktrack.db-*
 *.db
 *.db-shm
 *.db-wal

@@ -1,6 +1,6 @@
 'use strict';
 
-// End-to-end API tests for Tricktrack. Boots the real server on an ephemeral
+// End-to-end API tests for Ticktrack. Boots the real server on an ephemeral
 // port with an in-memory-ish temp database and walks the main business flows.
 
 const test = require('node:test');
@@ -14,7 +14,7 @@ const { seed } = require('../src/seed');
 
 let server;
 let base;
-const tmpDb = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'tricktrack-')), 'test.db');
+const tmpDb = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'ticktrack-')), 'test.db');
 
 // Seeded user ids (see src/seed.js insertion order).
 const ADMIN = 1, ITADMIN = 2, MANAGER = 3, SECURITY = 4, FINANCE = 5, SUPPORT = 6, USER = 7, USER2 = 8;
@@ -34,7 +34,7 @@ async function api(method, urlPath, { user, body } = {}) {
 
 test.before(async () => {
   server = buildServer(tmpDb);
-  seed(server.tricktrackDb);
+  seed(server.ticktrackDb);
   await new Promise((resolve) => server.listen(0, resolve));
   base = `http://localhost:${server.address().port}`;
 });
@@ -44,7 +44,7 @@ test.after(() => server.close());
 test('meta endpoint exposes vocabulary and current user', async () => {
   const { status, body } = await api('GET', '/api/meta', { user: USER });
   assert.equal(status, 200);
-  assert.equal(body.module, 'Tricktrack');
+  assert.equal(body.module, 'Ticktrack');
   assert.equal(body.user.role, 'end_user');
   assert.ok(body.asset_statuses.includes('Cloud Decommissioned'));
   assert.ok(body.request_statuses.includes('Pending Security Approval'));

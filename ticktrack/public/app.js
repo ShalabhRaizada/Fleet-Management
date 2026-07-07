@@ -1,6 +1,6 @@
 'use strict';
 
-/* Tricktrack UI — vanilla JS single page app.
+/* Ticktrack UI — vanilla JS single page app.
  * Demo sign-in: pick a directory user in the header; the id is sent as the
  * x-user-id header on every API call. */
 
@@ -760,7 +760,7 @@ async function render() {
 async function boot() {
   // A first unauthenticated meta call gives us nothing user-specific but
   // confirms the API is up; then load the user directory via a seeded admin.
-  const saved = Number(localStorage.getItem('tricktrack-user')) || 7; // Ravi (end user)
+  const saved = Number(localStorage.getItem('ticktrack-user')) || 7; // Ravi (end user)
   state.user = { id: saved };
   try {
     state.meta = await api('GET', '/api/meta');
@@ -778,7 +778,7 @@ async function boot() {
     .join('');
   sw.onchange = async () => {
     state.user = state.users.find((u) => u.id === Number(sw.value));
-    localStorage.setItem('tricktrack-user', String(state.user.id));
+    localStorage.setItem('ticktrack-user', String(state.user.id));
     state.tab = 'catalog';
     render();
   };
