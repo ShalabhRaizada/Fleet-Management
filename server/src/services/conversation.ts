@@ -10,7 +10,7 @@ import { scheduleFollowUp } from './communications.js';
 import { scanAccountGrowth } from './growth.js';
 import { detectBlockers, ensureDealRoom } from './dealRoom.js';
 import { proposeAmendment } from './contracts.js';
-import { runAgent } from '../ai/claude.js';
+import { runAgent } from '../ai/agents.js';
 
 export interface VoiceResult {
   reply: string;                 // spoken back to the salesperson

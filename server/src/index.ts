@@ -21,7 +21,7 @@ import { sweepSLAs } from './services/sla.js';
 import { scanAccountGrowth } from './services/growth.js';
 import { createContract, proposeAmendment, applyAmendment, contractHistory } from './services/contracts.js';
 import { commandCentreMetrics } from './services/commandCentre.js';
-import { runAgent, anthropicAvailable, type AgentName } from './ai/claude.js';
+import { runAgent, aiStatus, type AgentName } from './ai/agents.js';
 
 const DATA_FILE = process.env.DATA_FILE ?? path.join(process.cwd(), 'data', 'db.json');
 const store = new Store(DATA_FILE);
@@ -41,7 +41,7 @@ const wrap = (fn: (req: express.Request, res: express.Response) => unknown | Pro
     }
   };
 
-app.get('/api/health', (_req, res) => ok(res, { status: 'up', ai: anthropicAvailable() ? 'claude-opus-4-8' : 'rule-based fallback' }));
+app.get('/api/health', (_req, res) => ok(res, { status: 'up', ai: aiStatus() }));
 
 // ---- Voice / conversation ----
 app.post('/api/voice', wrap(async (req, res) => {
@@ -121,7 +121,7 @@ app.get('/api/audit', wrap((req, res) => ok(res, req.query.entityId
 app.post('/api/agents/:name', wrap(async (req, res) => {
   const name = req.params.name as AgentName;
   const out = await runAgent(name, req.body.text, req.body.context);
-  ok(res, { agent: name, reply: out ?? 'AI unavailable — set ANTHROPIC_API_KEY for Claude-powered agents.' });
+  ok(res, { agent: name, reply: out ?? 'AI unavailable — set ANTHROPIC_API_KEY or GEMINI_API_KEY in server/.env to enable AI agents.' });
 }));
 
 // SLA sweep every 5 minutes.
@@ -129,5 +129,5 @@ setInterval(() => sweepSLAs(store), 5 * 60_000).unref();
 
 const PORT = Number(process.env.PORT ?? 4000);
 app.listen(PORT, () => {
-  console.log(`Fleet sales-enablement API on :${PORT} (AI: ${anthropicAvailable() ? 'claude-opus-4-8' : 'rule-based fallback'})`);
+  console.log(`Fleet sales-enablement API on :${PORT} (AI: ${aiStatus()})`);
 });

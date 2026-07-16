@@ -23,15 +23,20 @@ Open http://localhost:5173 on a phone-sized viewport. Tap the mic (Chrome/Edge/S
 
 > **Both processes must be running.** The web app proxies `/api` to the server on port 4000 — if you see "API server not reachable", start the server first.
 
-**AI agents:** put your key in `server/.env` (loaded automatically on startup) to enable the Claude-powered agent layer (`claude-opus-4-8`, adaptive thinking). Without a key the platform runs fully on its deterministic rule-based engines — every workflow still works.
+**AI agents:** put a key in `server/.env` (loaded automatically on startup). Two providers are supported:
+
+- **Anthropic Claude** — `ANTHROPIC_API_KEY=sk-ant-...` (model `claude-opus-4-8`, adaptive thinking)
+- **Google Gemini** — `GEMINI_API_KEY=...` (default model `gemini-2.5-pro`, override with `GEMINI_MODEL`)
+
+If both keys are set, Claude is used; force a provider with `AI_PROVIDER=claude` or `AI_PROVIDER=gemini`. Without any key the platform runs fully on its deterministic rule-based engines — every workflow still works. Check which provider is active at `http://localhost:4000/api/health`.
 
 ```bash
 cd server
-cp .env.example .env     # then edit: ANTHROPIC_API_KEY=sk-ant-...
+cp .env.example .env     # then edit: add your ANTHROPIC_API_KEY or GEMINI_API_KEY
 npm run dev
 ```
 
-An exported environment variable (`export ANTHROPIC_API_KEY=...`) works too. Requires Node.js ≥ 20.12.
+Exported environment variables work too. Requires Node.js ≥ 20.12.
 
 ## Try these voice commands
 
@@ -60,7 +65,7 @@ An exported environment variable (`export ANTHROPIC_API_KEY=...`) works too. Req
 - **Domain model** (`src/domain/types.ts`) — Accounts, Contacts, Opportunities (lanes, volume, sustainability, commercial qualification), Meetings/DayPlans, and the full collaboration model: `InternalTeam`, `CollaborationRequest/Message`, `QuotationRequest/Version`, `CostingVersion`, `ApprovalRule/Step/Decision`, `FinanceReview`, `CommercialApproval`, `LegalReview`, `Contract/Version/Amendment/Lane/RateCard`, `CustomerCommunication`, `InternalCommunication`, `DealRoom*`, `CustomerGrowthOpportunity`, `FollowUp`, `Escalation`, `ServiceLevelAgreement`, `WorkflowSLA`, `Notification`, `AuditEvent`.
 - **Voice pipeline** — `services/intent.ts` (deterministic parser for the command grammar) → `services/conversation.ts` (orchestrates workflows, keeps conversational context, switches voice↔text losslessly) → Claude agents for anything free-form.
 - **Workflows** — `quotation.ts` (Network Planning request + planning outputs + versioned quotations/costings), `approvals.ts` (Finance/Commercial/Legal with append-only `ApprovalDecision` history and the **external-send gate**), `contracts.ts` (immutable version chain; amendments append, never overwrite), `communications.ts` (draft → preview → confirm send; auto follow-up), `growth.ts`, `dealRoom.ts` (one room per opportunity, blocker detection), `inbox.ts` (unified actionable inbox), `sla.ts` (reminder → escalation sweep), `commandCentre.ts` (leadership metrics).
-- **AI agents** (`src/ai/claude.ts`) — Conversation, Sales Coach, Logistics Expert, Pricing Advisor, Sustainability Advisor, CRM, Route Optimizer, Calendar, Email, Proposal. Claude `claude-opus-4-8` with adaptive thinking; graceful rule-based fallback offline.
+- **AI agents** (`src/ai/`) — Conversation, Sales Coach, Logistics Expert, Pricing Advisor, Sustainability Advisor, CRM, Route Optimizer, Calendar, Email, Proposal. Shared prompts (`prompts.ts`) with pluggable providers: Claude `claude-opus-4-8` with adaptive thinking (`claude.ts`) or Google Gemini (`gemini.ts`), selected in `agents.ts` by whichever key is configured; graceful rule-based fallback offline.
 - **Persistence** — JSON file store (`data/db.json`) with append-only audit log; swap for a real database behind the `Store` class. Integration-ready: all workflows are exposed as a REST API for Salesforce/Dynamics/HubSpot sync.
 
 ### Frontend (`web/`)

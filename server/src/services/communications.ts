@@ -4,7 +4,7 @@ import type { CustomerCommunication, FollowUp } from '../domain/types.js';
 import { assertQuotationSendable } from './approvals.js';
 import { logDealRoom } from './dealRoom.js';
 import { createNotification } from './inbox.js';
-import { runAgent } from '../ai/claude.js';
+import { runAgent } from '../ai/agents.js';
 
 // Drafts (never auto-sends) a customer quotation email. The draft is returned
 // for on-screen preview — sending is a separate explicit call (criteria 5 & 15).
