@@ -8,12 +8,27 @@ export interface VoiceResult {
 }
 
 async function req<T>(path: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(`/api${path}`, {
-    headers: { 'Content-Type': 'application/json' },
-    ...options,
-  });
-  const json = await res.json();
-  if (!json.ok) throw new Error(json.error ?? 'Request failed');
+  let res: Response;
+  try {
+    res = await fetch(`/api${path}`, {
+      headers: { 'Content-Type': 'application/json' },
+      ...options,
+    });
+  } catch {
+    throw new Error('Cannot reach the API — is the server running? (cd server && npm run dev)');
+  }
+  const text = await res.text();
+  let json: { ok?: boolean; error?: string; data?: unknown };
+  try {
+    json = JSON.parse(text);
+  } catch {
+    throw new Error(
+      res.status === 504 || res.status === 502 || text === ''
+        ? 'API server not reachable on port 4000 — start it with: cd server && npm run dev'
+        : `Unexpected API response (${res.status}): ${text.slice(0, 120)}`,
+    );
+  }
+  if (!json.ok) throw new Error(json.error ?? `Request failed (${res.status})`);
   return json.data as T;
 }
 

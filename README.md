@@ -21,11 +21,17 @@ cd web && npm install && npm run dev
 
 Open http://localhost:5173 on a phone-sized viewport. Tap the mic (Chrome/Edge/Safari support Web Speech) or type in the command bar — every voice command also works as text (criterion 14).
 
-**AI agents:** set `ANTHROPIC_API_KEY` before starting the server to enable the Claude-powered agent layer (`claude-opus-4-8`, adaptive thinking). Without a key the platform runs fully on its deterministic rule-based engines — every workflow still works.
+> **Both processes must be running.** The web app proxies `/api` to the server on port 4000 — if you see "API server not reachable", start the server first.
+
+**AI agents:** put your key in `server/.env` (loaded automatically on startup) to enable the Claude-powered agent layer (`claude-opus-4-8`, adaptive thinking). Without a key the platform runs fully on its deterministic rule-based engines — every workflow still works.
 
 ```bash
-export ANTHROPIC_API_KEY=sk-ant-...
+cd server
+cp .env.example .env     # then edit: ANTHROPIC_API_KEY=sk-ant-...
+npm run dev
 ```
+
+An exported environment variable (`export ANTHROPIC_API_KEY=...`) works too. Requires Node.js ≥ 20.12.
 
 ## Try these voice commands
 

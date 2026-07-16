@@ -1,6 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'node:path';
+
+// Load server/.env if present (ANTHROPIC_API_KEY, PORT, DATA_FILE).
+// Uses Node's built-in loader — no dotenv dependency needed.
+try { process.loadEnvFile(); } catch { /* no .env file — fine */ }
 import { Store } from './store/store.js';
 import { seed } from './store/seed.js';
 import { handleUtterance } from './services/conversation.js';
